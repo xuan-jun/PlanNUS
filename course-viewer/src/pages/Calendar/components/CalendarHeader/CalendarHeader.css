@@ -1,0 +1,21 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.current {
+  display: flex;
+  gap: 5rem;
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--secondary-color);
+}
+
+.previous > img {
+  transform: scaleX(-1);
+}
+
+img {
+  color: var(--secondary-color);
+}

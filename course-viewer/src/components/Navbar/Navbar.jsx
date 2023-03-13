@@ -12,7 +12,7 @@ const Navbar = () => {
       <ul>
         <CustomLink to='/calendar'>Calendar</CustomLink>
         <CustomLink to='/assignments'>Assignments</CustomLink>
-        <CustomLink to='/modules'>Modules</CustomLink>
+        <CustomLink to='/calendar-student'>CalendarStudent</CustomLink>
         <Link to='/'>
           <img className="profile-picture" src={profilePicture} alt='user-profile'/>
         </Link>

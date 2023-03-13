@@ -1,0 +1,33 @@
+.previous, .next, .day {
+  cursor: pointer;
+}
+
+.day, .day-name {
+  width: 8rem;
+}
+
+.day {
+  aspect-ratio: 1;
+  border: 1px solid var(--lightGray-color);
+  text-align: center;
+  font-weight: 700;
+  color: var(--secondary-color);
+}
+
+.day-name {
+  color: var(--secondary-color);
+  font-weight: 400;
+  height: 3rem;
+  border: 1px solid var(--lightGray-color);
+  text-align: center;
+}
+
+.selected {
+  background-color: var(--lightGray-color);
+}
+
+.week, .day-names, .day-names {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
