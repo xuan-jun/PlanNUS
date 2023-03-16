@@ -10,7 +10,16 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.8.2",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "@emotion/react": "latest",
+    "@emotion/styled": "latest",
+    "@material-ui/core": "4.12.4",
+    "@mui/icons-material": "latest",
+    "@mui/material": "latest"
+  },
+  "description": "https://github.com/mui/material-ui/blob/v5.11.13/docs/data/material/components/app-bar/MenuAppBar.js",
+  "devDependencies": {
+    "react-scripts": "latest"
   },
   "scripts": {
     "start": "react-scripts start",

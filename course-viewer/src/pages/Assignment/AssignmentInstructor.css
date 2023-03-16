@@ -22,10 +22,9 @@ $radius: 0.2rem;
   padding: 0;
 }
 
-body {
+.abody {
   font-family: Lato, sans-serif;
-  height: 100vh;
-  display: grid;
+  height: 50vh;
   justify-content: center;
   align-items: center;
   color: $clr-gray500;
@@ -33,7 +32,7 @@ body {
   background-color: $clr-primary-light;
 }
 
-table {
+.atable {
   border-collapse: collapse;
   box-shadow: 20px 20px 20px 5px $clr-primary-dark;
   background-color: white;
