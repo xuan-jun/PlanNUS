@@ -1,12 +1,12 @@
-.previous, .next, .day {
+.previous, .next, .calendar-tile {
   cursor: pointer;
 }
 
-.day, .day-name {
+.calendar-tile, .day-name {
   width: 8rem;
 }
 
-.day {
+.calendar-tile {
   aspect-ratio: 1;
   border: 1px solid var(--lightGray-color);
   text-align: center;
@@ -30,4 +30,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.current-day-tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.task {
+  background-color: aliceblue;
+  width: 100%;
+  color: black;
+  padding: 0.25rem;
+  border-radius: 5px;
 }
