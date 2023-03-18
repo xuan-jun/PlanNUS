@@ -8,7 +8,7 @@
   display: flex;
   justify-content: space-between;
   border: 1px solid var(--lightGray-color);
-  border-radius: 5px;
+  border-radius: 25px;
   padding: 0.5rem;
 }
 
@@ -18,14 +18,18 @@
 }
 
 .search-bar {
-  width: 100%;
+  width: 50%;
   padding: 0.5rem;
-  border-radius: 5px;
+  transition: 0.3s width ease-in;
+}
+
+.search-bar:focus {
+  width: 100%;
 }
 
 .search-filter-modules {
   width: 100%;
-  border: 1px solid var(--lightGray-color);
+  border: none;
 }
 
 .filtered-module {
@@ -33,4 +37,5 @@
   padding: 0.5rem;
   cursor: pointer;
   list-style: none;
+  transition: 0.3s;
 }

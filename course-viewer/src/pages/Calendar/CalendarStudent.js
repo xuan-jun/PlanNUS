@@ -1,7 +1,7 @@
 import React from 'react';
 import CalendarBody from "./components/CalendarBody/CalendarBody";
 import Filter from './components/Filter/Filter';
-import "./CalendarInstructor.css"
+import "./CalendarStudent.css"
 import ModuleSelector from './components/ModuleSelector/ModuleSelector';
 
 const CalendarStudent = () => {

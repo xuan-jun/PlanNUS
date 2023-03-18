@@ -43,22 +43,45 @@ const ModuleSelector = () => {
 
   return (
     <div className="module-selector">
-      <h2>Modules Added</h2>
-      <div className="modules-selected">
-        {modules.map((module) => (
-          <Module moduleCode={module} moduleStyle={moduleStyle} moduleRemovalClickHandler={moduleRemovalClickHandler}/>
-        ))}
-      </div>
       <div className="module-search">
         <h2>Search for Modules here</h2>
         <input className="search-bar" placeholder="Module Code Here"
         value={inputText} onChange={(e) => {inputHandler(e)}}/>
         <ModuleList inputText={inputText} searchClickHandler={searchClickHandler}/>
       </div>
+      <h2>Modules Added</h2>
+      <div className="modules-selected">
+        {modules.map((module) => (
+          <Module moduleCode={module} moduleStyle={moduleStyle} moduleRemovalClickHandler={moduleRemovalClickHandler}/>
+        ))}
+      </div>
 
     </div>
   )
 };
+
+// const SearchBar = () => {
+//   const [isOpen, setIsOpen] = useState("");
+//   const [search, setSearch] = useState("");
+
+//   const inputRef = useRef<HTMLInputElement>(null);
+//   const handleClick = () => {
+//     if (!isOpen) {
+//       inputRef.current?.focus();
+//     }
+//     setIsOpen(!isOpen)
+//   }
+
+//   const handleChange = e => {
+//     setSearch(e.target.value);
+//   }
+
+//   const filteredValues = modules.filter(
+//     (module) => {
+//       return module.text.toUpperCase().includes(search.toUpperCase());
+//     }
+//   )
+// }
 
 // format the display of modules that have been selected
 const Module = ({moduleCode, moduleStyle, moduleRemovalClickHandler}) => {

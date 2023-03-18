@@ -13,7 +13,7 @@ const Filter = ({filterType, filterTitle, filters}) => {
         <div className="current-filter">
           {currentFilter}
         </div>
-        <img src={dropDownArrow} onClick = {() => {setIsOpen(!isOpen)}} />
+        <img className={isOpen ? "flipped" : "unflipped"} src={dropDownArrow} onClick = {() => {setIsOpen(!isOpen)}} />
       </div>
       <ul className={`filter-menu ${isOpen ? "active" : "inactive"}`}>
         {filters.map((filter) => (
