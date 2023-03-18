@@ -60,3 +60,32 @@
   margin-left: 3rem;
   border: 1px solid var(--lightGray-color);
 }
+
+.light-mode-toggle {
+  align-self: center;
+  background-color: var(--secondary-color);
+  width: 4rem;
+  height: 2rem;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  padding: 0.25rem;
+  cursor: pointer;
+}
+
+.slider {
+  background-color: var(--primary-color);
+  width: 1.5rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
+
+.slider.-left {
+  transform: translateX(0%);
+  transition: 1s transform ease;
+}
+
+.slider.-right {
+  transform: translateX(120%);
+  transition: 1s transform ease;
+}

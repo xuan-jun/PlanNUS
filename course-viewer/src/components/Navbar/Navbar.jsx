@@ -1,13 +1,22 @@
 import React from "react";
-import './navbar.css'
+import './Navbar.css'
 import profilePicture from '../../assets/profile-picture.png'
 import { Link, useMatch, useResolvedPath } from 'react-router-dom'
 
-const Navbar = () => {
+const Navbar = ({theme, setTheme}) => {
+
+  const switchTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+  }
+
   return (
     <nav className="navBar">
       <div className="site-logo">
         <Link to='/'>Logo</Link>
+      </div>
+      <div onClick={switchTheme} className='light-mode-toggle'>
+        <div className={`slider ${theme === 'light' ? '-left' : '-right'}`}> </div>
       </div>
       <ul>
         <CustomLink to='/calendar'>Calendar</CustomLink>
