@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CalendarBody from "./components/CalendarBody/CalendarBody";
 import Filter from './components/Filter/Filter';
+import NotificationList from './components/NotificationList/NotificationList';
 import "./CalendarInstructor.css"
 
 const CalendarInstructor = () => {
@@ -9,7 +10,10 @@ const CalendarInstructor = () => {
 
   return (
     <div className="calendar-page">
-      <Filter filterType="View"  filterTitle={filterTitle} filters={filters}/>
+      <div className="side-panel">
+        <Filter filterType="View"  filterTitle={filterTitle} filters={filters}/>
+        <NotificationList />
+      </div>
       <CalendarBody />
     </div>
   )
