@@ -39,29 +39,62 @@
   cursor: pointer;
 }
 
+.detailed-view-header {
+  margin-bottom: 25px
+}
+
 table {
+  font-family: Arial, sans-serif;
   border-collapse: collapse;
   width: 100%;
-  margin-bottom: 1rem;
-  color: var(--black-color);
+  margin: 0 auto;
 }
 
-table th,
-table td {
-  padding: 0.75rem;
+thead {
+  background-color: #f2f2f2;
+}
+
+th, td {
   text-align: left;
-  border-bottom: 1px solid var(--primary-color);
+  padding: 8px;
 }
 
-table th {
-  background-color: var(--primary-color);
-  color: var(--black-color);
-  font-size: 1.1rem;
+th {
   font-weight: bold;
-  text-transform: uppercase;
 }
 
-table td {
-  font-size: 0.9rem;
-  font-weight: normal;
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tr:hover {
+  background-color: #ddd;
+}
+
+@media only screen and (max-width: 600px) {
+  /* Hide the table headers on small screens */
+  thead {
+    display: none;
+  }
+
+  /* Make each row a block element and add a border and margin */
+  tr {
+    display: block;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+  }
+
+  /* Add a pseudo element with the table header as content */
+  /* and style it to appear like a table header */
+  td::before {
+    content: attr(data-th);
+    font-weight: bold;
+    display: inline-block;
+    width: 100px;
+  }
+
+  /* Hide the last row border since it's unnecessary */
+  tr:last-child {
+    border-bottom: none;
+  }
 }

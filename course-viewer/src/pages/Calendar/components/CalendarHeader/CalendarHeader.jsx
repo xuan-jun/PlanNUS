@@ -4,7 +4,7 @@ import rightarrow from "../../../../assets/rightarrow.svg"
 
 const CalendarHeader = ({value, setValue}) => {
   function currMonthName() {
-    return value.format("MMM");
+    return value.format("MMMM");
   }
   
   function currYear() { // extracts the current year

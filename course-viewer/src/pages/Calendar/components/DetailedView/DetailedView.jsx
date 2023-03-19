@@ -21,12 +21,27 @@ function DetailedView({ isDetailed, setIsDetailed, date }) {
         <button className="close-btn" onClick={() => setIsDetailed(!isDetailed)}>
           Return to Calendar View
         </button>
-        <div>{date.toString()}</div>
+        {/*<h2 className={"detailed-view-header"}>Assignments due on 21st March 2023</h2>*/}
+        <h2 className={"detailed-view-header"}>Assignment Details</h2>
+        {/* <div>{date.toString()}</div> */}
         <div>
           <table>
+            <thead>
+              {tableData.map(row => (
+                row.header === "Assignment Name" ? (
+                  <tr key={row.header}>
+                    <th></th>
+                    {row.values.map(value => (
+                      <th key={value}>{value}</th>
+                    ))}
+                  </tr>
+                ) : null
+              ))}
+            </thead>
             <tbody>
               {tableData.map(row => (
                 row.header === 'assignment-key' ? null : // skip the row with the 'Assignment-Key' header
+                row.header === 'Assignment Name' ? null : // skip the row with the 'Assignment Name' header
                 <tr key={row.header}>
                   <th>{row.header}</th>
                   {row.values.map((value, i) => (
@@ -52,7 +67,7 @@ function DetailedView({ isDetailed, setIsDetailed, date }) {
 const headerNameMap = {
   'assignment-name': 'Assignment Name',
   'module-code': 'Module Code',
-  'date': 'Date',
+  'date': 'Due Date',
   'professor': 'Professor',
   'email': 'Email'
 };
