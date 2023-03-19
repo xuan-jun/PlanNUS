@@ -12,6 +12,18 @@
   z-index: 1;
 }
 
+.detailed-view.active {
+  opacity: 1;
+  visibility: visible;
+  transition: 0.3s opacity ease;
+}
+
+.detailed-view.inactive {
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s opacity ease;
+}
+
 .detailed-view-content {
   position: relative;
   padding: 5rem;
@@ -22,6 +34,7 @@
 
 .detailed-view-content > .close-btn {
   position: absolute;
-  top: 16px;
+  bottom: 16px;
   right: 16px;
+  cursor: pointer;
 }
