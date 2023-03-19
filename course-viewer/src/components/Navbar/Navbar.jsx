@@ -36,8 +36,8 @@ const CustomLink = ({ to, children, ...props}) => {
   const isActive = useMatch({ path: resolvedPath.pathname, end: true}) // checks if the to path is the same as the current path
 
   return (
-    <li className={isActive ? "activeLink" : ""}>
-      <Link to={to}>{children}</Link>
+    <li className='navBar-components'>
+      <Link className={`link-item ${isActive ? "activeLink" : ""}`} to={to}>{children}</Link>
     </li>
   )
 }

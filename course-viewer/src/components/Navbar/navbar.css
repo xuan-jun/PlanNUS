@@ -1,10 +1,16 @@
 
 .navBar {
-  background-color: var(--primary-color);
+  position: fixed;
   height: 4rem;
+  width: 100%;
+  z-index: 999;
+
+  background-color: var(--primary-color);
   color: var(--black-color);
+  
   display: flex;
   justify-content: space-between;
+
   padding: 0 1rem;
   border-bottom: 1px solid var(--lightGray-color);
   margin-bottom: 1rem;
@@ -26,32 +32,43 @@
   display: flex;
 }
 
-.navBar a {
+.site-logo > a {
   color: inherit;
   text-decoration: none;
   font-weight: 500;
   height: 100%;
   display: flex;
   align-items: center;
-  padding: 0rem 1.5rem;
+  margin: 0rem 1.5rem;
 }
 
-.navBar li {
-  border-bottom: 4px solid var(--lightGray-color);
-  border-radius: 3px;
+.navBar-components {
+  margin-bottom: 0.75rem;
+}
+
+.link-item {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 600;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  margin: 0rem 1.5rem;
+  padding: 0;
+
   color: var(--lightGray-color);
-  transition: 0.2s background ease;
-  transition: 0.2s color ease;
+  transition: 0.3s border-bottom ease-in, 0.3s color ease-in;
   }
 
-.navBar li.activeLink {
+.link-item.activeLink {
   border-bottom: 4px solid var(--secondary-color);
+  font-weight: 600;
   color: var(--secondary-color);
 }
 
-.navBar li:hover {
-  background-color: var(--lightGray-color);
-  color: black;
+.link-item:hover {
+  border-bottom: 4px solid var(--secondary-color);
+  color: var(--secondary-color);
 }
 
 .navBar .profile-picture {
