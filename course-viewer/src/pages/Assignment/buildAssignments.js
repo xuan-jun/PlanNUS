@@ -6,6 +6,22 @@ import * as assignmentService from "./components/AssignmentService/AssignmentSer
 import Controls from "./components/controls/Controls";
 import Popup from "./components/Popup";
 import Title from './components/ModuleTitle/Title';
+import { Navigate } from "react-router-dom";
+import AddAssignment from '../AddAssignment';
+
+function AddAssignment() {
+  return (
+    <div className="App">
+      <Router>
+        <Routes>
+          <Route path="/assignments/addnew" element={<AddAssignment />} />
+        </Routes>
+      </Router>
+    </div>
+  );
+}
+
+export default AddAssignment;
 
 const useStyles = makeStyles(theme => ({
     pageContent: {
