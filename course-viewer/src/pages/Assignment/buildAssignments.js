@@ -9,18 +9,11 @@ import Title from './components/ModuleTitle/Title';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import AddAssignment from '../AddAssignment';
+import Button from '@material-ui/core/Button';
 
-function addNew() {
-  return (
-    <div>
-      <Router>
-        <Link activeClassName="active" to="/assignments/addnew">Add New</Link>
-      </Router>
-    </div>
-  );
-}
-
-//export default addNew;
+<Button component={Link} to="/assignments/addnew" variant="contained" color="primary">
+  Add New
+</Button>
 
 const useStyles = makeStyles(theme => ({
     pageContent: {
