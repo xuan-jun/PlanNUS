@@ -9,7 +9,7 @@ import Title from './components/ModuleTitle/Title';
 import { Navigate } from "react-router-dom";
 import AddAssignment from '../AddAssignment';
 
-function AddAssignment() {
+function addNew() {
   return (
     <div className="App">
       <Router>
@@ -21,7 +21,7 @@ function AddAssignment() {
   );
 }
 
-export default AddAssignment;
+export default addNew;
 
 const useStyles = makeStyles(theme => ({
     pageContent: {
