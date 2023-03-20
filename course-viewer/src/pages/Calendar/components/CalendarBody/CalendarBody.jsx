@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import buildCalendar from '../../buildCalendar';
-import dayStyles from '../../tileStyles';
 import CalendarHeader from '../CalendarHeader/CalendarHeader';
 import './CalendarBody.css'
 import DetailedView from '../DetailedView/DetailedView';
+import assignmentData from "./CalendarData.json";
 
 const CalendarBody = () => {
   // calendar array of dates in the current view
@@ -19,14 +19,23 @@ const CalendarBody = () => {
     setCalendar(buildCalendar(value));
   }, [value])
 
-  const tileStyle = {
-    backgroundColor:"lightgreen"
+  // computes the colour for the background when we have 
+  let dayStyle = (day, stressScore) => {
+    let style = "";
+    // assuming higher the worse it is
+    if (stressScore >= 7.5 && stressScore <= 10) {
+      style = style.concat("stressed")
+    } else if (stressScore >= 5 && stressScore <= 7.5) {
+      style = style.concat("moderate")
+    } else {
+      style = style.concat("good")
+    }
+    if (!value.isSame(day, "month")) {
+      console.log(style);
+      style = style.concat(" ", "diffMonth")
+    }
+    return style;
   }
-
-  const currentDayTasks = [
-    "Midterms",
-    "Finals"
-  ]
 
   // handleClick events by the user on each of the tiles
   let handleClick = (day) => {
@@ -52,8 +61,8 @@ const CalendarBody = () => {
           {calendar.map((week) => (
             <div className = "week">
               {week.map((day) => (
-                <CalendarTile day={day} tileStyle = {tileStyle}
-                  currentDayTasks={currentDayTasks} handleClick={handleClick}/>
+                <CalendarTile day={day} dayStyle = {dayStyle}
+                handleClick={handleClick}/>
               ))}
             </div>
           ))}
@@ -63,11 +72,21 @@ const CalendarBody = () => {
   )
 };
 
-const CalendarTile = ({ day, tileStyle, currentDayTasks, handleClick }) => {
+const CalendarTile = ({ day, dayStyle, handleClick }) => {
+  const formattedDate = day.format("D MMM YYYY");
+  const currentDayData = assignmentData.filter((day) => {
+    return day['day'] === formattedDate;
+  })
+  const currentDayTasks = currentDayData.length > 0 ? currentDayData[0]['tasks'] : [];
+  const stressScore = currentDayData.length > 0 ? currentDayData[0]['stressScore'] : null;
+  
+  const tileStyle = dayStyle(day, stressScore);
+  console.log(tileStyle);
+
   return (
-    <div className="calendar-tile" style={tileStyle}
+    <div className={`calendar-tile ${tileStyle}`}
       onClick={() => handleClick(day)}>
-      <div className="day">
+      <div className={`day ${tileStyle}`}>
         {day.format("D").toString()}
       </div>
       <div className="current-day-tasks">

@@ -10,11 +10,19 @@
   --gray-color: #6b7688;
   --brown-color: #46364a;
   --white-color: #ffffff;
+
+  --stressed: rgba(202, 32, 45, 0.3);
+  --moderate: rgba(247, 151, 0, 0.3);
+  --good: rgba(51, 155, 83, 0.2);
 }
 
 [data-theme='dark'] {
   --primary-color: #455a63;
   --secondary-color: #fffefe;
+
+  --stressed: rgba(202, 32, 45, 0.7);
+  --moderate: rgba(247, 151, 0, 0.7);
+  --good: rgba(51, 155, 83, 0.8);
 }
 
 * {
