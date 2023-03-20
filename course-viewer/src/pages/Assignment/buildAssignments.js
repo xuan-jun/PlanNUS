@@ -6,7 +6,7 @@ import * as assignmentService from "./components/AssignmentService/AssignmentSer
 import Controls from "./components/controls/Controls";
 import Popup from "./components/Popup";
 import Title from './components/ModuleTitle/Title';
-import { Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AddAssignment from '../AddAssignment';
 
 function addNew() {
@@ -21,7 +21,7 @@ function addNew() {
   );
 }
 
-export default addNew;
+//export default addNew;
 
 const useStyles = makeStyles(theme => ({
     pageContent: {
