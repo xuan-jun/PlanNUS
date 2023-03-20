@@ -1,6 +1,8 @@
 import React from "react";
 import './Navbar.css'
 import profilePicture from '../../assets/profile-picture.png'
+import dayIcon from '../../assets/dayicon.png'
+import moonIcon from '../../assets/moonicon.png'
 import { Link, useMatch, useResolvedPath } from 'react-router-dom'
 
 const Navbar = ({theme, setTheme}) => {
@@ -16,7 +18,10 @@ const Navbar = ({theme, setTheme}) => {
         <Link to='/'>Logo</Link>
       </div>
       <div onClick={switchTheme} className='light-mode-toggle'>
-        <div className={`slider ${theme === 'light' ? '-left' : '-right'}`}> </div>
+        <div className={`slider ${theme === 'light' ? '-left' : '-right'}`}>
+          <img className={`slider-icon ${theme === 'light' ? '-left' : '-right'}`}
+           src = {theme === "light" ? dayIcon : moonIcon}/>
+        </div>
       </div>
       <ul>
         <CustomLink to='/calendar'>Calendar</CustomLink>
