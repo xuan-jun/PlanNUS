@@ -1,7 +1,44 @@
+import React from "react";
+import {
+  makeStyles,
+  CssBaseline,
+  createTheme,
+  ThemeProvider
+} from "@material-ui/core";
+import Assignment from "./Assignment/buildAssignments";
 import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import Controls from "../../components/controls/Controls";
 import { useForm, Form } from "../../components/useForm";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#00254d",
+      light: "#ffffff"
+    },
+    secondary: {
+      main: "#00254d",
+      light: "#ffffff"
+    },
+    background: {
+      default: "#ffffff"
+    }
+  },
+  overrides: {
+  },
+  props: {
+    MuiIconButton: {
+      disableRipple: true
+    }
+  }
+});
+
+const useStyles = makeStyles({
+  appMain: {
+    width: "100%"
+  }
+});
 
 const initialFValues = {
     id: 0,
@@ -99,3 +136,4 @@ const initialFValues = {
       </Form>
     );
   }
+
