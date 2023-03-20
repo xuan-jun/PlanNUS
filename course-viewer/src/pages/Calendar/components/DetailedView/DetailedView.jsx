@@ -15,6 +15,17 @@ function DetailedView({ isDetailed, setIsDetailed, date }) {
     );
   }, []);
 
+  // Pivot the table data from columns to rows
+  const rowData = tableData.reduce((acc, col) => {
+    col.values.forEach((value, i) => {
+      if (!acc[i]) {
+        acc[i] = {};
+      }
+      acc[i][col.header] = value;
+    });
+    return acc;
+  }, []);
+
   return (
     <div className={`detailed-view ${isDetailed ? 'active' : 'inactive'}`}>
       <div className="detailed-view-content">
@@ -27,32 +38,24 @@ function DetailedView({ isDetailed, setIsDetailed, date }) {
         <div>
           <table>
             <thead>
-              {tableData.map(row => (
-                row.header === "Assignment Name" ? (
-                  <tr key={row.header}>
-                    <th></th>
-                    {row.values.map(value => (
-                      <th key={value}>{value}</th>
-                    ))}
-                  </tr>
-                ) : null
-              ))}
+              <tr>
+                <th>Assignment Name</th>
+                <th>Module Code</th>
+                <th>Due Date</th>
+                <th>Professor</th>
+                <th>Email</th>
+              </tr>
             </thead>
             <tbody>
-              {tableData.map(row => (
-                row.header === 'assignment-key' ? null : // skip the row with the 'Assignment-Key' header
-                row.header === 'Assignment Name' ? null : // skip the row with the 'Assignment Name' header
-                <tr key={row.header}>
-                  <th>{row.header}</th>
-                  {row.values.map((value, i) => (
-                    <td key={i}>
-                      {row.header === 'Email' ? (
-                        <a href={`mailto:${value}`}>{value}</a>
-                      ) : (
-                        value
-                      )}
-                    </td>
-                  ))}
+              {rowData.map((row, i) => (
+                <tr key={i}>
+                  <td>{row['Assignment Name']}</td>
+                  <td>{row['Module Code']}</td>
+                  <td>{row['Due Date']}</td>
+                  <td>{row['Professor']}</td>
+                  <td>
+                    <a href={`mailto:${row['Email']}`}>{row['Email']}</a>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -62,6 +65,7 @@ function DetailedView({ isDetailed, setIsDetailed, date }) {
     </div>
   );
 }
+
 
 // map of known header names
 const headerNameMap = {
