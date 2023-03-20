@@ -7,15 +7,14 @@ import Controls from "./components/controls/Controls";
 import Popup from "./components/Popup";
 import Title from './components/ModuleTitle/Title';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import AddAssignment from '../AddAssignment';
 
 function addNew() {
   return (
-    <div className="App">
+    <div>
       <Router>
-        <Routes>
-          <Route path="/assignments/addnew" element={<AddAssignment />} />
-        </Routes>
+        <Link activeClassName="active" to="/assignments/addnew">Add New</Link>
       </Router>
     </div>
   );
@@ -122,11 +121,6 @@ export default function Assignments() {
     return (
         <>
             <Paper className={classes.pageContent} elevation="0">
-                    <Controls.Button
-                        text="Add New"
-                        variant="outlined"
-                        className={classes.newButton}
-                    />
                     <Title> DSA3101 </Title>
                 <TblContainer>
                     <TblHead />
