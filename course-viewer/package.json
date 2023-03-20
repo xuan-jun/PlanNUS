@@ -6,8 +6,8 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "latest",
+    "react-dom": "latest",
     "react-router-dom": "^6.8.2",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4",
@@ -15,9 +15,14 @@
     "@emotion/styled": "latest",
     "@material-ui/core": "4.12.4",
     "@mui/icons-material": "latest",
-    "@mui/material": "latest"
+    "@mui/material": "latest",
+    "@date-io/date-fns": "v1",
+    "@material-ui/icons": "latest",
+    "@material-ui/pickers": "3.3.10",
+    "@mui/x-data-grid": "latest",
+    "react-admin": "4.8.4"
   },
-  "description": "https://github.com/mui/material-ui/blob/v5.11.13/docs/data/material/components/app-bar/MenuAppBar.js",
+  "description": "https://github.com/mui/mui-x/blob/v6.0.2/docs/data/data-grid/overview/DataGridDemo.js",
   "devDependencies": {
     "react-scripts": "latest"
   },

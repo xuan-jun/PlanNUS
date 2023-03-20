@@ -1,26 +1,52 @@
-import * as React from "react";
-import Container from '@mui/material/Container';
-import Toolbar from '@mui/material/Toolbar';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import AssignmentTable from "./Assignment/components/AssignmentTable/AssignmentTable";
-import "./Assignment/AssignmentInstructor.css";
+import React from "react";
+import {
+  makeStyles,
+  CssBaseline,
+  createTheme,
+  ThemeProvider
+} from "@material-ui/core";
+import Assignment from "./Assignment/buildAssignments";
 
-const Assignments = () => {
-    return (
-        <div>
-            <Box>
-                <Toolbar />
-                <Container maxWidth="lg" sx={{ mt: 10, mb: 4 }}>
-                    <Grid container spacing={10}>
-                    {/* Recent Orders */}
-                    <Grid item xs={20}>
-                        <AssignmentTable />
-                    </Grid>
-                    </Grid>
-                </Container>
-                </Box>
-        </div>
-    )
-  };
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#00254d",
+      light: "#ffffff"
+    },
+    secondary: {
+      main: "#00254d",
+      light: "#ffffff"
+    },
+    background: {
+      default: "#ffffff"
+    }
+  },
+  overrides: {
+  },
+  props: {
+    MuiIconButton: {
+      disableRipple: true
+    }
+  }
+});
+
+const useStyles = makeStyles({
+  appMain: {
+    width: "100%"
+  }
+});
+
+function Assignments() {
+  const classes = useStyles();
+
+  return (
+    <ThemeProvider theme={theme}>
+      <div className={classes.appMain}>
+        <Assignment />
+      </div>
+      <CssBaseline />
+    </ThemeProvider>
+  );
+}
+
 export default Assignments;
