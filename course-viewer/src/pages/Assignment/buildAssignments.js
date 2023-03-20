@@ -60,12 +60,9 @@ export default function Assignments() {
         setOpenPopup(true)
     }
 
-    const handleCellClick = (item) => {
-      openInPopup(item);
-  }
 
-  function createData(id, name, startdate, enddate, weight) {
-    return { id, name, startdate, enddate, weight };
+  function createData(id, AssignmentName, startDate, endDate, weightage) {
+    return { id, AssignmentName, startDate, endDate, weightage };
   }
   
   const rows = [
@@ -119,11 +116,11 @@ export default function Assignments() {
                     <TblHead />
                       <TableBody className="abody">
                       {rows.map((row) => (
-                        <TableRow key={row.id}>
-                          <TableCell onClick={handleCellClick}>{row.name}</TableCell>
-                          <TableCell>{row.startdate}</TableCell>
-                          <TableCell>{row.enddate}</TableCell>
-                          <TableCell>{row.weight}</TableCell>
+                        <TableRow key={row.id} onClick={() => { openInPopup(row) }}>
+                          <TableCell>{row.AssignmentName}</TableCell>
+                          <TableCell>{row.startDate}</TableCell>
+                          <TableCell>{row.endDate}</TableCell>
+                          <TableCell>{row.weightage}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
