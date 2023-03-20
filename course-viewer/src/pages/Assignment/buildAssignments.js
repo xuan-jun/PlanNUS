@@ -11,9 +11,6 @@ import { Link } from 'react-router-dom';
 import AddAssignment from '../AddAssignment';
 import Button from '@material-ui/core/Button';
 
-<Button component={Link} to="/assignments/addnew" variant="contained" color="primary">
-  Add New
-</Button>
 
 const useStyles = makeStyles(theme => ({
     pageContent: {
@@ -114,7 +111,11 @@ export default function Assignments() {
     return (
         <>
             <Paper className={classes.pageContent} elevation="0">
-                    <Title> DSA3101 </Title>
+              <Button component={Link} to="/assignments/addnew" variant="contained" color="primary">
+              Add New
+              </Button>
+
+              <Title> DSA3101 </Title>
                 <TblContainer>
                     <TblHead />
                       <TableBody className="abody">
