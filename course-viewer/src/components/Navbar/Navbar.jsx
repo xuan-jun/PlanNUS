@@ -1,5 +1,5 @@
 import React from "react";
-import './navbar.css'
+import './Navbar.css'
 import profilePicture from '../../assets/profile-picture.png'
 import { Link, useMatch, useResolvedPath } from 'react-router-dom'
 

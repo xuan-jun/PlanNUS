@@ -57,7 +57,7 @@
   padding: 0;
 
   color: var(--lightGray-color);
-  transition: 0.3s border-bottom ease-in, 0.3s color ease-in;
+  transition: 0.1s border-bottom ease-in, 0.1s color ease-in;
   }
 
 .link-item.activeLink {
