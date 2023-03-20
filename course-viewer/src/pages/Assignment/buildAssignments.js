@@ -6,9 +6,7 @@ import * as assignmentService from "./components/AssignmentService/AssignmentSer
 import Controls from "./components/controls/Controls";
 import Popup from "./components/Popup";
 import Title from './components/ModuleTitle/Title';
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Link } from 'react-router-dom';
-import AddAssignment from '../AddAssignment';
 import Button from '@material-ui/core/Button';
 
 
