@@ -4,14 +4,6 @@ import { Grid } from "@material-ui/core";
 import Controls from "./Assignment/components/controls/Controls";
 import { useForm, Form } from "./Assignment/components/useForm";
 
-const AddAssignment = () => {
-    const [inputNew, setInputNew] = useState(true);
-
-    return <div>
-        <h3>Add A New Assignment</h3>
-
-    </div>
-}
 
 const initialFValues = {
   id: 0,
