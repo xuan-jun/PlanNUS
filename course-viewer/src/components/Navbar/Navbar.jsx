@@ -1,18 +1,32 @@
 import React from "react";
-import './navbar.css'
+import './Navbar.css'
 import profilePicture from '../../assets/profile-picture.png'
+import dayIcon from '../../assets/dayicon.png'
+import moonIcon from '../../assets/moonicon.png'
 import { Link, useMatch, useResolvedPath } from 'react-router-dom'
 
-const Navbar = () => {
+const Navbar = ({theme, setTheme}) => {
+
+  const switchTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+  }
+
   return (
     <nav className="navBar">
       <div className="site-logo">
         <Link to='/'>Logo</Link>
       </div>
+      <div onClick={switchTheme} className='light-mode-toggle'>
+        <div className={`slider ${theme === 'light' ? '-left' : '-right'}`}>
+          <img className={`slider-icon ${theme === 'light' ? '-left' : '-right'}`}
+           src = {theme === "light" ? dayIcon : moonIcon}/>
+        </div>
+      </div>
       <ul>
         <CustomLink to='/calendar'>Calendar</CustomLink>
         <CustomLink to='/assignments'>Assignments</CustomLink>
-        <CustomLink to='/modules'>Modules</CustomLink>
+        <CustomLink to='/calendar-student'>CalendarStudent</CustomLink>
         <Link to='/'>
           <img className="profile-picture" src={profilePicture} alt='user-profile'/>
         </Link>
@@ -27,8 +41,8 @@ const CustomLink = ({ to, children, ...props}) => {
   const isActive = useMatch({ path: resolvedPath.pathname, end: true}) // checks if the to path is the same as the current path
 
   return (
-    <li className={isActive ? "activeLink" : ""}>
-      <Link to={to}>{children}</Link>
+    <li className='navBar-components'>
+      <Link className={`link-item ${isActive ? "activeLink" : ""}`} to={to}>{children}</Link>
     </li>
   )
 }

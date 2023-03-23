@@ -1,0 +1,87 @@
+.previous, .next, .calendar-tile {
+  cursor: pointer;
+}
+
+.calendar-tile, .day-name {
+  width: 9rem;
+}
+
+.day {
+  height: 20%;
+  width: 50%;
+  align-self: center;
+  border-radius: 28px;
+  margin-top: 0.25rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.calendar-tile {
+  aspect-ratio: 1;
+  border: 1px solid black;
+  text-align: center;
+  font-weight: 700;
+  color: var(--secondary-color);
+
+  display: flex;
+  flex-direction: column;
+}
+
+.day-name {
+  color: var(--black-color);
+  font-weight: 400;
+  height: 2rem;
+  border: 1px solid black;
+  text-align: center;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.selected {
+  background-color: var(--lightGray-color);
+}
+
+.week, .day-names, .day-names {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stressed {
+  background-color: var(--stressed);
+}
+
+.moderate {
+  background-color: var(--moderate);
+}
+
+.good {
+  background-color: var(--good);
+}
+
+.diffMonth {
+  background-color: var(--lightGray-color);
+}
+
+.current-day-tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  margin-top: 0.5rem;
+}
+
+.task {
+  background-color: white;
+  width: 85%;
+  color: black;
+  padding: 0.25rem;
+  align-self: center;
+
+  border-radius: 28px;
+  border: 2px solid var(--lightGray-color);
+}
