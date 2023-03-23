@@ -1,0 +1,47 @@
+.notification-box {
+  display: flex;
+  flex-direction: column;
+  color: var(--secondary-color);
+}
+
+.notification-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.notification {
+  position: relative;
+  list-style: none;
+  padding: 2rem;
+
+  display: flex;
+  flex-direction: column;
+
+  border-radius: 10px;
+  border: 2px solid var(--lightGray-color);
+
+  box-shadow: 3px 3px 5px #888888;
+}
+
+.notification-title {
+  font-style: italic;
+  position: absolute;
+  top: 2px;
+  left: 5px;
+}
+
+.notification > img {
+  position: absolute;
+  top: 2px;
+  right: 5px;
+  width: 1.5rem;
+  
+  cursor: pointer;
+}
+
+.notification-details {
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}

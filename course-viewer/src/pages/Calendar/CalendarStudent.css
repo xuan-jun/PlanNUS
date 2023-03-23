@@ -1,0 +1,11 @@
+.calendar-page {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.side-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

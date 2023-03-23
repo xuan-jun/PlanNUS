@@ -1,0 +1,55 @@
+.filter-description {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--secondary-color);
+}
+
+.currently-selected-filter {
+  font-weight: 600;
+  width: 20rem;
+  border: 2px solid var(--lightGray-color);
+  border-radius: 3px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem;
+}
+
+.filter-menu.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: 0.3s ease;
+}
+
+.filter-menu.inactive {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-5px);
+  transition: 0.3s ease;
+}
+
+.currently-selected-filter > img {
+  width: 1rem;
+  cursor: pointer;
+}
+
+.filter-menu {
+  border: 1px solid var(--lightGray-color);
+}
+
+.filter-item {
+  list-style: none;
+  cursor: pointer;
+  border: 1px solid var(--lightGray-color);
+  padding: 0.5rem;
+}
+
+.currently-selected-filter > img.unflipped {
+  transform: rotate(0deg);
+  transition: 0.3s transform ease-in;
+}
+
+.currently-selected-filter > img.flipped {
+  transform: rotate(180deg);
+  transition: 0.3s transform ease-in;
+}
