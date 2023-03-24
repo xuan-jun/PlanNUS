@@ -79,7 +79,7 @@ const CalendarTile = ({ day, dayStyle, handleClick }) => {
   })
   const currentDayTasks = currentDayData.length > 0 ? currentDayData[0]['tasks'] : [];
   const stressScore = currentDayData.length > 0 ? currentDayData[0]['stressScore'] : null;
-  
+
   const tileStyle = dayStyle(day, stressScore);
   console.log(tileStyle);
 

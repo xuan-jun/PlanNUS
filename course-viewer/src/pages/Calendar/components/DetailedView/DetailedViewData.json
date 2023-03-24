@@ -4,19 +4,22 @@
     "module-code": "DSA3101",
     "date" : "21 Mar 2023",
     "professor" : "Vikneswaran S/O Gopal",
-    "email" : "vik.gopal@nus.edu.sg"
+    "email" : "vik.gopal@nus.edu.sg",
+    "stressScore" : 6
 }, {
     "assignment-key" : "2",
     "assignment-name": "Docker Assignment",
     "module-code": "DSA3101",
     "date" : "23 Mar 2023",
     "professor" : "Vikneswaran S/O Gopal",
-    "email" : "vik.gopal@nus.edu.sg"
+    "email" : "vik.gopal@nus.edu.sg",
+    "stressScore" : 6
 }, {
     "assignment-key" : "3",
     "assignment-name": "Flask Quiz",
     "module-code": "DSA3101",
     "date" : "23 Mar 2023",
     "professor" : "Vikneswaran S/O Gopal",
-    "email" : "vik.gopal@nus.edu.sg"
+    "email" : "vik.gopal@nus.edu.sg",
+    "stressScore" : 6
 }] 

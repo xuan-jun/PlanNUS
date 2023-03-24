@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import moment from 'moment';
 import './DetailedView.css';
 import data from './DetailedViewData.json';
 
@@ -26,6 +27,26 @@ function DetailedView({ isDetailed, setIsDetailed, date }) {
     return acc;
   }, []);
 
+  const formattedDate = moment.isMoment(date) ? date.format("D MMM YYYY") : date
+
+  const filteredRowData = rowData.filter((row) => {
+    return row["Due Date"] === formattedDate
+  })
+
+    // computes the colour for the background when we have 
+    let dayStyle = (row) => {
+      let style = "";
+      // assuming higher the worse it is
+      if (row["Stress Score"] >= 7.5 && row["Stress Score"] <= 10) {
+        style = style.concat("stressed")
+      } else if (row["Stress Score"] >= 5 && row["Stress Score"] <= 7.5) {
+        style = style.concat("moderate")
+      } else {
+        style = style.concat("good")
+      }
+      return style;
+    }
+
   return (
     <div className={`detailed-view ${isDetailed ? 'active' : 'inactive'}`}>
       <div className="detailed-view-content">
@@ -33,7 +54,7 @@ function DetailedView({ isDetailed, setIsDetailed, date }) {
           Return to Calendar View
         </button>
         {/*<h2 className={"detailed-view-header"}>Assignments due on 21st March 2023</h2>*/}
-        <h2 className={"detailed-view-header"}>Assignment Details</h2>
+        <h2 className={"detailed-view-header"} dayStyle = {dayStyle}>Assignments on {new Date(date).toLocaleDateString('en-GB', {day: '2-digit', month: 'short', year: 'numeric'})}</h2>
         {/* <div>{date.toString()}</div> */}
         <div>
           <table>
@@ -44,10 +65,11 @@ function DetailedView({ isDetailed, setIsDetailed, date }) {
                 <th>Due Date</th>
                 <th>Professor</th>
                 <th>Email</th>
+                <th>Stress Score</th>
               </tr>
             </thead>
             <tbody>
-              {rowData.map((row, i) => (
+              {filteredRowData.map((row, i) => (
                 <tr key={i}>
                   <td>{row['Assignment Name']}</td>
                   <td>{row['Module Code']}</td>
@@ -56,6 +78,7 @@ function DetailedView({ isDetailed, setIsDetailed, date }) {
                   <td>
                     <a href={`mailto:${row['Email']}`}>{row['Email']}</a>
                   </td>
+                  <td>{row['Stress Score']}</td>
                 </tr>
               ))}
             </tbody>
@@ -73,7 +96,8 @@ const headerNameMap = {
   'module-code': 'Module Code',
   'date': 'Due Date',
   'professor': 'Professor',
-  'email': 'Email'
+  'email': 'Email',
+  'stressScore': "Stress Score"
 };
 
 export default DetailedView;

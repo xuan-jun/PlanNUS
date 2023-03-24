@@ -43,6 +43,18 @@
   margin-bottom: 25px
 }
 
+.stressed {
+  background-color: var(--stressed);
+}
+
+.moderate {
+  background-color: var(--moderate);
+}
+
+.good {
+  background-color: var(--good);
+}
+
 table {
   font-family: Arial, sans-serif;
   border-collapse: collapse;
