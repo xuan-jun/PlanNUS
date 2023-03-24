@@ -41,8 +41,15 @@
   color: var(--table-font-color)
 }
 
-.detailed-view-header {
-  margin-bottom: 25px
+.detailed-view-content > .detailed-view-header {
+  height: 10%;
+  width: 100%;
+  border-radius: 28px;
+  margin-bottom: 25px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .link{

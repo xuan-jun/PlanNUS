@@ -33,19 +33,22 @@ function DetailedView({ isDetailed, setIsDetailed, date }) {
     return row["Due Date"] === formattedDate
   })
 
-    // computes the colour for the background when we have 
-    let dayStyle = (row) => {
-      let style = "";
-      // assuming higher the worse it is
-      if (row["Stress Score"] >= 7.5 && row["Stress Score"] <= 10) {
-        style = style.concat("stressed")
-      } else if (row["Stress Score"] >= 5 && row["Stress Score"] <= 7.5) {
-        style = style.concat("moderate")
-      } else {
-        style = style.concat("good")
-      }
-      return style;
+  // computes the colour for the background when we have 
+  let rowStyle = (stressScore) => {
+    let style = "";
+    // assuming higher the worse it is
+    if (stressScore >= 7.5 && stressScore <= 10) {
+      style = style.concat("stressed")
+    } else if (stressScore >= 5 && stressScore <= 7.5) {
+      style = style.concat("moderate")
+    } else {
+      style = style.concat("good")
     }
+    return style;
+  }
+
+  const detailedStyle = rowStyle(filteredRowData["Stress Score"]);
+  console.log(detailedStyle);
 
   return (
     <div className={`detailed-view ${isDetailed ? 'active' : 'inactive'}`}>
@@ -53,9 +56,7 @@ function DetailedView({ isDetailed, setIsDetailed, date }) {
         <button className="close-btn" onClick={() => setIsDetailed(!isDetailed)}>
           Return to Calendar View
         </button>
-        {/*<h2 className={"detailed-view-header"}>Assignments due on 21st March 2023</h2>*/}
-        <h2 className={"detailed-view-header"} dayStyle = {dayStyle}>Assignments on {new Date(date).toLocaleDateString('en-GB', {day: '2-digit', month: 'short', year: 'numeric'})}</h2>
-        {/* <div>{date.toString()}</div> */}
+        <h2 className={`detailed-view-header ${detailedStyle}`}>Assignments on {new Date(date).toLocaleDateString('en-GB', {day: '2-digit', month: 'short', year: 'numeric'})}</h2>
         <div>
           <table>
             <thead>

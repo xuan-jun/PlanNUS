@@ -2,24 +2,32 @@
     "assignment-key" : "1",
     "assignment-name": "MidTerms",
     "module-code": "DSA3101",
-    "date" : "21 Mar 2023",
+    "date" : "23 Mar 2023",
     "professor" : "Vikneswaran S/O Gopal",
     "email" : "vik.gopal@nus.edu.sg",
     "stressScore" : 6
 }, {
     "assignment-key" : "2",
-    "assignment-name": "Docker Assignment",
-    "module-code": "DSA3101",
-    "date" : "23 Mar 2023",
-    "professor" : "Vikneswaran S/O Gopal",
-    "email" : "vik.gopal@nus.edu.sg",
-    "stressScore" : 6
+    "assignment-name": "Quiz 1",
+    "module-code": "DSA2101",
+    "date" : "23 Feb 2023",
+    "professor" : "Lam Xin Yee",
+    "email" : "matlxy@nus.edu.sg",
+    "stressScore" : 3
 }, {
     "assignment-key" : "3",
-    "assignment-name": "Flask Quiz",
+    "assignment-name": "Quiz 2",
     "module-code": "DSA3101",
-    "date" : "23 Mar 2023",
+    "date" : "23 Feb 2023",
     "professor" : "Vikneswaran S/O Gopal",
     "email" : "vik.gopal@nus.edu.sg",
-    "stressScore" : 6
-}] 
+    "stressScore" : 3
+}, {
+    "assignment-key" : "4",
+    "assignment-name": "Finals",
+    "module-code": "DSA3101",
+    "date" : "1 Apr 2023",
+    "professor" : "Vikneswaran S/O Gopal",
+    "email" : "vik.gopal@nus.edu.sg",
+    "stressScore" : 9
+}]  
