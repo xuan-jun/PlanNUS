@@ -11,6 +11,12 @@
   --brown-color: #46364a;
   --white-color: #ffffff;
 
+  --table-font-color: rgb(96, 96, 96);
+  --table-primary-background-color: #f2f2f2;
+  --table-secondary-background-color: white;
+  --table-hover-background-color: #ddd;
+
+
   --stressed: rgba(202, 32, 45, 0.3);
   --moderate: rgba(247, 151, 0, 0.3);
   --good: rgba(51, 155, 83, 0.2);
@@ -19,6 +25,12 @@
 [data-theme='dark'] {
   --primary-color: #455a63;
   --secondary-color: #fffefe;
+
+  --table-font-color: rgb(243, 243, 243);
+  --table-primary-background-color: #2f3b45;
+  --table-secondary-background-color: #40505e;
+  --table-hover-background-color: #484545;
+  --link-color: lightblue;
 
   --stressed: rgba(202, 32, 45, 0.7);
   --moderate: rgba(247, 151, 0, 0.7);

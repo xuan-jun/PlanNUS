@@ -76,7 +76,7 @@ function DetailedView({ isDetailed, setIsDetailed, date }) {
                   <td>{row['Due Date']}</td>
                   <td>{row['Professor']}</td>
                   <td>
-                    <a href={`mailto:${row['Email']}`}>{row['Email']}</a>
+                    <a className={"link"} href={`mailto:${row['Email']}`}>{row['Email']}</a>
                   </td>
                   <td>{row['Stress Score']}</td>
                 </tr>

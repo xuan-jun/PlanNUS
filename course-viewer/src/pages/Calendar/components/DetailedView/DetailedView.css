@@ -37,10 +37,16 @@
   bottom: 16px;
   right: 16px;
   cursor: pointer;
+  background-color: var(--table-secondary-background-color);
+  color: var(--table-font-color)
 }
 
 .detailed-view-header {
   margin-bottom: 25px
+}
+
+.link{
+  color: var(--link-color)
 }
 
 .stressed {
@@ -60,10 +66,14 @@ table {
   border-collapse: collapse;
   width: 100%;
   margin: 0 auto;
+
+  justify-content: center;
+  align-items: center;
 }
 
-thead {
-  background-color: #f2f2f2;
+thead th{
+  background-color: var(--table-primary-background-color);
+  color: var(--table-font-color)
 }
 
 th, td {
@@ -75,38 +85,17 @@ th {
   font-weight: bold;
 }
 
+tr:nth-child(odd) {
+  background-color: var(--table-secondary-background-color);
+  color:  var(--table-font-color);
+}
+
 tr:nth-child(even) {
-  background-color: #f2f2f2;
+  background-color: var(--table-primary-background-color);
+  color:  var(--table-font-color);
 }
 
 tr:hover {
-  background-color: #ddd;
-}
-
-@media only screen and (max-width: 600px) {
-  /* Hide the table headers on small screens */
-  thead {
-    display: none;
-  }
-
-  /* Make each row a block element and add a border and margin */
-  tr {
-    display: block;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 10px;
-  }
-
-  /* Add a pseudo element with the table header as content */
-  /* and style it to appear like a table header */
-  td::before {
-    content: attr(data-th);
-    font-weight: bold;
-    display: inline-block;
-    width: 100px;
-  }
-
-  /* Hide the last row border since it's unnecessary */
-  tr:last-child {
-    border-bottom: none;
-  }
+  background-color: var(--table-hover-background-color);
+  color:  var(--table-font-color);
 }
