@@ -35,6 +35,7 @@ function DetailedView({ isDetailed, setIsDetailed, date }) {
 
   // computes the colour for the background when we have 
   let rowStyle = (stressScore) => {
+    console.log(stressScore)
     let style = "";
     // assuming higher the worse it is
     if (stressScore >= 7.5 && stressScore <= 10) {
@@ -47,7 +48,8 @@ function DetailedView({ isDetailed, setIsDetailed, date }) {
     return style;
   }
 
-  const detailedStyle = rowStyle(filteredRowData["Stress Score"]);
+  const stressScore = filteredRowData.length > 0 ? filteredRowData[0]['Stress Score'] : null;
+  const detailedStyle = rowStyle(stressScore);
   console.log(detailedStyle);
 
   return (
