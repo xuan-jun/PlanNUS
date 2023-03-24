@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
-import { Grid } from "@material-ui/core";
+import { Grid, Button } from "@material-ui/core";
 import Controls from "./Assignment/components/controls/Controls";
 import { useForm, Form } from "./Assignment/components/useForm";
-
+import { Link } from 'react-router-dom';
 
 const initialFValues = {
   id: 0,
@@ -64,6 +64,9 @@ export default function AssignmentForm(props) {
 
   return (
     <Form onSubmit={handleSubmit}>
+        <Button component={Link} to="/assignments">
+        Return To Assignments
+        </Button>
       <Grid container>
         <Grid item xs={6}>
           <Controls.Input

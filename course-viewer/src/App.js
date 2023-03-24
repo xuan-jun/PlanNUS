@@ -4,7 +4,7 @@ import Navbar from './components/Navbar/Navbar';
 import Login from './pages/Login';
 import CalendarInstructor from './pages/Calendar/CalendarInstructor';
 import CalendarStudent from './pages/Calendar/CalendarStudent';
-import Assignments from './pages/Assignments'
+import Assignments from './pages/Assignments';
 import AddAssignment from './pages/AddAssignment';
 import { Route, Routes } from 'react-router-dom';
 import useLocalStorage from 'use-local-storage';
@@ -22,7 +22,7 @@ function App() {
           <Route path="/" element={<Login />}></Route>
           <Route path="/calendar" element={<CalendarInstructor />}></Route>
           <Route path="/calendar-student" element={<CalendarStudent />}></Route>
-          <Route path='/assignments' element={<Assignments/>}></Route>
+          <Route path='/assignments' element={<Assignments theme={theme} />}></Route>
           <Route path='/assignments/addnew' element={<AddAssignment/>}></Route>
         </Routes>
       </div>
