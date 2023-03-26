@@ -33,3 +33,17 @@
   scroll-behavior: smooth;
   transition: 0.3s background-color ease-in;
 }
+
+.table-light {
+  --font-base: "Inter", sans-serif;
+    --primary-color: #fffefe;
+  --secondary-color: #455a63;
+  background-color: #fffefe;
+  color: #fffefe;
+}
+
+.table-dark {
+  --font-base: "Inter", sans-serif;
+  background-color: #455a63;
+  color: #fffefe;
+}
