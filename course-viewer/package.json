@@ -19,6 +19,7 @@
     "cors": "^2.8.5",
     "date-fns": "^2.29.3",
     "moment": "^2.29.4",
+    "momentjs": "^2.0.0",
     "react": "latest",
     "react-admin": "4.8.4",
     "react-calendar": "^4.0.0",
@@ -26,6 +27,7 @@
     "react-router-dom": "^6.8.2",
     "react-scripts": "5.0.1",
     "use-local-storage": "^2.3.6",
+    "use-local-storage-state": "^18.2.1",
     "web-vitals": "^2.1.4"
   },
   "description": "https://github.com/mui/mui-x/blob/v6.0.2/docs/data/data-grid/overview/DataGridDemo.js",
