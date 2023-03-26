@@ -65,7 +65,7 @@ export default function AssignmentForm(props) {
   return (
     <Form onSubmit={handleSubmit}>
         
-      <Grid container direction="row" justifyContent="center" alignItems="center">
+      <Grid container direction="column" justifyContent="center" alignItems="center">
         <Grid item xs={6}>
           <Controls.Input
             name="AssignmentName"
