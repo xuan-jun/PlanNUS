@@ -1,7 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap');
 
 :root {
   --font-base: "Inter", sans-serif;
+  --secondary-font: "Poppins", sans-serif;
 
   --primary-color: #fffefe;
   --secondary-color: #455a63;
@@ -10,6 +12,7 @@
   --gray-color: #6b7688;
   --brown-color: #46364a;
   --white-color: #ffffff;
+  --blue-color: rgb(49, 65, 252);
 
   --stressed: rgba(202, 32, 45, 0.3);
   --moderate: rgba(247, 151, 0, 0.3);
