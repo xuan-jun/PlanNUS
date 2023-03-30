@@ -31,7 +31,6 @@ const CalendarBody = () => {
       style = style.concat("good")
     }
     if (!value.isSame(day, "month")) {
-      console.log(style);
       style = style.concat(" ", "diffMonth")
     }
     return style;
@@ -79,9 +78,8 @@ const CalendarTile = ({ day, dayStyle, handleClick }) => {
   })
   const currentDayTasks = currentDayData.length > 0 ? currentDayData[0]['tasks'] : [];
   const stressScore = currentDayData.length > 0 ? currentDayData[0]['stressScore'] : null;
-  
+
   const tileStyle = dayStyle(day, stressScore);
-  console.log(tileStyle);
 
   return (
     <div className={`calendar-tile ${tileStyle}`}
