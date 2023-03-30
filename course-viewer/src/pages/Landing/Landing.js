@@ -5,19 +5,81 @@ import axios from 'axios';
 
 function Landing() {
   const [assignments, setAssignments] = useState([]);
-  const fetchData = async () => {
-    try {
-      const response = await axios('/get-instructors');
-      setAssignments(response.data);
-      console.log(response);
-    } catch (error) {
-      console.log(error.response)
-    }
-  }
+  // const fetchData = async () => {
+  //   try {
+  //     const params = {
+  //       instructor : 's/o Gopal Vikneswaran',
+  //       semester : '2220'
+  //     }
 
-  useEffect(() => {
-    fetchData();
-  }, [])
+  //     const response = await axios('/modules_for_instructor', { params });
+  //     setAssignments(response.data);
+  //     console.log(response);
+  //   } catch (error) {
+  //     console.log(error.response)
+  //   }
+  // }
+
+  // const postData = async () => {
+  //   try {
+  //     const params = {
+  //       module_code : 'DSA3101',
+  //       semester : '2220',
+  //       assignment_name : 'Assignment 2 Docker',
+  //       weightage : 10,
+  //       assignment_type : 'Assignment',
+  //       group_or_indv : 'Individual',
+  //       start_date : '23 Mar 2023',
+  //       due_date : '1 Apr 2023'
+  //     }
+
+  //     const response = await axios.post('/add_new_assignments', {params});
+  //     console.log(response);
+  //   } catch (error) {
+  //     console.log(error.response)
+  //   }
+  // }
+
+  // postData()
+
+  // const updateData = async () => {
+  //   try {
+  //     const params = {
+  //       module_code : 'DSA3101',
+  //       semester : '2220',
+  //       original_assignment_name : 'Assignment 2 Docker',
+  //       assignment_name : 'Assignment 3 Docker',
+  //       weightage : 20,
+  //       assignment_type : 'Assignment',
+  //       group_or_indv : 'Individual',
+  //       start_date : '23 Mar 2023',
+  //       due_date : '3 Apr 2023'
+  //     }
+
+  //     const response = await axios.put('/update_assignments', {params});
+  //     console.log(response);
+  //   } catch (error) {
+  //     console.log(error.response)
+  //   }
+  // }
+
+  // updateData()
+
+  // const getAssignments = async () => {
+  //   try {
+  //     const params = {
+  //       module_code : 'DSA3101',
+  //       semester : '2220'
+  //     }
+
+  //     const response = await axios('/get_assignments', {params});
+  //     console.log(response);
+  //   } catch (error) {
+  //     console.log(error.response)
+  //   }
+  // }
+
+  // getAssignments()
 
   return <div className="landing-page">
     <img className="plannus-logo" src = {logo} alt = "plannus logo" />
