@@ -195,13 +195,11 @@ const Assignment = (props) => {
   
   return (
     <div>
-      //dropdown menu for modules
       <Select value={selectedModule} onChange={handleModuleChange} className={props.theme === "light" ? classes.moduleSelectLight : classes.moduleSelectDark}>
         {modules.map((module) => (
           <MenuItem key={module} value={module}>{module}</MenuItem>
         ))}
       </Select>
-        //button to add new assignment
         <Button className={classes.newButton} component={Link} to="/assignments/addnew" variant="contained" color="primary">
         Add New
         </Button>
