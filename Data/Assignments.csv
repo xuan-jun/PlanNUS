@@ -1,0 +1,111 @@
+Module Code,Semester,Assignment Name,Weightage,Assignment Type,Group or Individual,Start Date,Due Date,Deadline Time,Level,Major
+DSA1101,2010,4 Quizzes,10,Quiz,I,,,,level_1k,DSA
+DSA1101,2010,Midterm,40,Exam,I,,,,level_1k,DSA
+DSA1101,2010,Finals,50,Exam,I,,,,level_1k,DSA
+DSA2101,2020,Participation and Quizzes,5,Participation,I,,,,level_2k,DSA
+DSA2101,2020,Quiz 1,5,Quiz,I,12-Jan-21,19-Jan-21,,level_2k,DSA
+DSA2101,2020,Assignment 1,2.5,Assignment,I,19-Jan-21,26-Jan-21,23:59,level_2k,DSA
+DSA2101,2020,Assignment 2,2.5,Assignment,I,9-Feb-21,16-Feb-21,23:59,level_2k,DSA
+DSA2101,2020,Assignment 3,2.5,Assignment,I,,23-Mar-21,23:59,level_2k,DSA
+DSA2101,2020,Assignment 4,2.5,Assignment,I,,13-Apr-21,23:59,level_2k,DSA
+DSA2101,2020,Take-Home Midterms,30,Assignment,I,2-Mar-21,6-Mar-21,,level_2k,DSA
+DSA2101,2020,Group Project,15,Project,G,,,,level_2k,DSA
+DSA2101,2020,Finals,40,Exam,I,26-Apr-21,26-Apr-21,,level_2k,DSA
+DSA2101,2110,Tutorial Submission 1,2,Assignment,I,,27-Aug-21,,level_2k,DSA
+DSA2101,2110,Tutorial Submission 2,2,Assignment,I,,3-Sep-21,,level_2k,DSA
+DSA2101,2110,Tutorial Submission 3,2,Assignment,I,,10-Sep-21,,level_2k,DSA
+DSA2101,2110,Tutorial Submission 4,2,Assignment,I,,17-Sep-21,,level_2k,DSA
+DSA2101,2110,Tutorial Submission 5,2,Assignment,I,,8-Oct-21,,level_2k,DSA
+DSA2101,2110,Tutorial Submission 6,2,Assignment,I,,15-Oct-21,,level_2k,DSA
+DSA2101,2110,Tutorial Submission 7,2,Assignment,I,,22-Oct-21,,level_2k,DSA
+DSA2101,2110,Tutorial Submission 8,2,Assignment,I,,29-Oct-21,,level_2k,DSA
+DSA2101,2110,Tutorial Submission 9,2,Assignment,I,,5-Nov-21,,level_2k,DSA
+DSA2101,2110,Tutorial Submission 10,2,Assignment,I,,12-Nov-21,,level_2k,DSA
+DSA2101,2110,DataCamp (8 total),10,Assignment,I,,,,level_2k,DSA
+DSA2101,2110,Survey Analysis Tutorial,10,Assignment,I,,15-Nov-21,,level_2k,DSA
+DSA2101,2110,Midterm,20,Exam,I,10-Oct-21,11-Oct-21,,level_2k,DSA
+DSA2101,2110,Finals,40,Exam,I,30-Nov-21,30-Nov-21,,level_2k,DSA
+DSA2102,2110,Lecture Quizzes (42 polls),5,Quiz,I,,,,level_2k,DSA
+DSA2102,2110,Tutorial Presentation,3,Presentation,I,,,,level_2k,DSA
+DSA2102,2110,Assignment 1,4,Assignment,I,,17-Sep-21,23:59,level_2k,DSA
+DSA2102,2110,Assignment 2,4,Assignment,I,,15-Oct-21,23:59,level_2k,DSA
+DSA2102,2110,Assignment 3,4,Assignment,I,,16-Nov-21,23:59,level_2k,DSA
+DSA2102,2110,Midterm,25,Exam,I,28-Sep-21,28-Sep-21,,level_2k,DSA
+DSA2102,2110,Finals,55,Exam,I,2-Dec-21,2-Dec-21,,level_2k,DSA
+DSA2102,2120,Lecture Quiz,3,Quiz,I,,,,level_2k,DSA
+DSA2102,2120,Tutorial Presentation,3,Presentation,I,,,,level_2k,DSA
+DSA2102,2120,Lecture Attendance,2,Participation,I,,,,level_2k,DSA
+DSA2102,2120,Assignment 1,4,Assignment,I,,14-Feb-22,,level_2k,DSA
+DSA2102,2120,Assignment 2,4,Assignment,I,,21-Mar-22,,level_2k,DSA
+DSA2102,2120,Assignment 3,4,Assignment,I,,14-Apr-22,,level_2k,DSA
+DSA2102,2120,Midterm,25,Exam,I,28-Feb-22,28-Feb-22,,level_2k,DSA
+DSA2102,2120,Finals,55,Exam,I,25-Apr-22,25-Apr-22,,level_2k,DSA
+DSA3101,2220,DataCamp,5,Assignment,I,,,,level_3k,DSA
+DSA3101,2220,Docker Assignment,5,Assignment,I,,7-Mar-23,23:59,level_3k,DSA
+DSA3101,2220,Git Quiz,5,Quiz,I,30-Jan-23,30-Jan-23,,level_3k,DSA
+DSA3101,2220,Dash/Shiny/API Quiz,10,Quiz,I,27-Mar-23,27-Mar-23,,level_3k,DSA
+DSA3101,2220,Technical Documentation,15,Project,I,,14-Apr-23,23:59,level_3k,DSA
+DSA3101,2220,Project Report/Journal,15,Project,I,,14-Apr-23,23:59,level_3k,DSA
+DSA3101,2220,Video Presentation,10,Presentation,G,,7-Apr-23,23:59,level_3k,DSA
+DSA3101,2220,Project Success,30,Project,G,,,,level_3k,DSA
+DSA3101,2220,Peer Review,5,Assignment,I,,,,level_3k,DSA
+DSA3102,2210,Assignment 1,7.5,Assignment,I,,3-Oct-22,23:59,level_3k,DSA
+DSA3102,2210,Assignment 2,7.5,Assignment,I,,11-Nov-22,23:59,level_3k,DSA
+DSA3102,2210,Weekly Quiz,5,Quiz,I,,,,level_3k,DSA
+DSA3102,2210,Midterm,20,Exam,I,29-Sep-22,29-Sep-22,,level_3k,DSA
+DSA3102,2210,Finals,60,Exam,I,21-Nov-22,21-Nov-22,,level_3k,DSA
+DSA4211,2210,5 Quizzes,5,Quiz,I,,,,level_4k,DSA
+DSA4211,2210,Midterm,20,Exam,I,28-Sep-22,28-Sep-22,,level_4k,DSA
+DSA4211,2210,Project,25,Exam,I,,30-Oct-22,,level_4k,DSA
+DSA4211,2210,Finals,50,Exam,I,28-Nov-22,28-Nov-22,,level_4k,DSA
+DSA4212,2220,Midterm,30,Exam,I,,,,level_4k,DSA
+DSA4212,2220,Assignment 1,15,Assignment,I&G,,,,level_4k,DSA
+DSA4212,2220,Assignment 2,15,Assignment,I&G,,,,level_4k,DSA
+DSA4212,2220,Finals,40,Exam,I,3-May-23,3-May-23,,level_4k,DSA
+ST2131,2020,Weekly Quiz (10 total),30,Quiz,I,,,,level_2k,ST
+ST2131,2020,Finals,70,Exam,I,2-May-21,2-May-21,,level_2k,ST
+ST2132,2120,Assignment 1,10,Assignment,I,,9-Mar-22,16:00,level_2k,ST
+ST2132,2120,Assignment 2,10,Assignment,I,,24-Mar-22,23:59,level_2k,ST
+ST2132,2120,Assignment 3,10,Assignment,I,,8-Apr-22,14:00,level_2k,ST
+ST2132,2120,Assignment 4,10,Assignment,I,,29-Apr-22,14:00,level_2k,ST
+ST2132,2120,Finals,60,Exam,I,4-May-22,4-May-22,,level_2k,ST
+ST3131,2210,Midterm,40,Exam,I,4-Oct-22,4-Oct-22,,level_3k,ST
+ST3131,2210,Finals,60,Exam,G,25-Nov-22,25-Nov-22,,level_3k,ST
+ST3248,2210,Tutorial Attendance,10,Participation,I,,,,level_3k,ST
+ST3248,2210,Midterm,20,Exam,I,4-Oct-22,4-Oct-22,,level_3k,ST
+ST3248,2210,Finals,50,Exam,I,29-Nov-22,29-Nov-22,,level_3k,ST
+ST3248,2210,Assignment 1,2.5,Assignment,I,,29-Aug-22,,level_3k,ST
+ST3248,2210,Assignment 2,2.5,Assignment,I,,5-Sep-22,,level_3k,ST
+ST3248,2210,Assignment 3,2.5,Assignment,I,,12-Sep-22,,level_3k,ST
+ST3248,2210,Assignment 4,2.5,Assignment,I,,3-Oct-22,,level_3k,ST
+ST3248,2210,Assignment 5,2.5,Assignment,I,,17-Oct-22,,level_3k,ST
+ST3248,2210,Assignment 6,2.5,Assignment,I,,24-Oct-22,,level_3k,ST
+ST3248,2210,Assignment 7,2.5,Assignment,I,,31-Oct-22,,level_3k,ST
+ST3248,2210,Assignment 8,2.5,Assignment,I,,7-Nov-22,,level_3k,ST
+ST4231,2210,Assignment 1,10,Assignment,I,7-Sep-22,25-Sep-22,,level_4k,ST
+ST4231,2210,Assignment 2,10,Assignment,I,26-Oct-22,16-Nov-22,,level_4k,ST
+ST4231,2210,Tutorial Submission,5,Assignment,G,,,,level_4k,ST
+ST4231,2210,Midterm,20,Exam,I,28-Sep-22,28-Sep-22,,level_4k,ST
+ST4231,2210,Finals,55,Exam,I,1-Dec-22,1-Dec-22,,level_4k,ST
+ST4253,2210,Participation,10,Participation,I,,,,level_4k,ST
+ST4253,2210,Tutorial Presentation,10,Presentation,I,,,,level_4k,ST
+ST4253,2210,Project,20,Project,G,12-Sep-22,11-Nov-22,10:00,level_4k,ST
+ST4253,2210,Finals,60,Exam,I,26-Nov-22,26-Nov-22,,level_4k,ST
+DSA2101,2220,Assignment,10,Assignment,I,,14-Apr-23,,level_2k,DSA
+DSA4212,2220,Assignment,15,Assignment,I,,14-Apr-23,,level_4k,DSA
+ST4248,2220,Term Paper,40,Assignment,I,11-Apr-23,14-Apr-23,23:59,level_4k,ST
+DSA1101,2220,Assignment,10,Assignment,I,,6-Feb-23,,level_1k,DSA
+ST4248,2220,Assignment 1,5,Assignment,I,,6-Feb-23,,level_4k,ST
+ST4248,2220,Assignment 2,5,Assignment,I,,20-Feb-23,,level_4k,ST
+ST4248,2220,Assignment 3,5,Assignment,I,,9-Mar-23,,level_4k,ST
+ST4248,2220,Assignment 4,5,Assignment,I,,31-Mar-23,,level_4k,ST
+ST4248,2220,Proposal Video/Report,10,Project,G,,6-Mar-23,,level_4k,ST
+ST3247,2220,Assignment,7.5,Assignment,I,,6-Mar-23,,level_3k,ST
+ST4248,2220,Presentation,10,Presentation,G,,,,level_4k,ST
+ST4248,2220,Final Report,20,Project,G,,10-Apr-23,,level_4k,ST
+ST3247,2220,Tutorial Attendance,10,Participation,I,,,,level_3k,ST
+ST3247,2220,Assignment 1,7.5,Assignment,I,,7-Feb-23,,level_3k,ST
+ST3247,2220,Assignment 2,7.5,Assignment,I,,28-Feb-23,,level_3k,ST
+ST3247,2220,Assignment 3,7.5,Assignment,I,,24-Mar-23,,level_3k,ST
+ST3247,2220,Assignment 4,7.5,Assignment,I,,,,level_3k,ST
+ST3247,2220,Finals,60,Exam,I,2-May-23,2-May-23,,level_3k,ST
