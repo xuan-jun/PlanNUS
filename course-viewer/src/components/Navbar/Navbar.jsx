@@ -15,7 +15,9 @@ const Navbar = ({theme, setTheme}) => {
   return (
     <nav className="navBar">
       <div className="site-logo">
-        <Link to='/'>Logo</Link>
+        <Link to='/'>
+          <img src="../../assets/logo.png" width="100%" height="100%"/>
+        </Link>
       </div>
       <div onClick={switchTheme} className='light-mode-toggle'>
         <div className={`slider ${theme === 'light' ? '-left' : '-right'}`}>

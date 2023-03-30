@@ -63,12 +63,14 @@ export default function AssignmentForm(props) {
   }, [recordForEdit]);
 
   return (
+    
     <Form onSubmit={handleSubmit}>
-        <Button component={Link} to="/assignments">
-        Return To Assignments
-        </Button>
-      <Grid container>
-        <Grid item xs={6}>
+        
+        <br></br><br></br><br></br>
+        <h1>Add New Assignment</h1>
+        <br></br><br></br><br></br>
+      <Grid container direction="column" justifyContent="center" alignItems="center">
+        <Grid item xs={6} justifyContent="center" >
           <Controls.Input
             name="AssignmentName"
             label="Assignment Name"
@@ -96,9 +98,14 @@ export default function AssignmentForm(props) {
           />
 
           <div>
-            <Controls.Button type="submit" text="Submit" />
+            <Controls.Button type="submit" text="Submit" component={Link} to="/assignments" />
             <Controls.Button text="Reset" color="default" onClick={resetForm} />
           </div>
+          <br></br>
+          <br></br>
+          <Button component={Link} to="/assignments">
+            Return To Assignments
+          </Button>
         </Grid>
       </Grid>
     </Form>
