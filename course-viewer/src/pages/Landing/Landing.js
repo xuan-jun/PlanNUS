@@ -1,8 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import './Landing.css'
 import logo from '../../assets/logo.png'
+import axios from 'axios';
 
 function Landing() {
+  const [assignments, setAssignments] = useState([]);
+  const fetchData = async () => {
+    try {
+      const response = await axios('/get-instructors');
+      setAssignments(response.data);
+      console.log(response);
+    } catch (error) {
+      console.log(error.response)
+    }
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, [])
+
   return <div className="landing-page">
     <img className="plannus-logo" src = {logo} alt = "plannus logo" />
     <div className="landing-text-wrapper">
