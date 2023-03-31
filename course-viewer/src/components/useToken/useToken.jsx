@@ -23,9 +23,20 @@ function useToken() {
     setToken(token);
   };
 
+  const logOutUser = async () => {
+    try {
+        const response = await axios.post('/logout');
+    }
+    catch (error) {
+      console.log(error)
+    }
+    
+}
+
   function removeToken() {
     localStorage.removeItem("token");
     localStorage.removeItem("name");
+    logOutUser();
     setToken(false);
   }
 
