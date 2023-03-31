@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import "./Filter.css"
 import dropDownArrow from "../../../../assets/dropdownarrow.svg"
 
-const Filter = ({filterType, filterTitle, filters}) => {
-  const [currentFilter, setCurrentFilter] = useState(`Please Select ${filterType}`);
+const Filter = ({filterTitle, filters, currentFilter, setCurrentFilter}) => {
   const [isOpen, setIsOpen] = useState(false); 
 
   return (
