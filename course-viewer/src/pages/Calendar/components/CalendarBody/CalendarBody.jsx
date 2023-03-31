@@ -72,7 +72,7 @@ const CalendarBody = ({currentModule, semester}) => {
 
   return (
     <div className='calendar-wrapper'>
-      <DetailedView isDetailed={isDetailed} setIsDetailed={setIsDetailed} date={value}/>
+      <DetailedView isDetailed={isDetailed} setIsDetailed={setIsDetailed} date={value} assignmentData={assignmentData} modulePairAssignment={modulePairAssignment}/>
       <div className="calendar">
         <CalendarHeader value={value} setValue={setValue}/>
         <div className="body">
