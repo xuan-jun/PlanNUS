@@ -141,7 +141,7 @@
 
   background-color: var(--primary-color);
   color: var(--secondary-color);
-  width: 20rem;
+  width: 18rem;
   height: 8rem;
 
   border: 2px solid var(--lightGray-color);
@@ -201,7 +201,7 @@
 }
 
 .signout:hover .logout-div {
-  transform: translateX(15rem);
+  transform: translateX(13rem);
   animation: 1s transform ease;
 }
 
