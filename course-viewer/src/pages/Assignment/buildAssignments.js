@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Select, MenuItem, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from 'react-router-dom';
+import { Filter } from '../Calendar/components/Filter/Filter';
+import { FormControl, InputLabel } from '@mui/material';
 
 //page style
 const font =  "'Inter', sans-serif";
@@ -117,13 +119,49 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const modules = ['DSA3101', 'DSA2101', 'DSA3102']; // an array of module options
-
+//const changeTypes = ['Quiz', 'Project', 'Assignment', 'Participation', 'Presentation', 'Exam'] //array of assignment types
+const indivGrp = [
+  {
+    value: '1',
+    label: 'Individual'
+  },
+  {
+    value: '2',
+    label: 'Group'
+  }
+];
+const changeTypes = [
+  {
+    value: '1',
+    label: 'Quiz',
+  },
+  {
+    value: '2',
+    label: 'Project',
+  },
+  {
+    value: '3',
+    label: 'Assignment',
+  },
+  {
+    value: '4',
+    label: 'Participation',
+  },
+  {
+    value: '5',
+    label: 'Presentation',
+  },
+  {
+    value: '6',
+    label: 'Exam',
+  }
+];
 const assignments = [
-  { "id": 1, "module": "DSA3101", "assignmentName": "Assignment 1", "startDate": "2022-01-01", "endDate": "2022-01-09", "optimisedEndDate": "2022-01-14", "weightage": 10 },
-  { "id": 2, "module": "DSA3102", "assignmentName": "Assignment 2", "startDate": "2022-01-02", "endDate": "2022-01-12", "optimisedEndDate": "2022-01-15", "weightage": 20 },
-  { "id": 3, "module": "DSA2101", "assignmentName": "Assignment 3", "startDate": "2022-01-05", "endDate": "2022-01-15", "optimisedEndDate": "2022-01-16", "weightage": 15 },
-  { "id": 4, "module": "DSA3101", "assignmentName": "Assignment 4", "startDate": "2022-01-07", "endDate": "2022-01-10", "optimisedEndDate": "2022-01-17", "weightage": 25 },
-  { "id": 5, "module": "DSA3101", "assignmentName": "Assignment 10", "startDate": "2022-10-01", "endDate": "2022-10-10", "optimisedEndDate": "2022-10-14", "weightage": 19 }
+  { "id": 1, "module": "DSA3101", "issueName": "Assignment 1", "changeTypes": "Assignment", "startDate": "2022-01-01", "endDate": "2022-01-09", "optimisedEndDate": "2022-01-14", "indivGrp": "Individual", "weightage": 10 },
+  { "id": 2, "module": "DSA3102", "issueName": "Assignment 2", "changeTypes": "Assignment", "startDate": "2022-01-02", "endDate": "2022-01-12", "optimisedEndDate": "2022-01-15", "indivGrp": "Group", "weightage": 20 },
+  { "id": 3, "module": "DSA2101", "issueName": "Assignment 3", "changeTypes": "Assignment","startDate": "2022-01-05", "endDate": "2022-01-15", "optimisedEndDate": "2022-01-16", "indivGrp": "Group", "weightage": 15 },
+  { "id": 4, "module": "DSA3101", "issueName": "Assignment 4", "changeTypes": "Assignment","startDate": "2022-01-07", "endDate": "2022-01-10", "optimisedEndDate": "2022-01-17", "indivGrp": "Individual", "weightage": 25 },
+  { "id": 5, "module": "DSA3101", "issueName": "Assignment 10", "changeTypes": "Assignment","startDate": "2022-10-01", "endDate": "2022-10-10", "optimisedEndDate": "2022-10-14", "indivGrp": "Group", "weightage": 19 }
 ];
 
 const Assignment = (props) => {
@@ -167,6 +205,7 @@ const Assignment = (props) => {
 
   const filteredAssignments = assignments.filter((assignment) => assignment.module === selectedModule); // filter the assignments based on the selected module
 
+
   //for sorting function
   const [sortColumn, setSortColumn] = useState(null);
   const [sortOrder, setSortOrder] = useState("asc");
@@ -207,8 +246,11 @@ const Assignment = (props) => {
         <Table className={props.theme === "light" ? classes.tableLight : classes.tableDark} stickyHeader="true">
         <TableHead>
           <TableRow>
-            <TableCell onClick={() => handleSortClick("assignmentName")}>
-              Assignment Name {sortColumn === "assignmentName" && (sortOrder === "asc" ? "▲" : "▼")}
+            <TableCell onClick={() => handleSortClick("issueName")}>
+              Name {sortColumn === "issueName" && (sortOrder === "asc" ? "▲" : "▼")}
+            </TableCell>
+            <TableCell onClick={() => handleSortClick("changeTypes")}>
+              Type {sortColumn === "changeTypes" && (sortOrder === "asc" ? "▲" : "▼")}
             </TableCell>
             <TableCell onClick={() => handleSortClick("startDate")}>
               Start Date {sortColumn === "startDate" && (sortOrder === "asc" ? "▲" : "▼")}
@@ -219,6 +261,9 @@ const Assignment = (props) => {
             <TableCell onClick={() => handleSortClick("optimisedEndDate")}>
               Optimised End Date {sortColumn === "optimisedEndDate" && (sortOrder === "asc" ? "▲" : "▼")}
             </TableCell>
+            <TableCell onClick={() => handleSortClick("indivGrp")}>
+              Individual or Group {sortColumn === "indivGrp" && (sortOrder === "asc" ? "▲" : "▼")}
+            </TableCell>
             <TableCell onClick={() => handleSortClick("weightage")}>
               Weightage (%) {sortColumn === "weightage" && (sortOrder === "asc" ? "▲" : "▼")}
             </TableCell>
@@ -227,10 +272,12 @@ const Assignment = (props) => {
           <TableBody>
             {sortedAssignments.map((assignment) => (
               <TableRow key={assignment.id} hover onClick={() => handleEditClick(assignment)}>
-                <TableCell>{assignment.assignmentName}</TableCell>
+                <TableCell>{assignment.issueName}</TableCell>
+                <TableCell>{assignment.changeTypes}</TableCell>
                 <TableCell>{assignment.startDate}</TableCell>
                 <TableCell>{assignment.endDate}</TableCell>
                 <TableCell>{assignment.optimisedEndDate}</TableCell>
+                <TableCell>{assignment.indivGrp}</TableCell>
                 <TableCell>{assignment.weightage}</TableCell>
               </TableRow>
             ))}
@@ -243,13 +290,27 @@ const Assignment = (props) => {
           <DialogContent className={props.theme === "light" ? classes.popupLight : classes.popupDark}>
             <TextField 
               className={props.theme === "light" ? classes.textFieldLight : classes.textFieldDark}
-              autoFocus id="assignment" label="Assignment" fullWidth margin="normal"
-              value={currentRow?.assignmentName}
+              autoFocus id="issueName" label="Name" fullWidth margin="normal"
+              value={currentRow?.issueName}
               onChange={(e) => {
-                const updatedRow = { ...currentRow, assignmentName: e.target.value };
+                const updatedRow = { ...currentRow, issueName: e.target.value };
                 setCurrentRow(updatedRow);
               }}
             />
+
+            <TextField
+              className={props.theme === "light" ? classes.textFieldLight : classes.textFieldDark}
+              autoFocus id="changeTypes" label="Type" fullWidth margin="normal"
+              select
+              defaultValue="3"
+            >
+              {changeTypes.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+
             <TextField
               className={props.theme === "light" ? classes.textFieldLight : classes.textFieldDark}
               id="startDate "label="Start Date" type="date" fullWidth margin="normal"
@@ -274,6 +335,18 @@ const Assignment = (props) => {
                 shrink: true,
               }}
             />
+            <TextField
+              className={props.theme === "light" ? classes.textFieldLight : classes.textFieldDark}
+              autoFocus id="indivGrp" label="Individual or Group" fullWidth margin="normal"
+              select
+              defaultValue="1"
+            >
+              {indivGrp.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
             <TextField
               className={props.theme === "light" ? classes.textFieldLight : classes.textFieldDark}
               id="weightage" label="Weightage" type="number" fullWidth margin="normal"

@@ -1,18 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Redirect } from "react-router-dom";
-import { Grid, Button } from "@material-ui/core";
-import Controls from "./Assignment/components/controls/Controls";
-import Select from "./Assignment/components/controls/Select";
-import { useForm, Form } from "./Assignment/components/useForm";
-import { Link } from 'react-router-dom';
+import { Grid } from "@material-ui/core";
+import Controls from "../../components/controls/Controls";
+import { useForm, Form } from "../../components/useForm";
+
 
 const initialFValues = {
   id: 0,
-  issueName: "",
-  changeTypes: "",
+  AssignmentName: "",
   startDate: new Date(),
   endDate: new Date(),
-  indivGrp: "",
   weightage: ""
 };
 
@@ -21,18 +17,16 @@ export default function AssignmentForm(props) {
 
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
-    if ("issueName" in fieldValues)
-      temp.issueName = fieldValues.issueName
+    if ("AssignmentName" in fieldValues)
+      temp.AssignmentName = fieldValues.AssignmentName
         ? ""
         : "This field is required.";
-    if ("changeTypes" in fieldValues)
-      temp.changeTypes = fieldValues.changeTypes ? "" : "This field is required.";
     if ("startDate" in fieldValues)
       temp.startDate = fieldValues.startDate ? "" : "This field is required.";
     if ("endDate" in fieldValues)
       temp.endDate = fieldValues.endDate ? "" : "This field is required.";
-    if ("indivGrp" in fieldValues)
-      temp.indivGrp = fieldValues.indivGrp
+    if ("startDate" in fieldValues)
+      temp.startDate = fieldValues.AssignmentName
         ? ""
         : "This field is required.";
     if ("weightage" in fieldValues)
@@ -68,32 +62,15 @@ export default function AssignmentForm(props) {
   }, [recordForEdit]);
 
   return (
-    
     <Form onSubmit={handleSubmit}>
-        
-        <br></br><br></br><br></br>
-        <h1>Add New Assignment</h1>
-        <br></br><br></br><br></br>
-      <Grid container direction="column" justifyContent="center" alignItems="center">
-        <Grid item xs={6} justifyContent="center" >
+      <Grid container>
+        <Grid item xs={6}>
           <Controls.Input
-            name="issueName"
-            label="Name"
-            value={values.issueName}
+            name="AssignmentName"
+            label="Assignment Name"
+            value={values.AssignmentName}
             onChange={handleInputChange}
-            error={errors.issueName}
-          />
-           <Select
-            label="Type"
-            name="changeTypes"
-            value={values.changeTypes}
-            onChange={handleInputChange}
-          />
-           <Select
-            label="Individual or Group"
-            name="indivGrp"
-            value={values.indivGrp}
-            onChange={handleInputChange}
+            error={errors.AssignmentName}
           />
           <Controls.Input
             label="Weightage"
@@ -102,8 +79,8 @@ export default function AssignmentForm(props) {
             onChange={handleInputChange}
           />
           <Controls.DatePicker
-            name="Start Date"
-            label="startDate"
+            name="startDate"
+            label="Start Date"
             value={values.startDate}
             onChange={handleInputChange}
           />
@@ -115,14 +92,9 @@ export default function AssignmentForm(props) {
           />
 
           <div>
-            <Controls.Button type="submit" text="Submit" component={Link} to="/assignments" />
+            <Controls.Button type="submit" text="Submit" />
             <Controls.Button text="Reset" color="default" onClick={resetForm} />
           </div>
-          <br></br>
-          <br></br>
-          <Button component={Link} to="/assignments">
-            Return To Assignments
-          </Button>
         </Grid>
       </Grid>
     </Form>
