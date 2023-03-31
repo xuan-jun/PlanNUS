@@ -1,22 +1,32 @@
 import { useState } from 'react';
+import axios from 'axios';
 
 function useToken() {
 
   function getToken() {
     const userToken = localStorage.getItem('token');
-    return userToken && userToken
+    const userName = localStorage.getItem('name');
+    const token = {
+      userToken : userToken,
+      userName : userName
+    }
+    return (userToken && userName) === null ? false : token
   }
 
   const [token, setToken] = useState(getToken());
 
-  function saveToken(userToken) {
+  function saveToken(token) {
+    const userToken = token['userToken']
+    const userName = token['userName']
     localStorage.setItem('token', userToken);
-    setToken(userToken);
+    localStorage.setItem('name', userName);
+    setToken(token);
   };
 
   function removeToken() {
     localStorage.removeItem("token");
-    setToken(null);
+    localStorage.removeItem("name");
+    setToken(false);
   }
 
   return {

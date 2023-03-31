@@ -16,30 +16,29 @@ function App() {
   const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   const [theme, setTheme] = useLocalStorage('theme', defaultDark ? 'dark' : 'light');
 
-  const [instructorName, setInstructorName] = useState("");
   const {token, removeToken, setToken} = useToken();
 
   return (
     <div data-theme={theme} className='App'>
-      <Navbar theme={theme} setTheme={setTheme} token={token} removeToken={removeToken} instructorName = {instructorName}/>
+      <Navbar theme={theme} setTheme={setTheme} token={token} removeToken={removeToken}/>
       <div className="container">
         <Routes>
           <Route path="/" element={<Landing />}/>
           <Route path="/calendar-student" element={<CalendarStudent />}/>
-          <Route path="/login" element={<Login setToken={setToken} setInstructorName={setInstructorName}/>}/>
+          <Route path="/login" element={<Login setToken={setToken}/>}/>
           <Route path="/calendar" element={
-            <ProtectedRoute isAllowed = {token ? true : false} redirectPath="/login">
-              <CalendarInstructor instructorName={instructorName}/>
+            <ProtectedRoute isAllowed = {token} redirectPath="/login">
+              <CalendarInstructor token={token}/>
             </ProtectedRoute>
           }/>
           <Route path='/assignments' element={
-            <ProtectedRoute isAllowed = {token ? true : false} redirectPath="/login">
-              <Assignments theme={theme} instructorName={instructorName}/>
+            <ProtectedRoute isAllowed = {token} redirectPath="/login">
+              <Assignments theme={theme} token={token}/>
             </ProtectedRoute>
           }/>
           <Route path='/assignments/addnew' element={
-            <ProtectedRoute isAllowed = {token ? true : false} redirectPath="/login">
-              <AddAssignment instructorName={instructorName}/>
+            <ProtectedRoute isAllowed = {token} redirectPath="/login">
+              <AddAssignment token={token}/>
             </ProtectedRoute>
           }/>
         </Routes>

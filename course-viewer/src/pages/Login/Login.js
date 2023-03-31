@@ -4,7 +4,7 @@ import logo from '../../assets/logo.png';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
 
-const Login = ({setToken, setInstructorName}) => {
+const Login = ({setToken}) => {
     
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -14,20 +14,21 @@ const Login = ({setToken, setInstructorName}) => {
     // makes an api call to try and log in the user
     const logInUser = async (event) => {
         event.preventDefault()
-        setFailedPreviously(true);
         try {
             const response = await axios.post('/token',
             { "email" : email, "password" : password });
             const responseData = response.data
-            setToken(responseData.access_token)
-            setInstructorName(responseData.name)
+            const responseToken = {
+                "userToken" : responseData.access_token,
+                "userName" : responseData.name
+            }
             setEmail("")
             setPassword("")
+            setToken(responseToken)
             setFailedPreviously(false)
             navigate('/calendar')
         }
         catch (error) {
-            console.log(error)
             setFailedPreviously(true)
             setEmail("")
             setPassword("")
@@ -48,12 +49,12 @@ const Login = ({setToken, setInstructorName}) => {
                 <p>Incorrect email and password combination</p>
                 </div> : ""}
             <form className="login-form">
-                <label for='email' className="input-label">
+                <label className="input-label">
                     <input type="text" onChange={(e) => setEmail(e.target.value)} className="email-input login-input"
                     placeholder=" " value={email} text={email}/>
                     <span className="input-title">Email</span>
                 </label>
-                <label for='password' className="input-label">
+                <label className="input-label">
                     <input type="text" onChange={(e) => setPassword(e.target.value)} placeholder=" "
                     className="password-input login-input" value={password} text={password}/>
                     <span className="input-title">Password</span>

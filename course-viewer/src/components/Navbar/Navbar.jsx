@@ -7,12 +7,14 @@ import moonIcon from '../../assets/moonicon.png'
 import logoutIcon from '../../assets/logout.png'
 import { Link, useMatch, useResolvedPath } from 'react-router-dom'
 
-const Navbar = ({theme, setTheme, token, removeToken, instructorName}) => {
+const Navbar = ({theme, setTheme, token, removeToken}) => {
 
   const switchTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(newTheme);
   }
+
+  const instructorName = token['userName']
 
   return (
     <nav className="navBar">
