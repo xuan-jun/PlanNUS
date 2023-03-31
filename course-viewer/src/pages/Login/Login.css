@@ -138,3 +138,28 @@
   background-size: 1rem;
   padding-left: 3rem;
 }
+
+.failed-attempt {
+  width: 30rem;
+  background-color: #fde2e2;
+  border-radius: 5px;
+  padding: 0.75rem 0 0.75rem 0;
+  color: black;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.failed-attempt > div {
+  background-color: #ed5959;
+  color: white;
+  width: 1.5rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
