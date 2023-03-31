@@ -7,7 +7,8 @@ import CalendarStudent from './pages/Calendar/CalendarStudent';
 import Assignments from './pages/Assignments';
 import AddAssignment from './pages/AddAssignment';
 import Landing from './pages/Landing/Landing';
-import { Route, Routes } from 'react-router-dom';
+import useToken from './components/useToken/useToken';
+import { Route, Routes, Navigate, Outlet } from 'react-router-dom';
 import useLocalStorage from 'use-local-storage';
 import React, {useState, useEffect} from "react";
 
@@ -15,21 +16,46 @@ function App() {
   const defaultDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   const [theme, setTheme] = useLocalStorage('theme', defaultDark ? 'dark' : 'light');
 
+  const [instructorName, setInstructorName] = useState("");
+  const {token, removeToken, setToken} = useToken();
+
   return (
     <div data-theme={theme} className='App'>
-      <Navbar theme={theme} setTheme={setTheme}/>
+      {token ? <Navbar theme={theme} setTheme={setTheme}/> : ""}     
       <div className="container">
         <Routes>
-          <Route path="/" element={<Landing />}></Route>
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="/calendar" element={<CalendarInstructor />}></Route>
-          <Route path="/calendar-student" element={<CalendarStudent />}></Route>
-          <Route path='/assignments' element={<Assignments theme={theme} />}></Route>
-          <Route path='/assignments/addnew' element={<AddAssignment/>}></Route>
+          <Route path="/" element={<Landing />}/>
+          <Route path="/calendar-student" element={<CalendarStudent />}/>
+          <Route path="/login" element={<Login setToken={setToken} setInstructorName={setInstructorName}/>}/>
+          <Route path="/calendar" element={
+            <ProtectedRoute isAllowed = {token ? true : false} redirectPath="/login">
+              <CalendarInstructor instructorName={instructorName}/>
+            </ProtectedRoute>
+          }/>
+          <Route path='/assignments' element={
+            <ProtectedRoute isAllowed = {token ? true : false} redirectPath="/login">
+              <Assignments theme={theme} instructorName={instructorName}/>
+            </ProtectedRoute>
+          }/>
+          <Route path='/assignments/addnew' element={
+            <ProtectedRoute isAllowed = {token ? true : false} redirectPath="/login">
+              <AddAssignment instructorName={instructorName}/>
+            </ProtectedRoute>
+          }/>
         </Routes>
       </div>
     </div>
   );
+}
+
+
+// components that helps to ensure only if the user is logged in, we will get them to go to the relevant paths
+const ProtectedRoute = ({ isAllowed, redirectPath, children }) => {
+  if (!isAllowed) {
+    return <Navigate to = {redirectPath} />
+  }
+
+  return children ? children : <Outlet />
 }
 
 export default App;
