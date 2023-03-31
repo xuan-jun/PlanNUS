@@ -193,6 +193,48 @@ def update_assignments():
 
     return "", 201
 
+@app.route("/get_assignment_pairings", methods=['GET'])
+# params: module_code, semester
+# get the assignments of other modules that pairs with this
+def get_assignment_pairings():
+
+    # get the relevant parameters
+    module_code = request.args.get('module_code')
+    semester = request.args.get('semester')
+
+    db = establish_sql_connection()
+    cursor = db.cursor()
+
+    query = f"\
+        SELECT *\
+        FROM Assignments\
+        WHERE [Module Code] IN (\
+            (SELECT [Module 1]\
+            FROM module_pairs\
+            WHERE [Semester]='{semester}' AND [Module 2]='{module_code}'\
+                AND [Count] > 0)\
+        UNION\
+            (SELECT [Module 2]\
+            FROM module_pairs\
+            WHERE [Semester]='{semester}' AND [Module 1]='{module_code}'\
+                AND [Count] > 0)\
+        )"
+
+    cursor.execute(query)
+    # extract the column names
+    columns = [column[0] for column in cursor.description]
+    result = cursor.fetchall()
+    # convert the Row Objects into dictionaries
+    data = []
+    for row in result:
+        data.append(dict(zip(columns, row)))
+
+    # close the connection
+    cursor.close()
+    db.close()
+
+    # returns a json response
+    return json.dumps(data, default=str)
 
 @app.route("/get_instructors", methods=['GET'])
 def get_instructors_table():
@@ -229,18 +271,19 @@ def get_modules_for_instructor():
 
     # get all the module codes that the instructor is currently teaching
     query = f"\
-        SELECT [Module Code]\
+        SELECT DISTINCT [Module Code]\
         FROM Instructors\
-        WHERE Semester={semester} AND [Instructor]='{instructor}'\
+        WHERE Semester='{semester}' AND [Instructor]='{instructor}'\
     "
 
-    result = cursor.execute(query)
+    cursor.execute(query)
+    result = cursor.fetchall()
     # extract the column names
     columns = [column[0] for column in cursor.description]
     # convert the Row Object
     data = []
-    for module_code in result:
-        data.append(module_code)
+    for row in result:
+        data.append(row[0])
 
     cursor.close()
     db.close()
