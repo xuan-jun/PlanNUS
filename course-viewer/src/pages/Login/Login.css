@@ -1,0 +1,140 @@
+
+
+.login-page {
+  background-color: var(--primary-color);
+  font-family: var(--secondary-font);
+  color: black;
+  margin: 0;
+  height: 100vh;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.login-title {
+  margin-bottom: 6rem;
+  border-bottom: 2px solid white;
+  font-size: 48px;
+}
+
+.login-button {
+  width: 10rem;
+  height: 3rem;
+  background-color: rgb(255, 138, 14);
+  color: white;
+  border-radius: 5px; 
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  animation: 0.3s background-color ease;
+  
+  cursor: pointer;
+  border: 2px solid white;
+  font-family: var(--secondary-font);
+  font-size: 20px;
+  text-decoration: none;
+}
+
+.login-button:hover {
+  background-color: rgb(216, 118, 14);
+}
+
+.login-submission-form {
+  height: 100%;
+  width: 80%;
+  background-color: rgb(32, 34, 95);
+  color: white;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+
+  border-radius: 10rem 0 0 0;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+
+  margin-top: 2rem;
+}
+
+.login-form > a {
+  font-weight: 600;
+  color: white;
+}
+
+.input-label {
+  position: relative;
+}
+
+.input-title {
+  position: absolute;
+  color: white;
+  left: 2.5rem;
+  top: 0.5rem;
+  padding: 0.25rem;
+
+  transition: top 200ms ease-in, left 200ms ease-in, font-size 200ms ease-in;
+}
+
+.login-input {
+  width: 18rem;
+  height: 3rem;
+  border-radius: 1rem;
+  padding: 1rem 3rem 1rem 3rem;
+  color: white;
+
+  outline: none;
+  border: 2px solid lightblue;
+}
+
+.login-input:focus {
+  outline: 0;
+  box-shadow: 0;
+  
+  border-color: lightgreen;
+}
+
+.login-input:focus ~ .input-title{
+  top: -0.75rem;
+  font-size: 1rem;
+  left: 1.5rem;
+  font-weight: 500;
+  background-color: rgb(32, 34, 95);
+}
+
+.login-input:focus ~ .form__label,
+.login-input:not(:placeholder-shown).login-input:not(:focus) ~ .input-title {
+  top: -0.75rem;
+  font-size: 1rem;
+  left: 1.5rem;
+  font-weight: 500;
+  background-color: rgb(32, 34, 95);
+}
+
+.login-input:not(:placeholder-shown).login-input:not(:focus) {
+  border-color: lightgreen;
+}
+
+.email-input {
+  background: url(../../assets/user-icon.png) no-repeat left;
+  background-position: 1rem 50%;
+  background-size: 1rem;
+}
+
+
+.password-input {
+  background: url(../../assets/key-icon.png) no-repeat left;
+  background-position: 1rem 50%;
+  background-size: 1rem;
+  padding-left: 3rem;
+}

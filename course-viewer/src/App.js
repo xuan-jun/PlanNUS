@@ -1,11 +1,12 @@
 import './App.css';
 
 import Navbar from './components/Navbar/Navbar';
-import Login from './pages/Login';
+import Login from './pages/Login/Login';
 import CalendarInstructor from './pages/Calendar/CalendarInstructor';
 import CalendarStudent from './pages/Calendar/CalendarStudent';
 import Assignments from './pages/Assignments';
 import AddAssignment from './pages/AddAssignment';
+import Landing from './pages/Landing/Landing';
 import { Route, Routes } from 'react-router-dom';
 import useLocalStorage from 'use-local-storage';
 import React, {useState, useEffect} from "react";
@@ -19,7 +20,8 @@ function App() {
       <Navbar theme={theme} setTheme={setTheme}/>
       <div className="container">
         <Routes>
-          <Route path="/" element={<Login />}></Route>
+          <Route path="/" element={<Landing />}></Route>
+          <Route path="/login" element={<Login />}></Route>
           <Route path="/calendar" element={<CalendarInstructor />}></Route>
           <Route path="/calendar-student" element={<CalendarStudent />}></Route>
           <Route path='/assignments' element={<Assignments theme={theme} />}></Route>

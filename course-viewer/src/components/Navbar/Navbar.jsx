@@ -1,6 +1,8 @@
 import React from "react";
 import './Navbar.css'
 import profilePicture from '../../assets/profile-picture.png'
+import vikPicture from "../../assets/prof-vik.jpg"
+import logo from "../../assets/logo.png"
 import dayIcon from '../../assets/dayicon.png'
 import moonIcon from '../../assets/moonicon.png'
 import { Link, useMatch, useResolvedPath } from 'react-router-dom'
@@ -16,7 +18,7 @@ const Navbar = ({theme, setTheme}) => {
     <nav className="navBar">
       <div className="site-logo">
         <Link to='/'>
-          <img src="../../assets/logo.png" width="100%" height="100%"/>
+          <img className="logo" src={logo} alt='site-logo'/>
         </Link>
       </div>
       <div onClick={switchTheme} className='light-mode-toggle'>
@@ -30,7 +32,7 @@ const Navbar = ({theme, setTheme}) => {
         <CustomLink to='/assignments'>Assignments</CustomLink>
         <CustomLink to='/calendar-student'>CalendarStudent</CustomLink>
         <Link to='/'>
-          <img className="profile-picture" src={profilePicture} alt='user-profile'/>
+          <img className="profile-picture" src={vikPicture} alt='user-profile'/>
         </Link>
       </ul>
 
