@@ -11,7 +11,9 @@ const CalendarInstructor = ({token}) => {
   const instructorName = token['userName']
   const semester = 2220 // default semester for now
   const [filters, setFilters] = useState([]);
-  const [currentFilter, setCurrentFilter] = useState('Please Select View');
+
+  const filterDefault = 'Please Select View'
+  const [currentFilter, setCurrentFilter] = useState(filterDefault);
   
   // make the api call to get the list of modules the instructor is currently teaching
   useEffect(() => {
@@ -38,7 +40,7 @@ const CalendarInstructor = ({token}) => {
           currentFilter={currentFilter} setCurrentFilter={setCurrentFilter}/>
         <NotificationList />
       </div>
-      <CalendarBody />
+      <CalendarBody currentModule={currentFilter === filterDefault ? "" : currentFilter} semester = {semester}/>
     </div>
   )
 };

@@ -3,7 +3,7 @@
 }
 
 .calendar-tile, .day-name {
-  width: 9rem;
+  width: 9.75rem;
 }
 
 .day {
@@ -27,6 +27,11 @@
 
   display: flex;
   flex-direction: column;
+  overflow-y:scroll;
+}
+
+.calendar-tile::-webkit-scrollbar {
+  display: none;
 }
 
 .day-name {
@@ -70,14 +75,15 @@
 .current-day-tasks {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.25rem;
 
   margin-top: 0.5rem;
 }
 
 .task {
   background-color: white;
-  width: 85%;
+  font-size: 13px;
+  width: 95%;
   color: black;
   padding: 0.25rem;
   align-self: center;
