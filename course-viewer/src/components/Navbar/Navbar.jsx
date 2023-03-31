@@ -1,13 +1,13 @@
 import React from "react";
 import './Navbar.css'
-import profilePicture from '../../assets/profile-picture.png'
 import vikPicture from "../../assets/prof-vik.jpg"
 import logo from "../../assets/logo.png"
 import dayIcon from '../../assets/dayicon.png'
 import moonIcon from '../../assets/moonicon.png'
+import logoutIcon from '../../assets/logout.png'
 import { Link, useMatch, useResolvedPath } from 'react-router-dom'
 
-const Navbar = ({theme, setTheme}) => {
+const Navbar = ({theme, setTheme, token, removeToken, instructorName}) => {
 
   const switchTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
@@ -27,15 +27,29 @@ const Navbar = ({theme, setTheme}) => {
            src = {theme === "light" ? dayIcon : moonIcon}/>
         </div>
       </div>
-      <ul>
+      {token ? <ul>
         <CustomLink to='/calendar'>Calendar</CustomLink>
         <CustomLink to='/assignments'>Assignments</CustomLink>
-        <CustomLink to='/calendar-student'>CalendarStudent</CustomLink>
-        <Link to='/'>
-          <img className="profile-picture" src={vikPicture} alt='user-profile'/>
-        </Link>
-      </ul>
-
+        <div className="user-icon-profile">
+          <Link to='/' className="profile-picture-link">
+            <img className="profile-picture" src={vikPicture} alt='user-profile'/>
+          </Link>
+          <div className="user-dropdown">
+            <h3 className="user-name">
+              Hello {instructorName} !
+            </h3>
+            <hr />
+            <div className="signout" onClick={()=>{removeToken()}}>
+              <div className="logout-div">
+                <img src = {logoutIcon}/>
+              </div>
+              <p className="signout-text">Sign Out</p>
+            </div>
+          </div>
+        </div>
+      </ul> : <ul>
+        <CustomLink to='/calendar-student'>Calendar</CustomLink>
+        </ul>}
     </nav>
   )
 }

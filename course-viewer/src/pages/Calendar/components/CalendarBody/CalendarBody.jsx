@@ -23,15 +23,15 @@ const CalendarBody = () => {
   let dayStyle = (day, stressScore) => {
     let style = "";
     // assuming higher the worse it is
-    if (stressScore >= 7.5 && stressScore <= 10) {
+    if (!value.isSame(day, "month")) {
+      style = style.concat("diffMonth")
+    }
+    else if (stressScore >= 7.5 && stressScore <= 10) {
       style = style.concat("stressed")
     } else if (stressScore >= 5 && stressScore <= 7.5) {
       style = style.concat("moderate")
     } else {
       style = style.concat("good")
-    }
-    if (!value.isSame(day, "month")) {
-      style = style.concat(" ", "diffMonth")
     }
     return style;
   }

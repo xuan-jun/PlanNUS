@@ -21,7 +21,7 @@ function App() {
 
   return (
     <div data-theme={theme} className='App'>
-      {token ? <Navbar theme={theme} setTheme={setTheme}/> : ""}     
+      <Navbar theme={theme} setTheme={setTheme} token={token} removeToken={removeToken} instructorName = {instructorName}/>
       <div className="container">
         <Routes>
           <Route path="/" element={<Landing />}/>
