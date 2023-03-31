@@ -19,9 +19,15 @@ const Navbar = ({theme, setTheme, token, removeToken}) => {
   return (
     <nav className="navBar">
       <div className="site-logo">
-        <Link to='/'>
+        {
+          token ? 
+          <Link to='/calendar'>
+            <img className="logo" src={logo} alt='site-logo'/>
+          </Link> :
+          <Link to='/'>
           <img className="logo" src={logo} alt='site-logo'/>
         </Link>
+        }
       </div>
       <div onClick={switchTheme} className='light-mode-toggle'>
         <div className={`slider ${theme === 'light' ? '-left' : '-right'}`}>
