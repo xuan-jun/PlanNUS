@@ -3,7 +3,7 @@ import moment from 'moment';
 import './DetailedView.css';
 import data from './DetailedViewData.json';
 
-function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, modulePairAssignment }) {
+function DetailedView({ isDetailed, setIsDetailed, date, assignmentData }) {
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => {

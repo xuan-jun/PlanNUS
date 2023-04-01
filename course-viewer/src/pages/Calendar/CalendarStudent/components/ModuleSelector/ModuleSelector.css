@@ -25,11 +25,26 @@
 
 .search-bar:focus {
   width: 100%;
+  outline: 0;
+  box-shadow: 0;
+
+  border: 5px solid green;
+}
+
+.search-bar:not(:placeholder-shown).search-bar:not(:focus) {
+  border: 5px solid green;
+  width: 100%;
 }
 
 .search-filter-modules {
   width: 100%;
   border: none;
+  height: 10rem;
+  overflow-y: scroll;
+}
+
+.search-filter-modules::-webkit-scrollbar {
+  display: none;
 }
 
 .filtered-module {
