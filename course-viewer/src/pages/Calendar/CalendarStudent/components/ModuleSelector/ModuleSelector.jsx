@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "./ModuleSelector.css";
-import cross from "../../../../assets/cross.svg" // import the cross for the module selector
+import cross from "../../../../../assets/cross.svg" // import the cross for the module selector
 import data from "./ModuleData.json" // import the module data here
 
 const ModuleSelector = () => {

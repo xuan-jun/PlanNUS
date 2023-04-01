@@ -1,0 +1,14 @@
+[{
+    "day" : "23 Mar 2023",
+    "tasks" : ["Midterms"],
+    "stressScore" : 6
+}, {
+    "day" : "23 Feb 2023",
+    "tasks" : ["Quiz 1", "Quiz 2"],
+    "stressScore" : 3
+}, {
+    "day" : "1 Apr 2023",
+    "tasks" : ["Finals"],
+    "stressScore" : 9
+}
+]

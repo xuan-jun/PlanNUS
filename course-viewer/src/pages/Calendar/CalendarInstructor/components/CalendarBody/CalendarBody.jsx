@@ -1,23 +1,51 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
-import buildCalendar from '../../buildCalendar';
+import buildCalendar from '../../../buildCalendar';
 import CalendarHeader from '../CalendarHeader/CalendarHeader';
 import './CalendarBody.css'
 import DetailedView from '../DetailedView/DetailedView';
-import assignmentData from "./CalendarData.json";
+import axios from 'axios'
 
-const CalendarBody = () => {
+const CalendarBody = ({currentModule, semester}) => {
   // calendar array of dates in the current view
   const [calendar, setCalendar] = useState([]);
   // currently selected date
   const [value, setValue] = useState(moment());
   // keeps track of whether we are looking at the detailed view
   const [isDetailed, setIsDetailed] = useState(false);
+  // keeps track of the assignmentData that we have now
+  const [assignmentData, setAssignmentData] = useState([]);
+  // keeps track of the assignentsFromModulePairs
+  const [modulePairAssignment, setModulePairData] = useState([]);
 
   // each time the selected date is changed, we can rebuild the calendar
   useEffect(() => {
     setCalendar(buildCalendar(value));
   }, [value])
+
+  // refreshes each time the currentModule changes
+  useEffect(() => {
+    if (currentModule) {
+      const params = {
+        "module_code" : currentModule,
+        "semester" : semester
+      }
+      // get assignments from the current module
+      axios.get('/get_assignments', {params})
+        .then((response) => {
+          const data = response.data
+          setAssignmentData(data);
+        })
+        .catch((err) => {console.log(err)})
+      // get assignments from the relevant module pairings
+      axios.get('/get_assignment_pairings', {params})
+        .then((response) => {
+          const data = response.data
+          setModulePairData(data);
+        })
+        .catch((err) => {console.log(err)})
+    }
+  }, [currentModule])
 
   // computes the colour for the background when we have 
   let dayStyle = (day, stressScore) => {
@@ -44,7 +72,7 @@ const CalendarBody = () => {
 
   return (
     <div className='calendar-wrapper'>
-      <DetailedView isDetailed={isDetailed} setIsDetailed={setIsDetailed} date={value}/>
+      <DetailedView isDetailed={isDetailed} setIsDetailed={setIsDetailed} date={value} assignmentData={assignmentData} modulePairAssignment={modulePairAssignment}/>
       <div className="calendar">
         <CalendarHeader value={value} setValue={setValue}/>
         <div className="body">
@@ -61,7 +89,7 @@ const CalendarBody = () => {
             <div className = "week">
               {week.map((day) => (
                 <CalendarTile day={day} dayStyle = {dayStyle}
-                handleClick={handleClick}/>
+                handleClick={handleClick} assignmentData={assignmentData}/>
               ))}
             </div>
           ))}
@@ -71,13 +99,19 @@ const CalendarBody = () => {
   )
 };
 
-const CalendarTile = ({ day, dayStyle, handleClick }) => {
-  const formattedDate = day.format("D MMM YYYY");
+const CalendarTile = ({ day, dayStyle, handleClick, assignmentData }) => {
+  const formattedDate = day.format("D-MMM-YY");
   const currentDayData = assignmentData.filter((day) => {
-    return day['day'] === formattedDate;
+    return day['Due Date'] === formattedDate;
   })
-  const currentDayTasks = currentDayData.length > 0 ? currentDayData[0]['tasks'] : [];
-  const stressScore = currentDayData.length > 0 ? currentDayData[0]['stressScore'] : null;
+  const currentDayTasks = currentDayData.length === 0 ? [] :
+    currentDayData.map((assignment) => {
+      return assignment['Name'];
+    });
+  const stressScore = currentDayData.length === 0 ? [] :
+  currentDayData.map((assignment) => {
+    return Math.random() * 10; // give a random stress score now
+  });
 
   const tileStyle = dayStyle(day, stressScore);
 

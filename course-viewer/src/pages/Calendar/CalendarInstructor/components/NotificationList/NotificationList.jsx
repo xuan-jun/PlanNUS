@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import "./NotificationList.css";
 import moment from 'moment';
 import data from "./NotificationData.json" // import the Notification data here
-import cross from "../../../../assets/cross.svg" // import the cross for the module selector
+import cross from "../../../../../assets/cross.svg" // import the cross for the module selector
 import DetailedView from '../DetailedView/DetailedView';
 
 const NotificationList = () => {

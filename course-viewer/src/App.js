@@ -2,8 +2,8 @@ import './App.css';
 
 import Navbar from './components/Navbar/Navbar';
 import Login from './pages/Login/Login';
-import CalendarInstructor from './pages/Calendar/CalendarInstructor';
-import CalendarStudent from './pages/Calendar/CalendarStudent';
+import CalendarInstructor from './pages/Calendar/CalendarInstructor/CalendarInstructor';
+import CalendarStudent from './pages/Calendar/CalendarStudent/CalendarStudent';
 import Assignments from './pages/Assignments';
 import AddAssignment from './pages/AddAssignment';
 import Landing from './pages/Landing/Landing';
@@ -23,12 +23,19 @@ function App() {
       <Navbar theme={theme} setTheme={setTheme} token={token} removeToken={removeToken}/>
       <div className="container">
         <Routes>
-          <Route path="/" element={<Landing />}/>
-          <Route path="/calendar-student" element={<CalendarStudent />}/>
-          <Route path="/login" element={<Login setToken={setToken}/>}/>
+          <Route path="/" element={
+          token ?
+          <CalendarInstructor token = {token}/> :
+          <Landing />
+          }/>
           <Route path="/calendar" element={
-            <ProtectedRoute isAllowed = {token} redirectPath="/login">
-              <CalendarInstructor token={token}/>
+            <ProtectedRoute isAllowed = {!token} redirectPath="/">
+              <CalendarStudent/>
+            </ProtectedRoute>
+          }/>
+          <Route path="/login" element={
+            <ProtectedRoute isAllowed = {!token} redirectPath="/">
+              <Login setToken={setToken}/>
             </ProtectedRoute>
           }/>
           <Route path='/assignments' element={
