@@ -123,26 +123,26 @@ def get_assignments_table():
     return json.dumps(data, default=str)
 
 @app.route('/add_new_assignments', methods=['POST'])
-# params: module_code, semester, assignment_name, weightage, assignment_type, group_or_indv, start_date, due_date
+# params: module_code, semester, name, weightage, assignment_type, group_or_indv, start_date, due_date
 # adds a new assignment to the assignment table
 def add_new_assignments():
     response = request.json['params']
     module_code = response['module_code']
     semester = response['semester']
-    assignment_name = response['assignment_name']
+    name = response['name']
     weightage = response['weightage']
-    assignment_type = response['assignment_type']
+    type = response['type']
     group_or_indv = response['group_or_indv']
     start_date = response['start_date']
     due_date = response['due_date']
 
     query = f"\
         INSERT INTO Assignments\
-        ([Module Code], [Semester], [Assignment Name], [Weightage],\
-            [Assignment Type], [Group or Individual], [Start Date],\
+        ([Module Code], [Semester], [Name], [Weightage],\
+            [Type], [Group or Individual], [Start Date],\
                 [Due Date])\
-        VALUES ('{module_code}', '{semester}', '{assignment_name}',\
-            '{weightage}', '{assignment_type}', '{group_or_indv}',\
+        VALUES ('{module_code}', '{semester}', '{name}',\
+            '{weightage}', '{type}', '{group_or_indv}',\
                 '{start_date}', '{due_date}')\
     "
 
@@ -158,27 +158,27 @@ def add_new_assignments():
     return "", 201
 
 @app.route('/update_assignments', methods=['PUT'])
-# params: original_assignment_name, module_code, semester, assignment_name, weightage, assignment_type, group_or_indv, start_date, due_date
+# params: original_name, module_code, semester, name, weightage, type, group_or_indv, start_date, due_date
 # adds a new assignment to the assignment table
 def update_assignments():
     response = request.json['params']
     # just need something to identify the change
-    original_assignment_name = response['original_assignment_name']
+    original_name = response['original_name']
     module_code = response['module_code']
     semester = response['semester']
-    assignment_name = response['assignment_name']
+    name = response['name']
     weightage = response['weightage']
-    assignment_type = response['assignment_type']
+    type = response['type']
     group_or_indv = response['group_or_indv']
     start_date = response['start_date']
     due_date = response['due_date']
 
     query = f"\
         UPDATE Assignments\
-        SET [Assignment Name] = '{assignment_name}', [Weightage] = '{weightage}',\
-        [Assignment Type]='{assignment_type}', [Group or Individual]='{group_or_indv}',\
+        SET [Name] = '{name}', [Weightage] = '{weightage}',\
+        [Type]='{type}', [Group or Individual]='{group_or_indv}',\
         [Start Date]='{start_date}', [Due Date]='{due_date}'\
-        WHERE [Assignment Name] = '{original_assignment_name}' AND [Module Code] = '{module_code}'\
+        WHERE [Name] = '{original_name}' AND [Module Code] = '{module_code}'\
             AND [Semester]='{semester}'\
     "
 

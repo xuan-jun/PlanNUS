@@ -19,67 +19,62 @@ function Landing() {
   //     console.log(error.response)
   //   }
   // }
+  // useEffect(() => fetchData(), []);
 
-  // const postData = async () => {
-  //   try {
-  //     const params = {
-  //       module_code : 'DSA3101',
-  //       semester : '2220',
-  //       assignment_name : 'Assignment 2 Docker',
-  //       weightage : 10,
-  //       assignment_type : 'Assignment',
-  //       group_or_indv : 'Individual',
-  //       start_date : '23 Mar 2023',
-  //       due_date : '1 Apr 2023'
-  //     }
-
-  //     const response = await axios.post('/add_new_assignments', {params});
-  //     console.log(response);
-  //   } catch (error) {
-  //     console.log(error.response)
+  // useEffect(() => {
+  //   const params = {
+  //     module_code : 'DSA3101',
+  //     semester : '2220',
+  //     name : 'Assignment 2 Docker',
+  //     weightage : 10,
+  //     type : 'Assignment',
+  //     group_or_indv : 'Individual',
+  //     start_date : '23 Mar 2023',
+  //     due_date : '1 Apr 2023'
   //   }
-  // }
+  //   axios.post('/add_new_assignments', {params})
+  //     .then((response) => {
+  //       console.log(response.data)
+  //     })
+  //     .catch((err) => {
+  //       console.log(err)
+  //     })
+  // }, [])
 
-  // postData()
+  useEffect(() => {
+    const params = {
+      module_code : 'DSA3101',
+      semester : '2220',
+      original_name : 'Assignment 2 Docker',
+      name : 'Assignment 3 Docker',
+      weightage : 20,
+      type : 'Assignment',
+      group_or_indv : 'Individual',
+      start_date : '23 Mar 2023',
+      due_date : '3 Apr 2023'
+    }
+    axios.put('/update_assignments', {params})
+      .then((response) => {
+        console.log(response.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
 
-  // const updateData = async () => {
-  //   try {
-  //     const params = {
-  //       module_code : 'DSA3101',
-  //       semester : '2220',
-  //       original_assignment_name : 'Assignment 2 Docker',
-  //       assignment_name : 'Assignment 3 Docker',
-  //       weightage : 20,
-  //       assignment_type : 'Assignment',
-  //       group_or_indv : 'Individual',
-  //       start_date : '23 Mar 2023',
-  //       due_date : '3 Apr 2023'
-  //     }
-
-  //     const response = await axios.put('/update_assignments', {params});
-  //     console.log(response);
-  //   } catch (error) {
-  //     console.log(error.response)
+  // useEffect(() => {
+  //   const params = {
+  //     module_code : 'DSA3101',
+  //     semester : '2220'
   //   }
-  // }
-
-  // updateData()
-
-  // const getAssignments = async () => {
-  //   try {
-  //     const params = {
-  //       module_code : 'DSA3101',
-  //       semester : '2220'
-  //     }
-
-  //     const response = await axios('/get_assignments', {params});
-  //     console.log(response);
-  //   } catch (error) {
-  //     console.log(error.response)
-  //   }
-  // }
-
-  // getAssignments()
+  //   axios.get('/get_assignments', {params})
+  //     .then((response) => {
+  //       console.log(response.data)
+  //     })
+  //     .catch((err) => {
+  //       console.log(err)
+  //     })
+  // }, [])
 
   return <div className="landing-page">
     <img className="plannus-logo" src = {logo} alt = "plannus logo" />
