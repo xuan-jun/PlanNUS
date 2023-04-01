@@ -114,7 +114,9 @@ def get_assignments_table():
     # convert the Row Objects into dictionaries
     data = []
     for row in result:
-        data.append(dict(zip(columns, row)))
+        current_dict = dict(zip(columns, row))
+        current_dict['stress_score'] = random.randint(3, 10)
+        data.append(current_dict)
 
     # close the connection
     cursor.close()
@@ -206,29 +208,42 @@ def get_assignment_pairings():
     db = establish_sql_connection()
     cursor = db.cursor()
 
-    query = f"\
-        SELECT *\
-        FROM Assignments\
-        WHERE [Module Code] IN (\
-            (SELECT [Module 1]\
-            FROM module_pairs\
+    # get the assignment values for module 2 and module 1
+    query1 = f"\
+        SELECT * \
+        FROM Assignments a \
+        INNER JOIN (\
+            (SELECT [Module 1], [Count]\
+            FROM module_pairs \
             WHERE [Semester]='{semester}' AND [Module 2]='{module_code}'\
                 AND [Count] > 0)\
-        UNION\
-            (SELECT [Module 2]\
-            FROM module_pairs\
+            UNION\
+            (SELECT [Module 2], [Count]\
+            FROM module_pairs \
             WHERE [Semester]='{semester}' AND [Module 1]='{module_code}'\
-                AND [Count] > 0)\
-        )"
+                AND [Count] > 0)) b \
+        ON (a.[Module Code] = b.[Module 1])\
+    "
 
-    cursor.execute(query)
+    cursor.execute(query1)
     # extract the column names
     columns = [column[0] for column in cursor.description]
-    result = cursor.fetchall()
+    pairing_assignment_results = cursor.fetchall()
     # convert the Row Objects into dictionaries
+
+    query2 = f"\
+        SELECT [Count]\
+        FROM student_counts\
+        WHERE [Module Code] = '{module_code}' AND [Semester] ='{semester}'\
+    "
+    cursor.execute(query2)
+    module_count = cursor.fetchall()[0][0]
+
     data = []
-    for row in result:
-        data.append(dict(zip(columns, row)))
+    for row in pairing_assignment_results:
+        current_dict = dict(zip(columns, row))
+        current_dict['stress_score'] = random.randint(3, 10) * (current_dict['Count'] / module_count)
+        data.append(current_dict)
 
     # close the connection
     cursor.close()

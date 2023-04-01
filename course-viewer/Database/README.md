@@ -114,6 +114,7 @@ Description: Given a `module_code` and `semester`, returns a json object contain
       - `Start Date` : Start date of the assignment
       - `Due Date` : Due Date of the assignment
       - `Level` : Level of the module. [level_1k, level2k, level_3k, level4k]
+      - `stress_score` : Stress score of the assignment, currently a random number but will incorporate with backend
 
 * **Example Call**:
 
@@ -266,6 +267,7 @@ Description: Given a `module_code` and `semester`, returns a json object contain
       - `Start Date` : Start date of the assignment
       - `Due Date` : Due Date of the assignment
       - `Level` : Level of the module. [level_1k, level2k, level_3k, level4k]
+      - `stress_score` : Stress score of the assignment. Note that this is already aggregated over the number of students from this module taking that other module. (num_pairwise_students)/(total_students_taking_current_module) * (stress_score_from_this_assignment)
 
 * **Example Call**:
 
