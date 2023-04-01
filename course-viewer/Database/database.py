@@ -5,6 +5,7 @@ import pandas as pd
 import datetime
 import pyodbc
 import json
+import random
 
 app = Flask(__name__)
 
@@ -290,3 +291,74 @@ def get_modules_for_instructor():
 
     return json.dumps(data, default=str)
 
+@app.route("/modules_for_semester", methods=["GET"])
+# params: semester
+# given a semester, provide all the modules for that semester
+def get_modules_for_semester():
+    # get the relevant parameters
+    semester = request.args.get('semester')
+    print(semester)
+
+    # establish the database connection
+    db = establish_sql_connection()
+    cursor = db.cursor()
+
+    # get all the module codes that the instructor is currently teaching
+    query = f"\
+        SELECT DISTINCT [Module Code]\
+        FROM Instructors\
+        WHERE Semester='{semester}'\
+    "
+
+    cursor.execute(query)
+    result = cursor.fetchall()
+    # extract the column names
+    columns = [column[0] for column in cursor.description]
+    # convert the Row Object
+    data = []
+    for row in result:
+        data.append(row[0])
+
+    cursor.close()
+    db.close()
+
+    return json.dumps(data, default=str)
+
+@app.route("/module_list_assignments", methods=["GET"])
+# params: semester, module_list
+# given a semester and the list of modules, provide all the assignments for the list of modules
+def get_module_list_assignments():
+    # get the relevant parameters
+    semester = request.args.get('semester')
+    module_list = tuple(request.args.getlist('module_list[]'))
+    # formatting for the module_list
+    if (len(module_list) == 1):
+        module_list = f"('{module_list[0]}')"
+
+    # establish the database connection
+    db = establish_sql_connection()
+    cursor = db.cursor()
+
+    # get all the module codes that the instructor is currently teaching
+    query = f"\
+        SELECT *\
+        FROM Assignments\
+        WHERE Semester='{semester}' AND\
+        [Module Code] IN {module_list}\
+    "
+
+    cursor.execute(query)
+    result = cursor.fetchall()
+    # extract the column names
+    columns = [column[0] for column in cursor.description]
+    # convert the Row Object
+    data = []
+    for row in result:
+        current_dict = dict(zip(columns, row))
+        current_dict['stress_score'] = random.randint(3, 10)
+        data.append(current_dict)
+
+    cursor.close()
+    db.close()
+
+    return json.dumps(data, default=str)

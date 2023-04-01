@@ -4,7 +4,7 @@
 
     - *mssql_container*: This is created from `ddalgiie/courses-db` image. This will be where the data is stored. It will be serving at localhost:1433
       
-    - *flask_container* : This is where the flask app will be processing the API request made from our front end server. It will be serving at localhost:5000. It has been configured to communicate with the *mssql_container* at the relevant TCP ports
+    - *flask_container* : This is where the flask app will be processing the API request made from our front end server. It will be serving at localhost:4000. It has been configured to communicate with the *mssql_container* at the relevant TCP ports
 
 2. Ensure that the docker compose container is running properly. Else it could be due to one of the ports being used so you can stop the other containers first. Else, it could also be due to the image you pulled being old. Therefore, try to delete the image locally first and repull
 
@@ -360,6 +360,98 @@ useEffect(() => {
     semester : '2220'
    }
    axios.get('/modules_for_instructor', {params})
+    .then((response) => {
+    // the relevant data is in response.data so you can have a useState() to store it
+      console.log(response.data) 
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+ }, [])
+```
+
+---
+
+**Endpoint**: `'/modules_for_semester'`, **method** = `GET`
+
+Description: Given a `semester`, returns a list of the modules that are available
+
+* params:
+
+    - `semester` : Semester that we are considered with. It is in the format of `AYS0`
+      
+      - AY - Is the starting year for the academic year. (i.e. If it is AY22/23 it will be 22 in this case)
+      - S - Semester that we are in. If it is semester 1 it is 1 and semester 2 is 2.
+
+* return:
+
+    - In the `json` return object with the [Module Code] of the modules
+      
+      - `Module Code` : Module code for the assignment
+
+* **Example Call**:
+
+```javascript
+import axios from 'axios'
+import { useEffect } from 'React'
+
+useEffect(() => {
+   const params = {
+    semester : '2220'
+   }
+   axios.get('/modules_for_semester', {params})
+    .then((response) => {
+    // the relevant data is in response.data so you can have a useState() to store it
+      console.log(response.data) 
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+ }, [])
+```
+
+
+---
+
+**Endpoint**: `'/module_list_assignments'`, **method** = `GET`
+
+Description: Given a `semester`, `module_list`, returns the list of assignments that the modules in `module_list` assigned for that semester
+
+* params:
+    - `module_list` : Array list of module codes
+
+      - E.g. ['DSA3101', 'DSA3102']
+
+    - `semester` : Semester that we are considered with. It is in the format of `AYS0`
+      
+      - AY - Is the starting year for the academic year. (i.e. If it is AY22/23 it will be 22 in this case)
+      - S - Semester that we are in. If it is semester 1 it is 1 and semester 2 is 2.
+
+* return:
+
+      - `Module Code` : Module code for the assignment
+      - `Semester` : Semester that we are concerned with
+      - `Name` : Name of the assignment
+      - `Weightage` : Weightage of the assignment
+      - `Type` : Type of assignment [Assignment, Exam, Participation, Presentation, Project, Quiz]
+      - `Group or Individual` : Whether it is a group or individual presentation. ['I', 'G']
+      - `Start Date` : Start date of the assignment
+      - `Due Date` : Due Date of the assignment
+      - `Level` : Level of the module. [level_1k, level2k, level_3k, level4k]
+      - `stress_score` : Currently a random number associated with the stress score of the assignment
+
+* **Example Call**:
+
+```javascript
+import axios from 'axios'
+import { useEffect } from 'React'
+
+useEffect(() => {
+   const params = {
+    semester : '2220',
+    module_list : ['DSA3101', 'DSA3102']
+   }
+   axios.get('/module_list_assignments', {params})
     .then((response) => {
     // the relevant data is in response.data so you can have a useState() to store it
       console.log(response.data) 
