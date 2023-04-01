@@ -41,26 +41,26 @@ function Landing() {
   //     })
   // }, [])
 
-  useEffect(() => {
-    const params = {
-      module_code : 'DSA3101',
-      semester : '2220',
-      original_name : 'Assignment 2 Docker',
-      name : 'Assignment 3 Docker',
-      weightage : 20,
-      type : 'Assignment',
-      group_or_indv : 'Individual',
-      start_date : '23 Mar 2023',
-      due_date : '3 Apr 2023'
-    }
-    axios.put('/update_assignments', {params})
-      .then((response) => {
-        console.log(response.data)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }, [])
+  // useEffect(() => {
+  //   const params = {
+  //     module_code : 'DSA3101',
+  //     semester : '2220',
+  //     original_name : 'Assignment 2 Docker',
+  //     name : 'Assignment 3 Docker',
+  //     weightage : 20,
+  //     type : 'Assignment',
+  //     group_or_indv : 'Individual',
+  //     start_date : '23 Mar 2023',
+  //     due_date : '3 Apr 2023'
+  //   }
+  //   axios.put('/update_assignments', {params})
+  //     .then((response) => {
+  //       console.log(response.data)
+  //     })
+  //     .catch((err) => {
+  //       console.log(err)
+  //     })
+  // }, [])
 
   // useEffect(() => {
   //   const params = {
@@ -91,7 +91,7 @@ function Landing() {
                 <a href = './login'>Instructor</a>
             </button>
             <button className="landing-button">
-                <a href = "./calendar-student">Student</a>
+                <a href = "./calendar">Student</a>
             </button>
         </div>
     </div>
