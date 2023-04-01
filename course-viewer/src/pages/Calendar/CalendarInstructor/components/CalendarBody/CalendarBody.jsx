@@ -16,7 +16,7 @@ const CalendarBody = ({currentModule, semester}) => {
   // keeps track of the assignmentData that we have now
   const [assignmentData, setAssignmentData] = useState([]);
   // keeps track of the assignentsFromModulePairs
-  const [modulePairAssignment, setModulePairData] = useState([]);
+  const [modulePairAssignment, setModulePairAssignment] = useState([]);
 
   // each time the selected date is changed, we can rebuild the calendar
   useEffect(() => {
@@ -41,7 +41,8 @@ const CalendarBody = ({currentModule, semester}) => {
       axios.get('/get_assignment_pairings', {params})
         .then((response) => {
           const data = response.data
-          setModulePairData(data);
+          console.log(data)
+          setModulePairAssignment(data);
         })
         .catch((err) => {console.log(err)})
     }
@@ -54,7 +55,7 @@ const CalendarBody = ({currentModule, semester}) => {
     if (!value.isSame(day, "month")) {
       style = style.concat("diffMonth")
     }
-    else if (stressScore >= 7.5 && stressScore <= 10) {
+    else if (stressScore >= 7.5) {
       style = style.concat("stressed")
     } else if (stressScore >= 5 && stressScore <= 7.5) {
       style = style.concat("moderate")
@@ -89,7 +90,7 @@ const CalendarBody = ({currentModule, semester}) => {
             <div className = "week">
               {week.map((day) => (
                 <CalendarTile day={day} dayStyle = {dayStyle}
-                handleClick={handleClick} assignmentData={assignmentData}/>
+                handleClick={handleClick} assignmentData={assignmentData} modulePairAssignment={modulePairAssignment}/>
               ))}
             </div>
           ))}
@@ -99,19 +100,32 @@ const CalendarBody = ({currentModule, semester}) => {
   )
 };
 
-const CalendarTile = ({ day, dayStyle, handleClick, assignmentData }) => {
+const CalendarTile = ({ day, dayStyle, handleClick, assignmentData, modulePairAssignment }) => {
   const formattedDate = day.format("D-MMM-YY");
+
+  // filter for current day data for current module
   const currentDayData = assignmentData.filter((day) => {
     return day['Due Date'] === formattedDate;
   })
+
+  // filter for current day task for current module
   const currentDayTasks = currentDayData.length === 0 ? [] :
     currentDayData.map((assignment) => {
       return assignment['Name'];
     });
-  const stressScore = currentDayData.length === 0 ? [] :
+
+  // filter out those module pair assignments that are on this day
+  const currentDayPairData = modulePairAssignment.filter((day) => {
+    return day['Due Date'] === formattedDate;
+  })
+
+  // combine the current data task with the module pair assignments
+  const stressData = currentDayData.concat(currentDayPairData)
+
+  const stressScore = stressData.length === 0 ? [] :
   currentDayData.map((assignment) => {
-    return Math.random() * 10; // give a random stress score now
-  });
+    return assignment['stress_score'];
+  }).reduce((a, b) => a + b, 0);
 
   const tileStyle = dayStyle(day, stressScore);
 
