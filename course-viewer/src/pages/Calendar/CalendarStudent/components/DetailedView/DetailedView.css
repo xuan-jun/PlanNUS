@@ -1,0 +1,108 @@
+.detailed-view {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.2);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.detailed-view.active {
+  opacity: 1;
+  visibility: visible;
+  transition: 0.3s opacity ease;
+}
+
+.detailed-view.inactive {
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s opacity ease;
+}
+
+.detailed-view-content {
+  position: relative;
+  padding: 5rem;
+  width: 80%;
+  height: 80vh;
+  background-color: var(--primary-color);
+}
+
+.detailed-view-content > .close-btn {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  cursor: pointer;
+  background-color: var(--table-secondary-background-color);
+  color: var(--table-font-color)
+}
+
+.detailed-view-content > .detailed-view-header {
+  height: 10%;
+  width: 100%;
+  border-radius: 28px;
+  margin-bottom: 25px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.link{
+  color: var(--link-color)
+}
+
+.stressed {
+  background-color: var(--stressed);
+}
+
+.moderate {
+  background-color: var(--moderate);
+}
+
+.good {
+  background-color: var(--good);
+}
+
+table {
+  font-family: Arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0 auto;
+
+  justify-content: center;
+  align-items: center;
+}
+
+thead th{
+  background-color: var(--table-primary-background-color);
+  color: var(--table-font-color)
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+th {
+  font-weight: bold;
+}
+
+tr:nth-child(odd) {
+  background-color: var(--table-secondary-background-color);
+  color:  var(--table-font-color);
+}
+
+tr:nth-child(even) {
+  background-color: var(--table-primary-background-color);
+  color:  var(--table-font-color);
+}
+
+tr:hover {
+  background-color: var(--table-hover-background-color);
+  color:  var(--table-font-color);
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import CalendarBody from "./components/CalendarBody/CalendarBody";
-import Filter from './components/Filter/Filter';
+import Filter from '../components/Filter/Filter';
 import "./CalendarStudent.css"
 import ModuleSelector from './components/ModuleSelector/ModuleSelector';
 

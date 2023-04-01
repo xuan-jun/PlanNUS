@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import CalendarBody from "./components/CalendarBody/CalendarBody";
-import Filter from './components/Filter/Filter';
+import CalendarBody from './components/CalendarBody/CalendarBody';
+import Filter from '../components/Filter/Filter';
 import NotificationList from './components/NotificationList/NotificationList';
 import axios from 'axios';
 import "./CalendarInstructor.css"

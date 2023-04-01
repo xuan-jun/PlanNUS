@@ -1,6 +1,6 @@
 import React from "react";
 import "./CalendarHeader.css"
-import rightarrow from "../../../../assets/rightarrow.svg"
+import rightarrow from "../../../../../assets/rightarrow.svg"
 
 const CalendarHeader = ({value, setValue}) => {
   function currMonthName() {

@@ -2,8 +2,8 @@ import './App.css';
 
 import Navbar from './components/Navbar/Navbar';
 import Login from './pages/Login/Login';
-import CalendarInstructor from './pages/Calendar/CalendarInstructor';
-import CalendarStudent from './pages/Calendar/CalendarStudent';
+import CalendarInstructor from './pages/Calendar/CalendarInstructor/CalendarInstructor';
+import CalendarStudent from './pages/Calendar/CalendarStudent/CalendarStudent';
 import Assignments from './pages/Assignments';
 import AddAssignment from './pages/AddAssignment';
 import Landing from './pages/Landing/Landing';

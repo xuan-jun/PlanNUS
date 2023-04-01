@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
-import buildCalendar from '../../buildCalendar';
+import buildCalendar from '../../../buildCalendar';
 import CalendarHeader from '../CalendarHeader/CalendarHeader';
 import './CalendarBody.css'
 import DetailedView from '../DetailedView/DetailedView';
