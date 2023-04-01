@@ -10,10 +10,19 @@ const CalendarInstructor = ({token}) => {
 
   const instructorName = token['userName']
   const semester = 2220 // default semester for now
+  // keeps track of the current list of filters
   const [filters, setFilters] = useState([]);
 
   const filterDefault = 'Please Select View'
+  // keeps track of the currently selected filter
   const [currentFilter, setCurrentFilter] = useState(filterDefault);
+
+  // keeps track of the current assignment data
+  const [assignmentData, setAssignmentData] = useState([]);
+  // keeps track of the assignentsFromModulePairs
+  const [modulePairAssignment, setModulePairAssignment] = useState([]);
+  // day, stress scores
+  const [stressScoreDaily, setStressScoreDaily] = useState({});
   
   // make the api call to get the list of modules the instructor is currently teaching
   useEffect(() => {
@@ -31,7 +40,7 @@ const CalendarInstructor = ({token}) => {
   }, [])
 
   // make a rerender whenever the currentFilter changes
-  useEffect(() => {}, [currentFilter])
+  useEffect(() => {}, [currentFilter, assignmentData, modulePairAssignment])
 
   return (
     <div className="calendar-page">
@@ -40,7 +49,9 @@ const CalendarInstructor = ({token}) => {
           currentFilter={currentFilter} setCurrentFilter={setCurrentFilter}/>
         <NotificationList />
       </div>
-      <CalendarBody currentModule={currentFilter === filterDefault ? "" : currentFilter} semester = {semester}/>
+      <CalendarBody currentModule={currentFilter === filterDefault ? "" : currentFilter} semester = {semester} assignmentData={assignmentData}
+      setAssignmentData={setAssignmentData} modulePairAssignment={modulePairAssignment} setModulePairAssignment={setModulePairAssignment} stressScoreDaily={stressScoreDaily}
+      setStressScoreDaily={setStressScoreDaily}/>
     </div>
   )
 };
