@@ -106,7 +106,7 @@ const CalendarTile = ({ day, dayStyle, handleClick, assignmentData }) => {
   })
   const currentDayTasks = currentDayData.length === 0 ? [] :
     currentDayData.map((assignment) => {
-      return assignment['Assignment Name'];
+      return assignment['Name'];
     });
   const stressScore = currentDayData.length === 0 ? [] :
   currentDayData.map((assignment) => {
