@@ -40,14 +40,14 @@ const CalendarInstructor = ({token}) => {
   }, [])
 
   // make a rerender whenever the currentFilter changes
-  useEffect(() => {}, [currentFilter, assignmentData, modulePairAssignment])
+  useEffect(() => {}, [currentFilter])
 
   return (
     <div className="calendar-page">
       <div className="side-panel">
         <Filter filterTitle={filterTitle} filters={filters}
           currentFilter={currentFilter} setCurrentFilter={setCurrentFilter}/>
-        <NotificationList />
+        <NotificationList assignmentData={assignmentData} modulePairAssignment={assignmentData} stressScoreDaily={stressScoreDaily}/>
       </div>
       <CalendarBody currentModule={currentFilter === filterDefault ? "" : currentFilter} semester = {semester} assignmentData={assignmentData}
       setAssignmentData={setAssignmentData} modulePairAssignment={modulePairAssignment} setModulePairAssignment={setModulePairAssignment} stressScoreDaily={stressScoreDaily}

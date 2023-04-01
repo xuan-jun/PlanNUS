@@ -3,7 +3,7 @@ import moment from 'moment';
 import './DetailedView.css';
 import data from './DetailedViewData.json';
 
-function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, modulePairAssignment }) {
+function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, modulePairAssignment, stressScoreDaily }) {
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
@@ -37,7 +37,7 @@ function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, moduleP
   let rowStyle = (stressScore) => {
     let style = "";
     // assuming higher the worse it is
-    if (stressScore >= 7.5 && stressScore <= 10) {
+    if (stressScore >= 7.5) {
       style = style.concat("stressed")
     } else if (stressScore >= 5 && stressScore <= 7.5) {
       style = style.concat("moderate")
