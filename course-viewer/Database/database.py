@@ -1,4 +1,5 @@
 from flask import Flask, request, render_template, jsonify, make_response
+from flask_jwt_extended import create_access_token, get_jwt, get_jwt_identity, unset_jwt_cookies, jwt_required, JWTManager
 # from email_validator import validate_email, EmailNotValidError
 import pandas as pd
 import datetime
@@ -7,12 +8,18 @@ import json
 
 app = Flask(__name__)
 
+# json web token configuration
+app.config['JWT_SECRET_KEY'] = "dsa3101"
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = datetime.timedelta(hours = 2) # how long the access token will last for
+jwt  = JWTManager(app)
+
+# helper function that establishes connection with our database
 def establish_sql_connection():
 
     username = "sa"
     password = "Pass123!"
-    # server = '172.20.0.3'
     server = 'db'
+    # server = 'localhost'
     database = 'CoursesDB'
 
     db = pyodbc.connect('Driver={/opt/microsoft/msodbcsql17/lib64/libmsodbcsql-17.10.so.2.1}; Server='+server+'; Database='+database+'; Uid='+username+'; Pwd='+ password)
@@ -20,6 +27,66 @@ def establish_sql_connection():
     # db = pyodbc.connect('Driver={SQL Server}; Server='+server+'; Database='+database+'; Uid='+username+'; Pwd='+ password)
     print('---SUCCESSS----')
     return db
+
+
+@app.route('/token', methods=['POST'])
+def create_token():
+    # getting the POST request values
+    email = request.json.get('email', None)
+    password = request.json.get('password', None)
+    print(email, password)
+
+    query = f"\
+        SELECT [Instructor]\
+        FROM Login\
+        WHERE [Email] = '{email}' AND [Password] = '{password}'\
+    "
+
+    db = establish_sql_connection()
+    cursor = db.cursor()
+
+    result = cursor.execute(query)
+    columns = [column[0] for column in cursor.description]
+    print(result)
+
+    if (not result): # if the login details are not correct
+        return {"msg" : "Wrong email or password"}, 401 # returns Unauthorized response status code
+    
+    name = list(result.fetchall()[0])[0] # extract the name of the instructor
+    print(name)
+
+    # if the login details are correct, then we return the access token
+    access_token = create_access_token(identity=email)
+    response = {
+        "access_token" : access_token,
+        "name" : name
+    }
+
+    return response
+
+@app.after_request
+def refresh_expiring_jwts(response):
+    try:
+        exp_timestamp = get_jwt()["exp"]
+        now = datetime.now(datetime.timezone.utc)
+        target_timestamp = datetime.timestamp(now + datetime.timedelta(minutes=30))
+        if target_timestamp > exp_timestamp:
+            access_token = create_access_token(identity=get_jwt_identity())
+            data = response.get_json()
+            if type(data) is dict:
+                data["access_token"] = access_token 
+                response.data = json.dumps(data)
+        return response
+    except (RuntimeError, KeyError):
+        # Case where there is not a valid JWT. Just return the original respone
+        return response
+    
+@app.route('/logout', methods=["POST"])
+def logout():
+    response = jsonify({"msg" : "logout successful"})
+    unset_jwt_cookies(response) # Modify a Flask Response to delete the cookies containing access or refresh JWTs. Also deletes the corresponding CSRF cookies if applicable.
+    return response
+
 
 @app.route("/get_assignments", methods=['GET'])
 # params: module_code, semester
@@ -179,3 +246,4 @@ def get_modules_for_instructor():
     db.close()
 
     return json.dumps(data, default=str)
+
