@@ -23,12 +23,19 @@ function App() {
       <Navbar theme={theme} setTheme={setTheme} token={token} removeToken={removeToken}/>
       <div className="container">
         <Routes>
-          <Route path="/" element={<Landing />}/>
-          <Route path="/calendar-student" element={<CalendarStudent />}/>
-          <Route path="/login" element={<Login setToken={setToken}/>}/>
+          <Route path="/" element={
+          token ?
+          <CalendarInstructor token = {token}/> :
+          <Landing />
+          }/>
           <Route path="/calendar" element={
-            <ProtectedRoute isAllowed = {token} redirectPath="/login">
-              <CalendarInstructor token={token}/>
+            <ProtectedRoute isAllowed = {!token} redirectPath="/">
+              <CalendarStudent/>
+            </ProtectedRoute>
+          }/>
+          <Route path="/login" element={
+            <ProtectedRoute isAllowed = {!token} redirectPath="/">
+              <Login setToken={setToken}/>
             </ProtectedRoute>
           }/>
           <Route path='/assignments' element={

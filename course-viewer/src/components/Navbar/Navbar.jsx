@@ -19,15 +19,9 @@ const Navbar = ({theme, setTheme, token, removeToken}) => {
   return (
     <nav className="navBar">
       <div className="site-logo">
-        {
-          token ? 
-          <Link to='/calendar'>
+        <Link to='/'>
             <img className="logo" src={logo} alt='site-logo'/>
-          </Link> :
-          <Link to='/'>
-          <img className="logo" src={logo} alt='site-logo'/>
-        </Link>
-        }
+          </Link>
       </div>
       <div onClick={switchTheme} className='light-mode-toggle'>
         <div className={`slider ${theme === 'light' ? '-left' : '-right'}`}>
@@ -36,7 +30,7 @@ const Navbar = ({theme, setTheme, token, removeToken}) => {
         </div>
       </div>
       {token ? <ul>
-        <CustomLink to='/calendar'>Calendar</CustomLink>
+        <CustomLink to='/'>Calendar</CustomLink>
         <CustomLink to='/assignments'>Assignments</CustomLink>
         <div className="user-icon-profile">
           <Link to='/' className="profile-picture-link">
@@ -56,7 +50,7 @@ const Navbar = ({theme, setTheme, token, removeToken}) => {
           </div>
         </div>
       </ul> : <ul>
-        <CustomLink to='/calendar-student'>Calendar</CustomLink>
+        <CustomLink to='/calendar'>Calendar</CustomLink>
         </ul>}
     </nav>
   )
