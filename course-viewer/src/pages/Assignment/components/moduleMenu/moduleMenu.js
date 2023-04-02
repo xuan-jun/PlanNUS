@@ -13,7 +13,6 @@ const ModuleMenu = ({theme, modules, selectedModule, setSelectedModule}) => {
     <div>
       <div>
         <Select value={selectedModule} onChange={handleModuleChange} className={theme === "light" ? classes.moduleSelectLight : classes.moduleSelectDark}>
-          <MenuItem key={selectedModule} value={selectedModule}>{selectedModule}</MenuItem>
             {modules.map((module) => (
               <MenuItem key={module} value={module} onClick={() => {setSelectedModule(module)}}>
                 {module}
