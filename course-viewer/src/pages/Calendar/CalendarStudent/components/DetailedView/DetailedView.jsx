@@ -43,7 +43,11 @@ function DetailedView({ isDetailed, setIsDetailed, date, assignmentData }) {
        <button className="close-btn" onClick={() => setIsDetailed(!isDetailed)}>
          Return to Calendar View
        </button>
-       <h2 className={`detailed-view-header ${detailedStyle}`}>Assignments on {new Date(date).toLocaleDateString('en-GB', {day: '2-digit', month: 'short', year: 'numeric'})}</h2>
+       <h2 className={`detailed-view-header ${detailedStyle}`}>
+        Assignments on {new Date(date).toLocaleDateString('en-GB', {day: '2-digit', month: 'short', year: 'numeric'})}
+        <br></br>
+        Stress Score: {stressScore ? stressScore.toFixed(2) : 0}
+       </h2>
        <div>
          <table>
            <thead>
@@ -52,7 +56,7 @@ function DetailedView({ isDetailed, setIsDetailed, date, assignmentData }) {
                <th>Module Code</th>
                <th>Due Date</th>
                <th>Assignment Type</th>
-               <th>Professor</th>
+               <th>Instructor</th>
                <th>Email</th>
                <th>Weightage</th>
                <th>Stress Score</th>
@@ -65,7 +69,7 @@ function DetailedView({ isDetailed, setIsDetailed, date, assignmentData }) {
                  <td>{row['Module Code']}</td>
                  <td>{row['Due Date']}</td>
                  <td>{row['Type']}</td>
-                 <td>{row['Professor']}</td>
+                 <td>{row['Instructor']}</td>
                  <td>
                    <a className={"link"} href={`mailto:${row['Email']}`}>{row['Email']}</a>
                  </td>

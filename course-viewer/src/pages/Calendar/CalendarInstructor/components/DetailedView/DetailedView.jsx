@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import './DetailedView.css';
+import { Link } from 'react-router-dom';
 
 function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, modulePairAssignment, stressScoreDaily, currentModule}) {
   const [compiledData, setCompiledData] = useState([]);
@@ -79,8 +80,6 @@ function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, moduleP
                <th>Module Code</th>
                <th>Due Date</th>
                <th>Assignment Type</th>
-               <th>Professor</th>
-               <th>Email</th>
                <th>Weightage</th>
                <th>Stress Score</th>
                <th>Action</th>
@@ -93,14 +92,12 @@ function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, moduleP
                  <td>{row['Module Code']}</td>
                  <td>{row['Due Date']}</td>
                  <td>{row['Type']}</td>
-                 <td>{row['Professor']}</td>
-                 <td>
-                   <a className={"link"} href={`mailto:${row['Email']}`}>{row['Email']}</a>
-                 </td>
                  <td>{row['Weightage']}%</td>
                  <td>{row['stress_score'].toFixed(2)}</td>
                  <td>
-                  <button>Edit Assignment</button>
+                  <Link to="/assignments">
+                   <button>Edit Assignment</button>
+                  </Link>
                  </td>
                </tr>
              ))}
@@ -119,7 +116,7 @@ function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, moduleP
                <th>Module Code</th>
                <th>Due Date</th>
                <th>Assignment Type</th>
-               <th>Professor</th>
+               <th>Instructor</th>
                <th>Email</th>
                <th>Weightage</th>
                <th>Stress Score</th>
@@ -132,7 +129,7 @@ function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, moduleP
                  <td>{row['Module Code']}</td>
                  <td>{row['Due Date']}</td>
                  <td>{row['Type']}</td>
-                 <td>{row['Professor']}</td>
+                 <td>{row['Instructor']}</td>
                  <td>
                    <a className={"link"} href={`mailto:${row['Email']}`}>{row['Email']}</a>
                  </td>
