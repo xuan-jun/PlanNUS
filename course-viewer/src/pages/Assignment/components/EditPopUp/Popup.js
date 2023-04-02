@@ -4,6 +4,8 @@ import { FormControl, InputLabel } from '@material-ui/core';
 import axios from 'axios';
 import useStyles from './PopupStyle';
 import moment from 'moment';
+import { DatePicker, AdapterDateFns } from '@mui/lab';
+import { format, set } from 'date-fns';
 
 const Popup = ({theme, open, setOpen, currentRow, setCurrentRow, assignments }) => {
   const classes = useStyles();
@@ -14,15 +16,26 @@ const Popup = ({theme, open, setOpen, currentRow, setCurrentRow, assignments }) 
   const [weightage, setWeightage] = useState(currentRow['Weightage']);
   const [original_name, setOriginalName] = useState(currentRow['Name']);
 
-  const reformattedStartDate = moment(currentRow['Start Date'], 'DD-MMM-YYYY').format('YYYY-MM-DD');
-  const reformattedDueDate = moment(currentRow['Due Date'], 'DD-MMM-YYYY').format('YYYY-MM-DD');
-
-  const [start_date, setStartDate] = useState(reformattedStartDate);
-  const [due_date, setDueDate] = useState(reformattedDueDate);
 
 
+  function SubmitDate(event) {
+    if (event == '') {
+      return event;
+    }
+    return moment(due_date, 'YYYY-MM-DD').format('DD-MMM-YY');
+  }
 
- 
+  function handleDates(event) {
+    if (moment(event, 'DD-MMM-YY', true)) {
+      return moment(event, 'DD-MMM-YY').format('YYYY-MM-DD');
+    }
+      return event;
+  }
+
+  const [start_date, setStartDate] = useState(handleDates(currentRow['Start Date']));
+  const [due_date, setDueDate] = useState(handleDates(currentRow['Due Date']));
+
+  const [selectedDate, setSelectedDate] = useState('');
 
   const handleClose = () => {
     setOpen(false);
@@ -62,8 +75,8 @@ const Popup = ({theme, open, setOpen, currentRow, setCurrentRow, assignments }) 
           'weightage': weightage,
           'type': type,
           'group_or_indv': group_or_indv,
-          'start_date': start_date,
-          'due_date': due_date
+          'start_date': SubmitDate(start_date),
+          'due_date': SubmitDate(due_date)
       }
 
       axios.put('/update_assignments', {params})
@@ -103,7 +116,7 @@ return (
               margin="normal"
               id="startdate"
               label="Start Date"
-              type="date"
+              type='date'
               fullWidth
               value= {start_date}
               onChange={(event) => setStartDate(event.target.value)}
@@ -117,14 +130,14 @@ return (
               margin="normal"
               id="duedate"
               label="Due Date"
-              type="date"
               fullWidth
+              type='date'
               value= {due_date}
-              onChange={(event) => setDueDate(event.target.value)}
               variant="outlined"
               InputLabelProps={{
                 shrink: true,
               }}
+              onChange={(event) => setDueDate(event.target.value)}
           />
           <TextField
               className={theme === "light" ? classes.textFieldLight : classes.textFieldDark}
