@@ -211,17 +211,19 @@ def get_assignment_pairings():
     # get the assignment values for module 2 and module 1
     query1 = f"\
         SELECT * \
-        FROM Assignments a \
+        FROM (SELECT * \
+            FROM Assignments \
+            WHERE Semester='{semester}') a\
         INNER JOIN (\
             (SELECT [Module 1], [Count]\
             FROM module_pairs \
             WHERE [Semester]='{semester}' AND [Module 2]='{module_code}'\
-                AND [Count] > 0)\
+                AND [Count] > 0 AND [Module 1] != '{module_code}')\
             UNION\
             (SELECT [Module 2], [Count]\
             FROM module_pairs \
             WHERE [Semester]='{semester}' AND [Module 1]='{module_code}'\
-                AND [Count] > 0)) b \
+                AND [Count] > 0 AND [Module 2] != '{module_code}')) b \
         ON (a.[Module Code] = b.[Module 1])\
     "
 
@@ -230,7 +232,7 @@ def get_assignment_pairings():
     columns = [column[0] for column in cursor.description]
     pairing_assignment_results = cursor.fetchall()
     # convert the Row Objects into dictionaries
-
+    print(pairing_assignment_results)
     query2 = f"\
         SELECT [Count]\
         FROM student_counts\
@@ -242,7 +244,7 @@ def get_assignment_pairings():
     data = []
     for row in pairing_assignment_results:
         current_dict = dict(zip(columns, row))
-        current_dict['stress_score'] = random.randint(3, 10) * (current_dict['Count'] / module_count)
+        current_dict['stress_score'] = random.randint(1, 5) * (current_dict['Count'] / module_count)
         data.append(current_dict)
 
     # close the connection
@@ -370,7 +372,7 @@ def get_module_list_assignments():
     data = []
     for row in result:
         current_dict = dict(zip(columns, row))
-        current_dict['stress_score'] = random.randint(3, 10)
+        current_dict['stress_score'] = random.randint(1, 5)
         data.append(current_dict)
 
     cursor.close()
