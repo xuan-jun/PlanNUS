@@ -16,7 +16,6 @@ const CalendarBody = ({currentModuleListAssignments, currentSemester}) => {
 
   // readjust the starting date when the semester changes
   useEffect(() => {
-    console.log(currentSemester)
     if (['AY21/22 Sem 1', 'AY21/22 Sem 2', 'AY22/23 Sem 1', 'AY22/23 Sem 2'].includes(currentSemester)) {
       const startDateMapping = {
         'AY21/22 Sem 1' : moment('01 Aug 2021', 'DD MMM YYYY'),

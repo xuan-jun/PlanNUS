@@ -48,13 +48,11 @@ def create_token():
 
     result = cursor.execute(query)
     columns = [column[0] for column in cursor.description]
-    print(result)
 
     if (not result): # if the login details are not correct
         return {"msg" : "Wrong email or password"}, 401 # returns Unauthorized response status code
     
     name = list(result.fetchall()[0])[0] # extract the name of the instructor
-    print(name)
 
     # if the login details are correct, then we return the access token
     access_token = create_access_token(identity=email)
@@ -102,9 +100,9 @@ def get_assignments_table():
     cursor = db.cursor()
 
     query = f"\
-        SELECT *\
-        FROM Assignments\
-        WHERE [Module Code] = '{module_code}' AND [Semester] = '{semester}'\
+    SELECT *\
+    FROM Assignments\
+    WHERE [Module Code] = '{module_code}' AND [Semester] = '{semester}'\
     "
 
     cursor.execute(query)
@@ -115,7 +113,7 @@ def get_assignments_table():
     data = []
     for row in result:
         current_dict = dict(zip(columns, row))
-        current_dict['stress_score'] = random.randint(3, 10)
+        current_dict['stress_score'] = random.randint(1, 5)
         data.append(current_dict)
 
     # close the connection
@@ -225,6 +223,11 @@ def get_assignment_pairings():
             WHERE [Semester]='{semester}' AND [Module 1]='{module_code}'\
                 AND [Count] > 0 AND [Module 2] != '{module_code}')) b \
         ON (a.[Module Code] = b.[Module 1])\
+        INNER JOIN (SELECT DISTINCT [Instructor], [Module Code], [Semester]\
+        FROM Instructors WHERE [Semester]='{semester}') c\
+        ON (a.[Module Code] = c.[Module Code])\
+        INNER JOIN Login d\
+        ON (c.[Instructor] = d.[Instructor])\
     "
 
     cursor.execute(query1)
@@ -232,7 +235,6 @@ def get_assignment_pairings():
     columns = [column[0] for column in cursor.description]
     pairing_assignment_results = cursor.fetchall()
     # convert the Row Objects into dictionaries
-    print(pairing_assignment_results)
     query2 = f"\
         SELECT [Count]\
         FROM student_counts\
@@ -359,9 +361,14 @@ def get_module_list_assignments():
     # get all the module codes that the instructor is currently teaching
     query = f"\
         SELECT *\
+        FROM (SELECT *\
         FROM Assignments\
-        WHERE Semester='{semester}' AND\
-        [Module Code] IN {module_list}\
+        WHERE Semester='{semester}' AND [Module Code] IN {module_list}) a\
+        INNER JOIN (SELECT DISTINCT [Instructor], [Module Code], [Semester]\
+        FROM Instructors WHERE [Semester]='{semester}') b\
+        ON (a.[Module Code] = b.[Module Code])\
+        INNER JOIN Login c\
+        ON (b.[Instructor] = c.[Instructor])\
     "
 
     cursor.execute(query)

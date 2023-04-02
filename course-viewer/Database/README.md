@@ -268,6 +268,8 @@ Description: Given a `module_code` and `semester`, returns a json object contain
       - `Due Date` : Due Date of the assignment
       - `Level` : Level of the module. [level_1k, level2k, level_3k, level4k]
       - `stress_score` : Stress score of the assignment. Note that this is already aggregated over the number of students from this module taking that other module. (num_pairwise_students)/(total_students_taking_current_module) * (stress_score_from_this_assignment)
+      - `Instructor` : Instructor that is teaching the module
+      - `Email` : Email of the instructor teaching the module
 
 * **Example Call**:
 
@@ -441,6 +443,8 @@ Description: Given a `semester`, `module_list`, returns the list of assignments 
       - `Due Date` : Due Date of the assignment
       - `Level` : Level of the module. [level_1k, level2k, level_3k, level4k]
       - `stress_score` : Currently a random number associated with the stress score of the assignment
+      - `Instructor` : Instructor teaching the module
+      - `Email` : Email of the instructor teaching the module
 
 * **Example Call**:
 
