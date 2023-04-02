@@ -127,21 +127,21 @@ def get_assignments_table():
 # adds a new assignment to the assignment table
 def add_new_assignments():
     response = request.json['params']
-    module_code = response['module_code']
-    semester = response['semester']
+    #module_code = response['module_code']
+    #semester = response['semester']
     name = response['name']
-    weightage = response['weightage']
     type = response['type']
     group_or_indv = response['group_or_indv']
+    weightage = response['weightage']
     start_date = response['start_date']
     due_date = response['due_date']
 
     query = f"\
         INSERT INTO Assignments\
-        ([Module Code], [Semester], [Name], [Weightage],\
-            [Type], [Group or Individual], [Start Date],\
+        ([Name], [Weightage],\
+            [Group or Individual], [Type], [Start Date],\
                 [Due Date])\
-        VALUES ('{module_code}', '{semester}', '{name}',\
+        VALUES ('{name}',\
             '{weightage}', '{type}', '{group_or_indv}',\
                 '{start_date}', '{due_date}')\
     "
