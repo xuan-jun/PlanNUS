@@ -9,6 +9,7 @@ import { FormControl, InputLabel } from '@mui/material';
 import { makeStyles } from "@material-ui/core/styles";
 import axios from 'axios';
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 
 
 const font =  "'Inter', sans-serif";
@@ -133,17 +134,13 @@ const useStyles = makeStyles(theme => ({
     top: "100px"
   },  
 }));
-const initialFValues = {
-  id: 0,
-  issueName: "",
-  changeTypes: "",
-  startDate: new Date(),
-  endDate: new Date(),
-  indivGrp: "",
-  weightage: ""
-};
 
-const indivGrp = [
+
+
+export default function AssignmentForm(props) {
+const classes = useStyles();
+
+  const indivGrp = [
     {
       value: '1',
       label: 'Individual'
@@ -180,24 +177,20 @@ const indivGrp = [
     }
   ];
 
-export default function AssignmentForm(props) {
-const classes = useStyles();
-  const { addOrEdit, recordForEdit } = props;
-
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
-    if ("issueName" in fieldValues)
-      temp.issueName = fieldValues.issueName
+    if ("name" in fieldValues)
+      temp.name = fieldValues.name
         ? ""
         : "This field is required.";
-    if ("changeTypes" in fieldValues)
-      temp.changeTypes = fieldValues.changeTypes ? "" : "This field is required.";
-    if ("startDate" in fieldValues)
-      temp.startDate = fieldValues.startDate ? "" : "This field is required.";
-    if ("endDate" in fieldValues)
-      temp.endDate = fieldValues.endDate ? "" : "This field is required.";
-    if ("indivGrp" in fieldValues)
-      temp.indivGrp = fieldValues.indivGrp
+    if ("type" in fieldValues)
+      temp.type = fieldValues.type ? "" : "This field is required.";
+    if ("start_date" in fieldValues)
+      temp.start_date = fieldValues.start_date ? "" : "This field is required.";
+    if ("due_date" in fieldValues)
+      temp.due_date = fieldValues.due_date ? "" : "This field is required.";
+    if ("group_or_indv" in fieldValues)
+      temp.group_or_indv = fieldValues.group_or_indv
         ? ""
         : "This field is required.";
     if ("weightage" in fieldValues)
@@ -209,54 +202,94 @@ const classes = useStyles();
     if (fieldValues == values) return Object.values(temp).every((x) => x == "");
   };
 
-  const {
-    values,
-    setValues,
-    errors,
-    setErrors,
-    handleInputChange,
-    resetForm
-  } = useForm(initialFValues, true, validate);
+  // functions and states for form submission
+  
+  // intial values
+  const initialFValues = {
+    name: "",
+    type: "",
+    start_date: new Date(),
+    due_date: new Date(),
+    group_or_indv: "",
+    weightage: ""
+  };
+  // current values from the assignment form
+  const [values, setValues] = useState({
+    name: "",
+    type: "",
+    start_date: new Date(),
+    due_date: new Date(),
+    group_or_indv: "",
+    weightage: ""
+  })
+  // errors that we have detected
+  const [errors, setErrors] = useState({})
+  // for navigation
+  const navigate = useNavigate()
 
-  const HandleSubmit = (e) => {
+
+  // function to handle the input changes
+  const handleInputChange = (e) => {
+    console.log(e.target)
+    const { name, value } = e.target;
+    setValues({
+      ...values,
+      [name]: value
+    });
+    validate({ [name]: value });
+  };
+
+  // resets the form
+  const resetForm = () => {
+    setValues({
+      name: "",
+      type: "",
+      start_date: new Date(),
+      due_date: new Date(),
+      group_or_indv: "",
+      weightage: ""
+    });
+    setErrors({});
+  };
+  useEffect(() => {}, [values])
+
+  // handle the submission
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-      addOrEdit(values, resetForm);
-    }
+      const name = values['name']
+      const type = changeTypes.filter((type) => {
+        return type['value'] == values['type']
+      })[0]['label']
+      const group_or_indv = values['group_or_indv'] == 1 ? 'I' : 'G'
+      const start_date = moment(values['start_date'], 'YYYY-M-DD').format('D-MMM-YY')
+      const due_date = moment(values['due_date'], 'YYYY-M-DD').format('D-MMM-YY')
+      const weightage = values['weightage']
+      
+      const params = {
+        'module_code' : 'DSA3101',
+        'semester' : 2220,
+        'name' : name,
+        'type' : type,
+        'group_or_indv' : group_or_indv,
+        'start_date' : start_date,
+        'due_date' : due_date,
+        'weightage' : weightage
+      }
   
-    const [name, setName] = useState(null);
-    const [type, setType] = useState(null);
-    const [group_or_indv, setGroupOrIndv] = useState(null);
-    const [weightage, setWeightage] = useState(null);
-    const [start_date, setStartDate] = useState(null);
-    const [due_date, setDueDate] = useState(null);
-    const params = {
-        'name': name,
-        'type': type,
-        'group_or_indv': group_or_indv,
-        'weightage': weightage,
-        'start_date': start_date,
-        'due_date': due_date
+      axios.post('/add_new_assignments', {params})
+      .then((response) => {
+          console.log(response.data);
+      })
+      .catch((err) => console.log(err));
+
+      navigate('/assignments')
     }
-
-    axios.post('/add_new_assignments', {params})
-    .then((response) => {
-        console.log(response.data);
-    })
-    .catch((err) => console.log(err));
 }
-
-
-  useEffect(() => {
-    if (recordForEdit != null)
-      setValues({
-        ...recordForEdit
-      });
-  }, [recordForEdit]);
 
   return (
     
-    <Form onSubmit={HandleSubmit}>
+    <Form onSubmit={handleSubmit}>
         
         <br></br><br></br><br></br>
         <h1>Add New Assignment</h1>
@@ -267,6 +300,8 @@ const classes = useStyles();
               variant="outlined"
               className={props.theme === "light" ? classes.textFieldLight : classes.textFieldDark}
               autoFocus id="issueName" label="Name" fullWidth margin="normal"
+              onChange={handleInputChange}
+              name = 'name'
             />
 
             <TextField
@@ -274,6 +309,8 @@ const classes = useStyles();
               autoFocus id="changeTypes" label="Type" fullWidth margin="normal" textAlign="left"
               variant="outlined"
               select
+              onChange={handleInputChange}
+              name = 'type'
               //defaultValue="3"
             >
               {changeTypes.map((option) => (
@@ -287,6 +324,8 @@ const classes = useStyles();
               id="indivGrp" label="Individual or Group" fullWidth margin="normal"
               select
               variant="outlined"
+              onChange={handleInputChange}
+              name = 'group_or_indv'
               //defaultValue="1"
             >
               {indivGrp.map((option) => (
@@ -299,6 +338,8 @@ const classes = useStyles();
               className={props.theme === "light" ? classes.textFieldLight : classes.textFieldDark}
               id="weightage" label="Weightage" type="number" fullWidth margin="normal"
               variant="outlined"
+              onChange={handleInputChange}
+              name = 'weightage'
             />
             <TextField
               className={props.theme === "light" ? classes.textFieldLight : classes.textFieldDark}
@@ -307,6 +348,8 @@ const classes = useStyles();
               InputLabelProps={{
                 shrink: true,
               }}
+              onChange={handleInputChange}
+              name = 'start_date'
             />
             <TextField
               className={props.theme === "light" ? classes.textFieldLight : classes.textFieldDark}
@@ -315,11 +358,13 @@ const classes = useStyles();
               InputLabelProps={{
                 shrink: true,
               }}
+              onChange={handleInputChange}
+              name = 'due_date'
             />
             
 
           <div>
-            <Controls.Button type="submit" text="Submit" component={Link} to="/assignments" />
+            <Controls.Button type="submit" text="Submit" component={Link} to="/assignments" onClick={handleSubmit}/>
             <Controls.Button text="Reset" color="default" onClick={resetForm} />
           </div>
           <br></br>

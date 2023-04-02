@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@material-ui/core";
 import useStyles from './AssignmentTableStyle';
 import axios from 'axios';
-import Popup from '../EditPopup/Popup';
+import Popup from '../EditPopUp/Popup';
 
 const AssignmentTable = ({theme, selectedModule, semester}) => {      
     const classes = useStyles();
