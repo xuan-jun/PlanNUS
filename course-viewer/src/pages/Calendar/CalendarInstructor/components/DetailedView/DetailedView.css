@@ -78,6 +78,12 @@ table {
   align-items: center;
 }
 
+.merged-table-header{
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
 thead th{
   background-color: var(--table-primary-background-color);
   color: var(--table-font-color)

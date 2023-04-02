@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import './DetailedView.css';
 
-function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, modulePairAssignment, stressScoreDaily }) {
+function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, modulePairAssignment, stressScoreDaily, currentModule}) {
   const [compiledData, setCompiledData] = useState([]);
 
   useEffect(() => {
@@ -11,12 +11,32 @@ function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, moduleP
     }
   }, [assignmentData, modulePairAssignment]);
 
+ const [stressScoreData, setStressScoreData] = useState([]);
+
+ useEffect(() => {
+  setStressScoreData(stressScoreDaily);
+  },[stressScoreDaily]);
+
+  const [currentModuleData, setCurrentModuleData] = useState([]);
+
+  useEffect(() => {
+   setCurrentModuleData(currentModule);
+   },[currentModule]);
+
  const formattedDate = moment.isMoment(date) ? date.format("D-MMM-YY") : date
 
  const uniqueCompiledData = [...new Set(compiledData.map(JSON.stringify))].map(JSON.parse);
 
  const filteredRowData = uniqueCompiledData.filter((row) => {
    return row["Due Date"] === formattedDate
+ })
+
+ const myDueData = filteredRowData.filter((row) => {
+  return row["Module Code"] === currentModuleData
+ })
+
+ const othersDueData = filteredRowData.filter((row) => {
+  return row["Module Code"] !== currentModuleData
  })
 
  // computes the colour for the background when we have 
@@ -33,22 +53,67 @@ function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, moduleP
    return style;
  }
 
- const stressScore = filteredRowData.length > 0
-    ? filteredRowData.reduce((sum, row) => sum + row['stress_score'], 0)
-    : null;
+ const stressScore = stressScoreData[formattedDate]
 
  const detailedStyle = rowStyle(stressScore);
  return (
    <div className={`detailed-view ${isDetailed ? 'active' : 'inactive'}`}>
-     {console.log(stressScore)}
+     {console.log(currentModuleData)}
      <div className="detailed-view-content">
        <button className="close-btn" onClick={() => setIsDetailed(!isDetailed)}>
          Return to Calendar View
        </button>
-       <h2 className={`detailed-view-header ${detailedStyle}`}>Assignments on {new Date(date).toLocaleDateString('en-GB', {day: '2-digit', month: 'short', year: 'numeric'})}</h2>
+       <h2 className={`detailed-view-header ${detailedStyle}`}>
+        {new Date(date).toLocaleDateString('en-GB', {day: '2-digit', month: 'long', year: 'numeric'})}
+        <br></br>
+        Stress Score: {stressScore ? stressScore.toFixed(2) : 0}
+       </h2>
        <div>
          <table>
            <thead>
+              <tr>
+                <th colSpan="9" class="merged-table-header">My Assignment(s)</th>
+              </tr>
+              <tr>
+               <th>Assignment Name</th>
+               <th>Module Code</th>
+               <th>Due Date</th>
+               <th>Assignment Type</th>
+               <th>Professor</th>
+               <th>Email</th>
+               <th>Weightage</th>
+               <th>Stress Score</th>
+               <th>Action</th>
+              </tr>
+           </thead>
+           <tbody>
+             {myDueData.map((row, i) => (
+               <tr key={i}>
+                 <td>{row['Name']}</td>
+                 <td>{row['Module Code']}</td>
+                 <td>{row['Due Date']}</td>
+                 <td>{row['Type']}</td>
+                 <td>{row['Professor']}</td>
+                 <td>
+                   <a className={"link"} href={`mailto:${row['Email']}`}>{row['Email']}</a>
+                 </td>
+                 <td>{row['Weightage']}%</td>
+                 <td>{row['stress_score'].toFixed(2)}</td>
+                 <td>
+                  <button>Edit Assignment</button>
+                 </td>
+               </tr>
+             ))}
+           </tbody>
+         </table>
+
+        <br></br>
+
+         <table>
+           <thead>
+           <  tr>
+                <th colSpan="8" class="merged-table-header">Other Assignment(s)</th>
+              </tr>
              <tr>
                <th>Assignment Name</th>
                <th>Module Code</th>
@@ -61,7 +126,7 @@ function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, moduleP
              </tr>
            </thead>
            <tbody>
-             {filteredRowData.map((row, i) => (
+             {othersDueData.map((row, i) => (
                <tr key={i}>
                  <td>{row['Name']}</td>
                  <td>{row['Module Code']}</td>
@@ -71,7 +136,7 @@ function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, moduleP
                  <td>
                    <a className={"link"} href={`mailto:${row['Email']}`}>{row['Email']}</a>
                  </td>
-                 <td>{row['Weightage']}</td>
+                 <td>{row['Weightage']}%</td>
                  <td>{row['stress_score'].toFixed(2)}</td>
                </tr>
              ))}
