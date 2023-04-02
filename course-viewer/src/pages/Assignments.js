@@ -1,10 +1,10 @@
 import React from "react";
 import Assignment from "./Assignment/buildAssignments";
 
-const Assignments = (props) => {
+const Assignments = ({theme, token}) => {
   return (
       <div>
-        <Assignment theme={props.theme}/>
+        <Assignment theme={theme} token={token} />
       </div>
   );
 }
