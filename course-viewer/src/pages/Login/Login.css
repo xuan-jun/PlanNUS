@@ -104,6 +104,14 @@
   border-color: lightgreen;
 }
 
+.password-hide {
+  position: absolute;
+  right: 7px;
+  top: 7px;
+
+  cursor: pointer;
+}
+
 .login-input:focus ~ .input-title{
   top: -0.75rem;
   font-size: 1rem;
