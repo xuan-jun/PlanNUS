@@ -13,8 +13,13 @@ const Popup = ({theme, open, setOpen, currentRow, setCurrentRow, assignments }) 
   const [group_or_indv, setGroupOrIndv] = useState(currentRow['Group or Individual']);
   const [weightage, setWeightage] = useState(currentRow['Weightage']);
   const [original_name, setOriginalName] = useState(currentRow['Name']);
-  const [start_date, setStartDate] = useState(currentRow['Start Date']);
-  const [due_date, setDueDate] = useState(currentRow['Due Date']);
+
+  const reformattedStartDate = moment(currentRow['Start Date'], 'DD-MMM-YYYY').format('YYYY-MM-DD');
+  const reformattedDueDate = moment(currentRow['Due Date'], 'DD-MMM-YYYY').format('YYYY-MM-DD');
+
+  const [start_date, setStartDate] = useState(reformattedStartDate);
+  const [due_date, setDueDate] = useState(reformattedDueDate);
+
 
 
  
@@ -31,16 +36,20 @@ const Popup = ({theme, open, setOpen, currentRow, setCurrentRow, assignments }) 
     }
   
     // Validate the start date and due date
-    const startDate = moment(start_date, 'YYYY-MM-DD');
-    const dueDate = moment(due_date, 'YYYY-MM-DD');
+    const startDate = moment(start_date, 'DD-MM-YYYY');
+    const dueDate = moment(due_date, 'DD-MM-YYYY');
     if (dueDate.isBefore(startDate)) {
       alert('Due date must be later than start date');
+      return;
+    }
+    if (startDate.isAfter(dueDate)) {
+      alert('Start date must be before than due date');
       return;
     }
   
     // Validate the weightage
     const totalWeightage = assignments.reduce((sum, a) => sum + parseInt(a['Weightage']), 0);
-    if (totalWeightage + parseInt(weightage) > 100) {
+    if (totalWeightage -parseInt(currentRow['Weightage']) + parseInt(weightage) > 100) {
       alert('The total weightage of all assignments under this module cannot be more than 100');
       return;
     }
@@ -96,7 +105,7 @@ return (
               label="Start Date"
               type="date"
               fullWidth
-              value= {moment(start_date, 'DD-MMM-YYYY').format('YYYY-MM-DD')}
+              value= {start_date}
               onChange={(event) => setStartDate(event.target.value)}
               variant="outlined"
               InputLabelProps={{
@@ -110,7 +119,7 @@ return (
               label="Due Date"
               type="date"
               fullWidth
-              value= {moment(due_date, 'DD-MMM-YYYY').format('YYYY-MM-DD')}
+              value= {due_date}
               onChange={(event) => setDueDate(event.target.value)}
               variant="outlined"
               InputLabelProps={{
