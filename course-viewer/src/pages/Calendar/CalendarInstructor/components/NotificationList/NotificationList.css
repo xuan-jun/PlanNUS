@@ -53,3 +53,7 @@
   align-items: center;
   cursor: pointer;
 }
+
+.no-notifications {
+  margin-top: 1rem;
+}

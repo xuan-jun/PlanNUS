@@ -11,7 +11,6 @@ const NotificationList = ({assignmentData, modulePairAssignment, stressScoreDail
   // checks which are the values the stress scores that exceeds
   useEffect(() => {
     var notiDates = []
-    console.log(stressScoreDaily);
     for (const [key, value] of Object.entries(stressScoreDaily)) {
       if (value >= 7.5 && key) { // abritrary value
         notiDates.push(key);
@@ -45,11 +44,15 @@ const NotificationList = ({assignmentData, modulePairAssignment, stressScoreDail
     <div className="notification-box">
         <DetailedView isDetailed={isDetailed} setIsDetailed={setIsDetailed} date={notificationDate} assignmentData={assignmentData} modulePairAssignment={modulePairAssignment} stressScoreDaily={stressScoreDaily}/>
         <h3>NOTIFICATIONS</h3>
-        <ul className='notification-list'>
-          {notifications.map(( notification ) => (
-            <Notification date={notification} notificationClickRemover={notificationClickRemover} handleClick={handleClick} assignmentData={assignmentData}/>
-          ))}
-        </ul>
+        {
+          notifications.length === 0 ? 
+          <h4 className='no-notifications'>No assignments require your attention!</h4> :
+          <ul className='notification-list'>
+            {notifications.map(( notification ) => (
+              <Notification date={notification} notificationClickRemover={notificationClickRemover} handleClick={handleClick} assignmentData={assignmentData}/>
+            ))}
+          </ul>
+        }
     </div>
   )
 }
