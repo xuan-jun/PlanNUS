@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Select, MenuItem, makeStyles} from '@material-ui/core';
+import {Select, MenuItem, makeStyles, Menu} from '@material-ui/core';
 import useStyles from './ModuleMenuStyle';
 
 const ModuleMenu = ({theme, modules, selectedModule, setSelectedModule}) => {      
@@ -13,6 +13,7 @@ const ModuleMenu = ({theme, modules, selectedModule, setSelectedModule}) => {
     <div>
       <div>
         <Select value={selectedModule} onChange={handleModuleChange} className={theme === "light" ? classes.moduleSelectLight : classes.moduleSelectDark}>
+        <MenuItem value={selectedModule} disabled="true">Select A Module</MenuItem>
             {modules.map((module) => (
               <MenuItem key={module} value={module} onClick={() => {setSelectedModule(module)}}>
                 {module}
