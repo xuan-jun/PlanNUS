@@ -7,6 +7,9 @@ import { useForm, Form } from "./Assignment/components/useForm";
 import { Link } from 'react-router-dom';
 import { FormControl, InputLabel } from '@mui/material';
 import { makeStyles } from "@material-ui/core/styles";
+import axios from 'axios';
+import moment from 'moment';
+
 
 const font =  "'Inter', sans-serif";
 const useStyles = makeStyles(theme => ({
@@ -84,6 +87,9 @@ const useStyles = makeStyles(theme => ({
       '& label.Mui-focused': {
         color: '#000000', // set the focused label color
       },
+      '& .MuiTextField-root':{
+        margin: theme.spacing(1), width: '25ch',
+      },
       '& .MuiInput-underline:after': {
         borderBottomColor: 'none', // set the focused border color
       },
@@ -100,6 +106,9 @@ const useStyles = makeStyles(theme => ({
         '& fieldset': {
           borderColor: '#000000', // change the border color
         },
+      },
+      '& input':{
+        textAlign:"left"
       },
     },
   moduleSelectLight: {
@@ -209,12 +218,34 @@ const classes = useStyles();
     resetForm
   } = useForm(initialFValues, true, validate);
 
-  const handleSubmit = (e) => {
+  const HandleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
       addOrEdit(values, resetForm);
     }
-  };
+  
+    const [name, setName] = useState(null);
+    const [type, setType] = useState(null);
+    const [group_or_indv, setGroupOrIndv] = useState(null);
+    const [weightage, setWeightage] = useState(null);
+    const [start_date, setStartDate] = useState(null);
+    const [due_date, setDueDate] = useState(null);
+    const params = {
+        'name': name,
+        'type': type,
+        'group_or_indv': group_or_indv,
+        'weightage': weightage,
+        'start_date': start_date,
+        'due_date': due_date
+    }
+
+    axios.post('/add_new_assignments', {params})
+    .then((response) => {
+        console.log(response.data);
+    })
+    .catch((err) => console.log(err));
+}
+
 
   useEffect(() => {
     if (recordForEdit != null)
@@ -225,7 +256,7 @@ const classes = useStyles();
 
   return (
     
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={HandleSubmit}>
         
         <br></br><br></br><br></br>
         <h1>Add New Assignment</h1>
@@ -249,7 +280,7 @@ const classes = useStyles();
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}
                 </MenuItem>
-              ))}
+              ))} 
             </TextField>
             <TextField
               className={props.theme === "light" ? classes.textFieldLight : classes.textFieldDark}
@@ -291,7 +322,6 @@ const classes = useStyles();
             <Controls.Button type="submit" text="Submit" component={Link} to="/assignments" />
             <Controls.Button text="Reset" color="default" onClick={resetForm} />
           </div>
-          <br></br>
           <br></br>
           <Button component={Link} to="/assignments">
             Return To Assignments
