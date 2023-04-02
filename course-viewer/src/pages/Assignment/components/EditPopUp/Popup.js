@@ -7,7 +7,7 @@ import moment from 'moment';
 import { DatePicker, AdapterDateFns } from '@mui/lab';
 import { format, set } from 'date-fns';
 
-const Popup = ({theme, open, setOpen, currentRow, setCurrentRow, assignments }) => {
+const Popup = ({theme, open, setOpen, currentRow, setCurrentRow, assignments, edited, setEdited }) => {
   const classes = useStyles();
 
   const [name, setName] = useState(currentRow['Name']);
@@ -22,7 +22,7 @@ const Popup = ({theme, open, setOpen, currentRow, setCurrentRow, assignments }) 
     if (event == '') {
       return event;
     }
-    return moment(due_date, 'YYYY-MM-DD').format('DD-MMM-YY');
+    return moment(event, 'YYYY-MM-DD').format('DD-MMM-YY');
   }
 
   function handleDates(event) {
@@ -49,8 +49,8 @@ const Popup = ({theme, open, setOpen, currentRow, setCurrentRow, assignments }) 
     }
   
     // Validate the start date and due date
-    const startDate = moment(start_date, 'DD-MM-YYYY');
-    const dueDate = moment(due_date, 'DD-MM-YYYY');
+    const startDate = moment(start_date, 'YYYY-MM-DD');
+    const dueDate = moment(due_date, 'YYYY-MM-DD');
     if (dueDate.isBefore(startDate)) {
       alert('Due date must be later than start date');
       return;
@@ -87,6 +87,8 @@ const Popup = ({theme, open, setOpen, currentRow, setCurrentRow, assignments }) 
         setOpen(false);
       })
       .catch((err) => console.log(err));
+
+      setEdited(edited+1)
   }
 
   useEffect(() => {}, [open])
