@@ -73,9 +73,9 @@ function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, moduleP
          <table>
            <thead>
               <tr>
-                <th colSpan="9" class="merged-table-header">My Assignment(s)</th>
+                <th colSpan="9" className="merged-table-header">My Assignment(s)</th>
               </tr>
-              <tr>
+              <tr className='tableHeader'>
                <th>Assignment Name</th>
                <th>Module Code</th>
                <th>Due Date</th>
@@ -109,15 +109,16 @@ function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, moduleP
          <table>
            <thead>
            <  tr>
-                <th colSpan="8" class="merged-table-header">Other Assignment(s)</th>
+                <th colSpan="9" className="merged-table-header">Other Assignment(s)</th>
               </tr>
-             <tr>
+             <tr className="tableHeader">
                <th>Assignment Name</th>
                <th>Module Code</th>
                <th>Due Date</th>
                <th>Assignment Type</th>
                <th>Weightage</th>
                <th>Stress Score</th>
+               <th>Students Involved</th>
                <th>Instructor</th>
                <th>Email</th>
              </tr>
@@ -131,6 +132,7 @@ function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, moduleP
                  <td>{row['Type']}</td>
                  <td>{row['Weightage']}%</td>
                  <td>{row['stress_score'].toFixed(2)}</td>
+                 <td>{row['Count']}</td>
                  <td>{row['Instructor']}</td>
                  <td>
                    <a className={"link"} href={`mailto:${row['Email']}`}>{row['Email']}</a>
