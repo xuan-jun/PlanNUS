@@ -24,7 +24,7 @@
   transition: 0.3s opacity ease;
 }
 
-.detailed-view-content {
+.detailed-view-content-I {
   position: relative;
   padding: 40px;
   width: 80%;
@@ -32,7 +32,7 @@
   background-color: var(--primary-color);
 }
 
-.detailed-view-content > .close-btn {
+.detailed-view-content-I > .close-btn {
   position: absolute;
   bottom: 16px;
   right: 16px;
@@ -41,7 +41,7 @@
   color: var(--table-font-color)
 }
 
-.detailed-view-content > .detailed-view-header {
+.detailed-view-content-I > .detailed-view-header {
   height: 10%;
   width: 100%;
   border-radius: 28px;

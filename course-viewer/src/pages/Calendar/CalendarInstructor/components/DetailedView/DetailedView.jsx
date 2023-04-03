@@ -33,6 +33,9 @@ function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, moduleP
  })
 
  const myDueData = filteredRowData.filter((row) => {
+  if (currentModuleData === "My View") {
+    return true;
+  }
   return row["Module Code"] === currentModuleData
  })
 
@@ -60,7 +63,7 @@ function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, moduleP
  return (
    <div className={`detailed-view ${isDetailed ? 'active' : 'inactive'}`}>
      {console.log(currentModuleData)}
-     <div className="detailed-view-content">
+     <div className="detailed-view-content-I">
        <button className="close-btn" onClick={() => setIsDetailed(!isDetailed)}>
          Return to Calendar View
        </button>
@@ -105,7 +108,8 @@ function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, moduleP
          </table>
 
         <br></br>
-
+        {
+          currentModuleData !== "My View" ? 
          <table>
            <thead>
            <  tr>
@@ -140,7 +144,9 @@ function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, moduleP
                </tr>
              ))}
            </tbody>
-         </table>
+         </table> :
+         ""
+        }
        </div>
      </div>
    </div>
