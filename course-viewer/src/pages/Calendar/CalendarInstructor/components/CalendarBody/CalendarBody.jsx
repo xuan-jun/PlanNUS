@@ -143,7 +143,8 @@ const CalendarBody = ({currentModule, currentModules, semester, assignmentData, 
             <div className = "week">
               {week.map((day) => (
                 <CalendarTile day={day} dayStyle = {dayStyle}
-                handleClick={handleClick} assignmentData={assignmentData} stressScoreDaily={stressScoreDaily}/>
+                handleClick={handleClick} assignmentData={assignmentData} stressScoreDaily={stressScoreDaily}
+                currentModule={currentModule}/>
               ))}
             </div>
           ))}
@@ -153,7 +154,7 @@ const CalendarBody = ({currentModule, currentModules, semester, assignmentData, 
   )
 };
 
-const CalendarTile = ({ day, dayStyle, handleClick, assignmentData, stressScoreDaily }) => {
+const CalendarTile = ({ day, dayStyle, handleClick, assignmentData, stressScoreDaily, currentModule }) => {
   const formattedDate = day.format("D-MMM-YY");
 
   // filter for current day data for current module
@@ -164,6 +165,9 @@ const CalendarTile = ({ day, dayStyle, handleClick, assignmentData, stressScoreD
   // filter for current day task for current module
   const currentDayTasks = currentDayData.length === 0 ? [] :
     currentDayData.map((assignment) => {
+      if (currentModule === 'My View') {
+        return `${assignment['Module Code']} ${assignment['Name']}`
+      } 
       return assignment['Name'];
     });
 
