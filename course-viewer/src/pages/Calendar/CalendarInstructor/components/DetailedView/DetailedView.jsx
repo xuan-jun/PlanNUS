@@ -1,103 +1,157 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import './DetailedView.css';
-import data from './DetailedViewData.json';
+import { Link } from 'react-router-dom';
 
-function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, modulePairAssignment }) {
-  const [tableData, setTableData] = useState([]);
+function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, modulePairAssignment, stressScoreDaily, currentModule}) {
+  const [compiledData, setCompiledData] = useState([]);
 
   useEffect(() => {
-    setTableData(
-      Object.keys(data[0] || {})
-        .map(key => ({
-          header: headerNameMap[key] || key, // use the header name map for known fields
-          values: data.map(item => item[key])
-        }))
-    );
-  }, []);
-
-  // Pivot the table data from columns to rows
-  const rowData = tableData.reduce((acc, col) => {
-    col.values.forEach((value, i) => {
-      if (!acc[i]) {
-        acc[i] = {};
-      }
-      acc[i][col.header] = value;
-    });
-    return acc;
-  }, []);
-
-  const formattedDate = moment.isMoment(date) ? date.format("D MMM YYYY") : date
-
-  const filteredRowData = rowData.filter((row) => {
-    return row["Due Date"] === formattedDate
-  })
-
-  // computes the colour for the background when we have 
-  let rowStyle = (stressScore) => {
-    let style = "";
-    // assuming higher the worse it is
-    if (stressScore >= 7.5 && stressScore <= 10) {
-      style = style.concat("stressed")
-    } else if (stressScore >= 5 && stressScore <= 7.5) {
-      style = style.concat("moderate")
-    } else {
-      style = style.concat("good")
+   if (assignmentData && modulePairAssignment) {
+       setCompiledData(assignmentData.concat(modulePairAssignment));
     }
-    return style;
-  }
+  }, [assignmentData, modulePairAssignment]);
 
-  const stressScore = filteredRowData.length > 0 ? filteredRowData[0]['Stress Score'] : null;
-  const detailedStyle = rowStyle(stressScore);
-  return (
-    <div className={`detailed-view ${isDetailed ? 'active' : 'inactive'}`}>
-      <div className="detailed-view-content">
-        <button className="close-btn" onClick={() => setIsDetailed(!isDetailed)}>
-          Return to Calendar View
-        </button>
-        <h2 className={`detailed-view-header ${detailedStyle}`}>Assignments on {new Date(date).toLocaleDateString('en-GB', {day: '2-digit', month: 'short', year: 'numeric'})}</h2>
-        <div>
-          <table>
-            <thead>
+ const [stressScoreData, setStressScoreData] = useState([]);
+
+ useEffect(() => {
+  setStressScoreData(stressScoreDaily);
+  },[stressScoreDaily]);
+
+  const [currentModuleData, setCurrentModuleData] = useState([]);
+
+  useEffect(() => {
+   setCurrentModuleData(currentModule);
+   },[currentModule]);
+
+ const formattedDate = moment.isMoment(date) ? date.format("D-MMM-YY") : date
+
+ const uniqueCompiledData = [...new Set(compiledData.map(JSON.stringify))].map(JSON.parse);
+
+ const filteredRowData = uniqueCompiledData.filter((row) => {
+   return row["Due Date"] === formattedDate
+ })
+
+ const myDueData = filteredRowData.filter((row) => {
+  if (currentModuleData === "My View") {
+    return true;
+  }
+  return row["Module Code"] === currentModuleData
+ })
+
+ const othersDueData = filteredRowData.filter((row) => {
+  return row["Module Code"] !== currentModuleData
+ })
+
+ // computes the colour for the background when we have 
+ let rowStyle = (stressScore) => {
+   let style = "";
+   // assuming higher the worse it is
+   if (stressScore >= 7.5) {
+     style = style.concat("stressed")
+   } else if (stressScore >= 5 && stressScore <= 7.5) {
+     style = style.concat("moderate")
+   } else {
+     style = style.concat("good")
+   }
+   return style;
+ }
+
+ const stressScore = stressScoreData[formattedDate]
+
+ const detailedStyle = rowStyle(stressScore);
+ return (
+   <div className={`detailed-view ${isDetailed ? 'active' : 'inactive'}`}>
+     {console.log(currentModuleData)}
+     <div className="detailed-view-content-I">
+       <button className="close-btn" onClick={() => setIsDetailed(!isDetailed)}>
+         Return to Calendar View
+       </button>
+       <h2 className={`detailed-view-header ${detailedStyle}`}>
+        {new Date(date).toLocaleDateString('en-GB', {day: '2-digit', month: 'long', year: 'numeric'})}
+        <br></br>
+        Stress Score: {stressScore ? stressScore.toFixed(2) : 0}
+       </h2>
+       <div>
+         <table>
+           <thead>
               <tr>
-                <th>Assignment Name</th>
-                <th>Module Code</th>
-                <th>Due Date</th>
-                <th>Professor</th>
-                <th>Email</th>
-                <th>Stress Score</th>
+                <th colSpan="9" className="merged-table-header">My Assignment(s)</th>
               </tr>
-            </thead>
-            <tbody>
-              {filteredRowData.map((row, i) => (
-                <tr key={i}>
-                  <td>{row['Assignment Name']}</td>
-                  <td>{row['Module Code']}</td>
-                  <td>{row['Due Date']}</td>
-                  <td>{row['Professor']}</td>
-                  <td>
-                    <a className={"link"} href={`mailto:${row['Email']}`}>{row['Email']}</a>
-                  </td>
-                  <td>{row['Stress Score']}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  );
+              <tr className='tableHeader'>
+               <th>Assignment Name</th>
+               <th>Module Code</th>
+               <th>Due Date</th>
+               <th>Assignment Type</th>
+               <th>Weightage</th>
+               <th>Stress Score</th>
+               <th>Action</th>
+              </tr>
+           </thead>
+           <tbody>
+             {myDueData.map((row, i) => (
+               <tr key={i}>
+                 <td>{row['Name']}</td>
+                 <td>{row['Module Code']}</td>
+                 <td>{row['Due Date']}</td>
+                 <td>{row['Type']}</td>
+                 <td>{row['Weightage']}%</td>
+                 <td>{row['stress_score'].toFixed(2)}</td>
+                 <td>
+                  <Link to="/assignments">
+                   <button>Edit Assignment</button>
+                  </Link>
+                 </td>
+               </tr>
+             ))}
+           </tbody>
+         </table>
+
+        <br></br>
+        {
+          currentModuleData !== "My View" ? 
+         <table>
+           <thead>
+           <  tr>
+                <th colSpan="9" className="merged-table-header">Other Assignment(s)</th>
+              </tr>
+             <tr className="tableHeader">
+               <th>Assignment Name</th>
+               <th>Module Code</th>
+               <th>Due Date</th>
+               <th>Assignment Type</th>
+               <th>Weightage</th>
+               <th>Stress Score</th>
+               <th>Students Involved</th>
+               <th>Instructor</th>
+               <th>Email</th>
+             </tr>
+           </thead>
+           <tbody>
+             {othersDueData.map((row, i) => (
+               <tr key={i}>
+                 <td>{row['Name']}</td>
+                 <td>{row['Module Code']}</td>
+                 <td>{row['Due Date']}</td>
+                 <td>{row['Type']}</td>
+                 <td>{row['Weightage']}%</td>
+                 <td>{row['stress_score'].toFixed(2)}</td>
+                 <td>{row['Count']}</td>
+                 <td>{row['Instructor']}</td>
+                 <td>
+                   <a className={"link"} href={`mailto:${row['Email']}`}>{row['Email']}</a>
+                 </td>
+               </tr>
+             ))}
+           </tbody>
+         </table> :
+         ""
+        }
+       </div>
+     </div>
+   </div>
+ );
 }
 
-
-// map of known header names
-const headerNameMap = {
-  'assignment-name': 'Assignment Name',
-  'module-code': 'Module Code',
-  'date': 'Due Date',
-  'professor': 'Professor',
-  'email': 'Email',
-  'stressScore': "Stress Score"
-};
-
 export default DetailedView;
+

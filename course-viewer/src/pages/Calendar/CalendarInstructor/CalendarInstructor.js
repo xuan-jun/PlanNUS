@@ -10,10 +10,19 @@ const CalendarInstructor = ({token}) => {
 
   const instructorName = token['userName']
   const semester = 2220 // default semester for now
+  // keeps track of the current list of filters
   const [filters, setFilters] = useState([]);
 
   const filterDefault = 'Please Select View'
+  // keeps track of the currently selected filter
   const [currentFilter, setCurrentFilter] = useState(filterDefault);
+
+  // keeps track of the current assignment data
+  const [assignmentData, setAssignmentData] = useState([]);
+  // keeps track of the assignentsFromModulePairs
+  const [modulePairAssignment, setModulePairAssignment] = useState([]);
+  // day, stress scores
+  const [stressScoreDaily, setStressScoreDaily] = useState({});
   
   // make the api call to get the list of modules the instructor is currently teaching
   useEffect(() => {
@@ -38,9 +47,23 @@ const CalendarInstructor = ({token}) => {
       <div className="side-panel">
         <Filter filterTitle={filterTitle} filters={filters}
           currentFilter={currentFilter} setCurrentFilter={setCurrentFilter}/>
-        <NotificationList />
+        {currentFilter === 'My View' ?
+        <div className="module-list">
+          <h3>Modules you are currently teaching</h3>
+          {filters.filter((module) => {
+            return module !== "My View";
+          }).map((module) => {
+            return <div className="modules">{module}</div>
+          })}
+        </div> :
+          <NotificationList assignmentData={assignmentData} modulePairAssignment={assignmentData} stressScoreDaily={stressScoreDaily}/>
+        }
       </div>
-      <CalendarBody currentModule={currentFilter === filterDefault ? "" : currentFilter} semester = {semester}/>
+      <CalendarBody currentModule={currentFilter}
+      currentModules={filters} semester = {semester} assignmentData={assignmentData}
+      instructor = {instructorName}
+      setAssignmentData={setAssignmentData} modulePairAssignment={modulePairAssignment} setModulePairAssignment={setModulePairAssignment} stressScoreDaily={stressScoreDaily}
+      setStressScoreDaily={setStressScoreDaily}/>
     </div>
   )
 };

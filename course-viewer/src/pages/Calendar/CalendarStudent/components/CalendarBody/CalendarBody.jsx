@@ -6,46 +6,31 @@ import './CalendarBody.css'
 import DetailedView from '../DetailedView/DetailedView';
 import axios from 'axios'
 
-const CalendarBody = ({currentModule, semester}) => {
+const CalendarBody = ({currentModuleListAssignments, currentSemester}) => {
   // calendar array of dates in the current view
   const [calendar, setCalendar] = useState([]);
   // currently selected date
   const [value, setValue] = useState(moment());
   // keeps track of whether we are looking at the detailed view
   const [isDetailed, setIsDetailed] = useState(false);
-  // keeps track of the assignmentData that we have now
-  const [assignmentData, setAssignmentData] = useState([]);
-  // keeps track of the assignentsFromModulePairs
-  const [modulePairAssignment, setModulePairData] = useState([]);
 
+  // readjust the starting date when the semester changes
+  useEffect(() => {
+    if (['AY21/22 Sem 1', 'AY21/22 Sem 2', 'AY22/23 Sem 1', 'AY22/23 Sem 2'].includes(currentSemester)) {
+      const startDateMapping = {
+        'AY21/22 Sem 1' : moment('01 Aug 2021', 'DD MMM YYYY'),
+        'AY21/22 Sem 2' : moment('01 Jan 2022', 'DD MMM YYYY'),
+        'AY22/23 Sem 1' : moment('01 Aug 2022', 'DD MMM YYYY'),
+        'AY22/23 Sem 2' : moment('01 Jan 2023', 'DD MMM YYYY')
+      }
+      setValue(startDateMapping[currentSemester])
+    }
+  }, [currentSemester])
   // each time the selected date is changed, we can rebuild the calendar
   useEffect(() => {
     setCalendar(buildCalendar(value));
   }, [value])
 
-  // refreshes each time the currentModule changes
-  useEffect(() => {
-    if (currentModule) {
-      const params = {
-        "module_code" : currentModule,
-        "semester" : semester
-      }
-      // get assignments from the current module
-      axios.get('/get_assignments', {params})
-        .then((response) => {
-          const data = response.data
-          setAssignmentData(data);
-        })
-        .catch((err) => {console.log(err)})
-      // get assignments from the relevant module pairings
-      axios.get('/get_assignment_pairings', {params})
-        .then((response) => {
-          const data = response.data
-          setModulePairData(data);
-        })
-        .catch((err) => {console.log(err)})
-    }
-  }, [currentModule])
 
   // computes the colour for the background when we have 
   let dayStyle = (day, stressScore) => {
@@ -54,7 +39,7 @@ const CalendarBody = ({currentModule, semester}) => {
     if (!value.isSame(day, "month")) {
       style = style.concat("diffMonth")
     }
-    else if (stressScore >= 7.5 && stressScore <= 10) {
+    else if (stressScore >= 7.5) {
       style = style.concat("stressed")
     } else if (stressScore >= 5 && stressScore <= 7.5) {
       style = style.concat("moderate")
@@ -72,7 +57,7 @@ const CalendarBody = ({currentModule, semester}) => {
 
   return (
     <div className='calendar-wrapper'>
-      <DetailedView isDetailed={isDetailed} setIsDetailed={setIsDetailed} date={value} assignmentData={assignmentData} modulePairAssignment={modulePairAssignment}/>
+      <DetailedView isDetailed={isDetailed} setIsDetailed={setIsDetailed} date={value} assignmentData={currentModuleListAssignments}/>
       <div className="calendar">
         <CalendarHeader value={value} setValue={setValue}/>
         <div className="body">
@@ -89,7 +74,7 @@ const CalendarBody = ({currentModule, semester}) => {
             <div className = "week">
               {week.map((day) => (
                 <CalendarTile day={day} dayStyle = {dayStyle}
-                handleClick={handleClick} assignmentData={assignmentData}/>
+                handleClick={handleClick} currentModuleListAssignments={currentModuleListAssignments}/>
               ))}
             </div>
           ))}
@@ -99,19 +84,19 @@ const CalendarBody = ({currentModule, semester}) => {
   )
 };
 
-const CalendarTile = ({ day, dayStyle, handleClick, assignmentData }) => {
+const CalendarTile = ({ day, dayStyle, handleClick, currentModuleListAssignments }) => {
   const formattedDate = day.format("D-MMM-YY");
-  const currentDayData = assignmentData.filter((day) => {
+  const currentDayData = currentModuleListAssignments.filter((day) => {
     return day['Due Date'] === formattedDate;
   })
   const currentDayTasks = currentDayData.length === 0 ? [] :
     currentDayData.map((assignment) => {
-      return assignment['Name'];
+      return `${assignment['Module Code']} ${assignment['Name']}`;
     });
   const stressScore = currentDayData.length === 0 ? [] :
   currentDayData.map((assignment) => {
-    return Math.random() * 10; // give a random stress score now
-  });
+    return assignment['stress_score'];
+  }).reduce((a, b) => {return a+b}, 0)
 
   const tileStyle = dayStyle(day, stressScore);
 

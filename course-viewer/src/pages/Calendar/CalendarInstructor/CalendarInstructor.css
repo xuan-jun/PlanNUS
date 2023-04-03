@@ -9,3 +9,26 @@
   flex-direction: column;
   justify-content: space-between;
 }
+
+.module-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  justify-content: center;
+  align-items: center;
+}
+
+.modules {
+  width: 10rem;
+  height: 2.5rem;
+  background-color: lightblue;
+
+  border-radius: 28px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+}

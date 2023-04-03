@@ -1,16 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import "./NotificationList.css";
 import moment from 'moment';
-import data from "./NotificationData.json" // import the Notification data here
 import cross from "../../../../../assets/cross.svg" // import the cross for the module selector
 import DetailedView from '../DetailedView/DetailedView';
 
-const NotificationList = () => {
+const NotificationList = ({assignmentData, modulePairAssignment, stressScoreDaily}) => {
 
   // records the notifications selected state
-  const [notifications, setNotifications] = useState(data);
-  // rerender each time the notification list changes
-  useEffect(() => {}, [notifications]);
+  const [notifications, setNotifications] = useState([]);
+  // checks which are the values the stress scores that exceeds
+  useEffect(() => {
+    var notiDates = []
+    for (const [key, value] of Object.entries(stressScoreDaily)) {
+      if (value >= 7.5 && key) { // abritrary value
+        notiDates.push(key);
+      }
+    }
+
+    // sort by notification dates
+    notiDates.sort(function (left, right) {
+      return moment(left).diff(moment(right))
+    })
+    setNotifications(notiDates);
+  }, [stressScoreDaily]);
 
   // keeps track of whether we are looking at the detailed view
   const [isDetailed, setIsDetailed] = useState(false);
@@ -18,8 +30,8 @@ const NotificationList = () => {
   const [notificationDate, setNotificationDate] = useState(moment());
 
   // notification removal click handler
-  let notificationClickRemover = (assignmentName) => {
-    setNotifications(notifications.filter(notification => notification['assignment-name'] !== assignmentName));
+  let notificationClickRemover = (removedDate) => {
+    setNotifications(notifications.filter((date) => date !== removedDate));
   }
 
   // handleClick events by the user on each of the tiles
@@ -30,29 +42,40 @@ const NotificationList = () => {
 
   return (
     <div className="notification-box">
-        <DetailedView isDetailed={isDetailed} setIsDetailed={setIsDetailed} date={notificationDate}/>
+        <DetailedView isDetailed={isDetailed} setIsDetailed={setIsDetailed} date={notificationDate} assignmentData={assignmentData} modulePairAssignment={modulePairAssignment} stressScoreDaily={stressScoreDaily}/>
         <h3>NOTIFICATIONS</h3>
-        <ul className='notification-list'>
-          {notifications.map(( notification ) => (
-            <Notification title={notification['title']} assignmentName={notification['assignment-name']}
-              date={notification['date']} notificationClickRemover={notificationClickRemover} handleClick={handleClick}/>
-          ))}
-        </ul>
+        {
+          notifications.length === 0 ? 
+          <h4 className='no-notifications'>No assignments require your attention!</h4> :
+          <ul className='notification-list'>
+            {notifications.map(( notification ) => (
+              <Notification date={notification} notificationClickRemover={notificationClickRemover} handleClick={handleClick} assignmentData={assignmentData}/>
+            ))}
+          </ul>
+        }
     </div>
   )
 }
 
-const Notification = ({title, assignmentName, date, notificationClickRemover, handleClick}) => {
+const Notification = ({date, notificationClickRemover, handleClick, assignmentData}) => {
+  // extract the current list of assignments
+  const currentAssignments = assignmentData.filter((assignment) => {
+    return assignment['Due Date'] === date;
+  })
+
   return (
     <li className="notification">
-      <div className='wrapper'>
-        
-      </div>
-      <h4 className="notification-title">{title}</h4>
-      <img src={cross} onClick={() => notificationClickRemover(assignmentName)}/>
+      <h4 className="notification-title">Optimisation Possible!</h4>
+      <img src={cross} onClick={() => notificationClickRemover(date)}/>
       <div className="notification-details"  onClick={() => handleClick(date)}>
         <div className="assignment-date">{date}</div>
-        <div className="assignment-name">{assignmentName}</div>
+        <div className="assignments-container">{
+          currentAssignments.map((assignment) => {
+            return <div className="assignment-name">
+              {assignment['Name']}
+            </div>
+          })
+        }</div>
       </div>
     </li>
   )

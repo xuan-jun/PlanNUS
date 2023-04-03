@@ -36,4 +36,4 @@ RUN pip3 install -r requirements.txt
 ## Set the environment variable for the flask application here:
 ENV FLASK_APP database
 
-ENTRYPOINT [ "python", "-u", "-m", "flask", "run", "--host=0.0.0.0"]
+ENTRYPOINT [ "python", "-u", "-m", "flask", "run", "--host=0.0.0.0", "--port=4000"]
