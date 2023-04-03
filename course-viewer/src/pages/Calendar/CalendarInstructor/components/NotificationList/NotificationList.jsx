@@ -4,7 +4,7 @@ import moment from 'moment';
 import cross from "../../../../../assets/cross.svg" // import the cross for the module selector
 import DetailedView from '../DetailedView/DetailedView';
 
-const NotificationList = ({assignmentData, modulePairAssignment, stressScoreDaily}) => {
+const NotificationList = ({assignmentData, modulePairAssignment, stressScoreDaily, currentModule}) => {
 
   // records the notifications selected state
   const [notifications, setNotifications] = useState([]);
@@ -42,7 +42,9 @@ const NotificationList = ({assignmentData, modulePairAssignment, stressScoreDail
 
   return (
     <div className="notification-box">
-        <DetailedView isDetailed={isDetailed} setIsDetailed={setIsDetailed} date={notificationDate} assignmentData={assignmentData} modulePairAssignment={modulePairAssignment} stressScoreDaily={stressScoreDaily}/>
+        <DetailedView isDetailed={isDetailed} setIsDetailed={setIsDetailed} date={notificationDate} assignmentData={assignmentData} modulePairAssignment={modulePairAssignment} stressScoreDaily={stressScoreDaily}
+        currentModule={currentModule}
+        />
         <h3>NOTIFICATIONS</h3>
         {
           notifications.length === 0 ? 

@@ -56,7 +56,7 @@ const CalendarInstructor = ({token}) => {
             return <div className="modules">{module}</div>
           })}
         </div> :
-          <NotificationList assignmentData={assignmentData} modulePairAssignment={assignmentData} stressScoreDaily={stressScoreDaily}/>
+          <NotificationList assignmentData={assignmentData} modulePairAssignment={assignmentData} stressScoreDaily={stressScoreDaily} currentModule={currentFilter}/>
         }
       </div>
       <CalendarBody currentModule={currentFilter}
