@@ -10,6 +10,8 @@ const AssignmentTable = ({theme, selectedModule, semester}) => {
     const [open, setOpen] = useState(false);
     const [currentRow, setCurrentRow] = useState(null);
     const [assignments, setAssignments] = useState([]);
+    // edited is a helper state to help us refresh the page and get updated assignments each time
+    const [edited, setEdited] = useState(0);
 
     useEffect(() => {
         if (selectedModule) {
@@ -23,7 +25,7 @@ const AssignmentTable = ({theme, selectedModule, semester}) => {
               })
               .catch((err) => console.log(err));
         }
-     }, [selectedModule])
+     }, [selectedModule, edited])
 
      //for sorting function
     const [sortColumn, setSortColumn] = useState(null);
@@ -106,6 +108,8 @@ const AssignmentTable = ({theme, selectedModule, semester}) => {
             currentRow={currentRow}
             setCurrentRow={setCurrentRow}
             assignments={assignments}
+            edited={edited}
+            setEdited={setEdited}
         />
         )}
     </div>

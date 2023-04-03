@@ -1,0 +1,27 @@
+.tile-group {
+    display: flex;
+    justify-content: center;
+    padding: 20px 20px;
+    flex-wrap: wrap;
+  }
+  
+  .tile {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 5rem;
+    height: 5rem;
+    display: flex;
+    justify-content: start ;
+    align-items: top;
+  }
+  
+  .tile .date {
+    font-size: 11px;
+    font-weight: bold;
+  }
+
+.stress-score {
+  font-size: 11px;
+  align-self:flex-end;
+  font-weight: bold;
+}

@@ -4,8 +4,60 @@ import { FormControl, InputLabel } from '@material-ui/core';
 import axios from 'axios';
 import useStyles from './PopupStyle';
 import moment from 'moment';
+import './Tiles.css';
 
-const Popup = ({theme, open, setOpen, currentRow, setCurrentRow, assignments }) => {
+//tiles
+const Tile = ({ date }) => {
+  const formatDate = (date) => moment(date).format('DD-MMM-YY');
+
+  
+  // Generate random stress score between 0 and 10
+  const stressScore = Math.floor(Math.random() * 11);
+
+  // Set color based on stress score
+  let color;
+  if (stressScore < 5) {
+    color = 'rgba(51, 155, 83, 0.2)'; // good
+  } else if (stressScore < 7.5) {
+    color = 'rgba(247, 151, 0, 0.3)'; // moderate
+  } else {
+    color = 'rgba(202, 32, 45, 0.3)'; // stressed
+  }
+
+  return (
+    <div className="tile" style={{ backgroundColor: color }}>
+      <div className="date">{formatDate(date)}</div>
+      <div className="stress-score">{stressScore}</div>
+    </div>
+  );
+};
+
+const TileGroup = ({ dueDate }) => {
+  const dates = [];
+
+  // Add 5 days before due date
+  for (let i = 5; i > 0; i--) {
+    dates.push(moment(dueDate).subtract(i, 'days').toDate());
+  }
+
+  // Add due date
+  dates.push(moment(dueDate).toDate());
+
+  // Add 7 days after due date
+  for (let i = 1; i <= 7; i++) {
+    dates.push(moment(dueDate).add(i, 'days').toDate());
+  }
+
+  return (
+    <div className="tile-group">
+      {dates.map((date) => (
+        <Tile key={date} date={date} />
+      ))}
+    </div>
+  );
+};
+
+const Popup = ({theme, open, setOpen, currentRow, setCurrentRow, assignments, edited, setEdited }) => {
   const classes = useStyles();
 
   const [name, setName] = useState(currentRow['Name']);
@@ -13,11 +65,27 @@ const Popup = ({theme, open, setOpen, currentRow, setCurrentRow, assignments }) 
   const [group_or_indv, setGroupOrIndv] = useState(currentRow['Group or Individual']);
   const [weightage, setWeightage] = useState(currentRow['Weightage']);
   const [original_name, setOriginalName] = useState(currentRow['Name']);
-  const [start_date, setStartDate] = useState(currentRow['Start Date']);
-  const [due_date, setDueDate] = useState(currentRow['Due Date']);
 
 
- 
+
+  function SubmitDate(event) {
+    if (event == '') {
+      return event;
+    }
+    return moment(event, 'YYYY-MM-DD').format('DD-MMM-YY');
+  }
+
+  function handleDates(event) {
+    if (moment(event, 'DD-MMM-YY', true)) {
+      return moment(event, 'DD-MMM-YY').format('YYYY-MM-DD');
+    }
+      return event;
+  }
+
+  const [start_date, setStartDate] = useState(handleDates(currentRow['Start Date']));
+  const [due_date, setDueDate] = useState(handleDates(currentRow['Due Date']));
+
+  const [selectedDate, setSelectedDate] = useState('');
 
   const handleClose = () => {
     setOpen(false);
@@ -37,10 +105,14 @@ const Popup = ({theme, open, setOpen, currentRow, setCurrentRow, assignments }) 
       alert('Due date must be later than start date');
       return;
     }
+    if (startDate.isAfter(dueDate)) {
+      alert('Start date must be before than due date');
+      return;
+    }
   
     // Validate the weightage
     const totalWeightage = assignments.reduce((sum, a) => sum + parseInt(a['Weightage']), 0);
-    if (totalWeightage + parseInt(weightage) > 100) {
+    if (totalWeightage -parseInt(currentRow['Weightage']) + parseInt(weightage) > 100) {
       alert('The total weightage of all assignments under this module cannot be more than 100');
       return;
     }
@@ -53,8 +125,8 @@ const Popup = ({theme, open, setOpen, currentRow, setCurrentRow, assignments }) 
           'weightage': weightage,
           'type': type,
           'group_or_indv': group_or_indv,
-          'start_date': start_date,
-          'due_date': due_date
+          'start_date': SubmitDate(start_date),
+          'due_date': SubmitDate(due_date)
       }
 
       axios.put('/update_assignments', {params})
@@ -65,6 +137,8 @@ const Popup = ({theme, open, setOpen, currentRow, setCurrentRow, assignments }) 
         setOpen(false);
       })
       .catch((err) => console.log(err));
+
+      setEdited(edited+1)
   }
 
   useEffect(() => {}, [open])
@@ -94,9 +168,9 @@ return (
               margin="normal"
               id="startdate"
               label="Start Date"
-              type="date"
+              type='date'
               fullWidth
-              value= {moment(start_date, 'DD-MMM-YYYY').format('YYYY-MM-DD')}
+              value= {start_date}
               onChange={(event) => setStartDate(event.target.value)}
               variant="outlined"
               InputLabelProps={{
@@ -108,14 +182,14 @@ return (
               margin="normal"
               id="duedate"
               label="Due Date"
-              type="date"
               fullWidth
-              value= {moment(due_date, 'DD-MMM-YYYY').format('YYYY-MM-DD')}
-              onChange={(event) => setDueDate(event.target.value)}
+              type='date'
+              value= {due_date}
               variant="outlined"
               InputLabelProps={{
                 shrink: true,
               }}
+              onChange={(event) => setDueDate(event.target.value)}
           />
           <TextField
               className={theme === "light" ? classes.textFieldLight : classes.textFieldDark}
@@ -155,6 +229,7 @@ return (
             </div>
           </div>
       </DialogContent>
+      <TileGroup dueDate={due_date} />
       <DialogActions className={theme === "light" ? classes.popupLight : classes.popupDark}>
             <Button onClick={handleCancel}>Cancel</Button>
             <Button onClick={handleSubmit}>
