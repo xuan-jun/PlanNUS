@@ -4,8 +4,58 @@ import { FormControl, InputLabel } from '@material-ui/core';
 import axios from 'axios';
 import useStyles from './PopupStyle';
 import moment from 'moment';
-import { DatePicker, AdapterDateFns } from '@mui/lab';
-import { format, set } from 'date-fns';
+import './Tiles.css';
+
+//tiles
+const Tile = ({ date }) => {
+  const formatDate = (date) => moment(date).format('DD-MMM-YY');
+
+  
+  // Generate random stress score between 0 and 10
+  const stressScore = Math.floor(Math.random() * 11);
+
+  // Set color based on stress score
+  let color;
+  if (stressScore < 5) {
+    color = 'rgba(51, 155, 83, 0.2)'; // good
+  } else if (stressScore < 7.5) {
+    color = 'rgba(247, 151, 0, 0.3)'; // moderate
+  } else {
+    color = 'rgba(202, 32, 45, 0.3)'; // stressed
+  }
+
+  return (
+    <div className="tile" style={{ backgroundColor: color }}>
+      <div className="date">{formatDate(date)}</div>
+      <div className="stress-score">{stressScore}</div>
+    </div>
+  );
+};
+
+const TileGroup = ({ dueDate }) => {
+  const dates = [];
+
+  // Add 5 days before due date
+  for (let i = 5; i > 0; i--) {
+    dates.push(moment(dueDate).subtract(i, 'days').toDate());
+  }
+
+  // Add due date
+  dates.push(moment(dueDate).toDate());
+
+  // Add 7 days after due date
+  for (let i = 1; i <= 7; i++) {
+    dates.push(moment(dueDate).add(i, 'days').toDate());
+  }
+
+  return (
+    <div className="tile-group">
+      {dates.map((date) => (
+        <Tile key={date} date={date} />
+      ))}
+    </div>
+  );
+};
 
 const Popup = ({theme, open, setOpen, currentRow, setCurrentRow, assignments, edited, setEdited }) => {
   const classes = useStyles();
@@ -179,6 +229,7 @@ return (
             </div>
           </div>
       </DialogContent>
+      <TileGroup dueDate={due_date} />
       <DialogActions className={theme === "light" ? classes.popupLight : classes.popupDark}>
             <Button onClick={handleCancel}>Cancel</Button>
             <Button onClick={handleSubmit}>
