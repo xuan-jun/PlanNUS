@@ -116,10 +116,10 @@ function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, moduleP
                <th>Module Code</th>
                <th>Due Date</th>
                <th>Assignment Type</th>
-               <th>Instructor</th>
-               <th>Email</th>
                <th>Weightage</th>
                <th>Stress Score</th>
+               <th>Instructor</th>
+               <th>Email</th>
              </tr>
            </thead>
            <tbody>
@@ -129,12 +129,12 @@ function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, moduleP
                  <td>{row['Module Code']}</td>
                  <td>{row['Due Date']}</td>
                  <td>{row['Type']}</td>
+                 <td>{row['Weightage']}%</td>
+                 <td>{row['stress_score'].toFixed(2)}</td>
                  <td>{row['Instructor']}</td>
                  <td>
                    <a className={"link"} href={`mailto:${row['Email']}`}>{row['Email']}</a>
                  </td>
-                 <td>{row['Weightage']}%</td>
-                 <td>{row['stress_score'].toFixed(2)}</td>
                </tr>
              ))}
            </tbody>
