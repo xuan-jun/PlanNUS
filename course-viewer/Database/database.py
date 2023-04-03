@@ -386,3 +386,48 @@ def get_module_list_assignments():
     db.close()
 
     return json.dumps(data, default=str)
+
+@app.route("/module_list_assignments_instructor", methods=["GET"])
+# params: semester, module_list, instructor
+# given a semester and the list of modules, provide all the assignments for the list of modules for the instructor
+def module_list_assignments_instructor():
+    # get the relevant parameters
+    semester = request.args.get('semester')
+    instructor = request.args.get('instructor')
+    module_list = tuple(request.args.getlist('module_list[]'))
+    # formatting for the module_list
+    if (len(module_list) == 1):
+        module_list = f"('{module_list[0]}')"
+
+    # establish the database connection
+    db = establish_sql_connection()
+    cursor = db.cursor()
+
+    # get all the module codes that the instructor is currently teaching
+    query = f"\
+        SELECT *\
+        FROM (SELECT *\
+        FROM Assignments\
+        WHERE Semester='{semester}' AND [Module Code] IN {module_list}) a\
+        INNER JOIN (SELECT DISTINCT [Instructor], [Module Code], [Semester]\
+        FROM Instructors WHERE [Semester]='{semester}' AND [Instructor]='{instructor}') b\
+        ON (a.[Module Code] = b.[Module Code])\
+        INNER JOIN Login c\
+        ON (b.[Instructor] = c.[Instructor])\
+    "
+
+    cursor.execute(query)
+    result = cursor.fetchall()
+    # extract the column names
+    columns = [column[0] for column in cursor.description]
+    # convert the Row Object
+    data = []
+    for row in result:
+        current_dict = dict(zip(columns, row))
+        current_dict['stress_score'] = random.randint(1, 5)
+        data.append(current_dict)
+
+    cursor.close()
+    db.close()
+
+    return json.dumps(data, default=str)

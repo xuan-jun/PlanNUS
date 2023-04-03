@@ -6,7 +6,7 @@ import './CalendarBody.css'
 import DetailedView from '../DetailedView/DetailedView';
 import axios from 'axios'
 
-const CalendarBody = ({currentModule, semester, assignmentData, setAssignmentData, modulePairAssignment, setModulePairAssignment, stressScoreDaily, setStressScoreDaily}) => {
+const CalendarBody = ({currentModule, currentModules, semester, assignmentData, setAssignmentData, modulePairAssignment, setModulePairAssignment, stressScoreDaily, setStressScoreDaily, instructor}) => {
   // calendar array of dates in the current view
   const [calendar, setCalendar] = useState([]);
   // currently selected date
@@ -21,7 +21,7 @@ const CalendarBody = ({currentModule, semester, assignmentData, setAssignmentDat
 
   // refreshes each time the currentModule changes
   useEffect(() => {
-    if (currentModule) {
+    if (currentModule !== 'My View') {
       const params = {
         "module_code" : currentModule,
         "semester" : semester
@@ -42,12 +42,33 @@ const CalendarBody = ({currentModule, semester, assignmentData, setAssignmentDat
         await axios.get('/get_assignment_pairings', {params})
         .then((response) => {
           const data = response.data
-          console.log(data)
           setModulePairAssignment(data);
         })
         .catch((err) => {console.log(err)})
       }
       get_assignment_pairings();
+    }
+    else if (currentModule === 'My View') {
+      console.log(currentModules)
+      const currentMods = currentModules.filter((module) => {
+        return module !== 'My View'
+      });
+      const params = {
+        'semester' : 2220,
+        'module_list' : currentMods,
+        'instructor' : instructor
+      }
+      async function moduleListAssignments() {
+        await axios.get('/module_list_assignments_instructor', {params})
+        .then((response) => {
+          setAssignmentData(response.data);
+          setModulePairAssignment([]);
+        })
+        .catch((err) => {console.log(err)});
+      }
+  
+      moduleListAssignments();
+
     }
   }, [currentModule])
 
@@ -74,19 +95,27 @@ const CalendarBody = ({currentModule, semester, assignmentData, setAssignmentDat
 
   // computes the colour for the background when we have 
   let dayStyle = (day, stressScore) => {
-    let style = "";
-    // assuming higher the worse it is
-    if (!value.isSame(day, "month")) {
-      style = style.concat("diffMonth")
+    if (currentModule !== 'My View'){
+      let style = "";
+      // assuming higher the worse it is
+      if (!value.isSame(day, "month")) {
+        style = style.concat("diffMonth")
+      }
+      else if (stressScore >= 7.5) {
+        style = style.concat("stressed")
+      } else if (stressScore >= 5 && stressScore <= 7.5) {
+        style = style.concat("moderate")
+      } else {
+        style = style.concat("good")
+      }
+      return style;
     }
-    else if (stressScore >= 7.5) {
-      style = style.concat("stressed")
-    } else if (stressScore >= 5 && stressScore <= 7.5) {
-      style = style.concat("moderate")
-    } else {
-      style = style.concat("good")
+    else {
+      if (!value.isSame(day, "month")) {
+        return 'diffMonth'
+      }
+      return '';
     }
-    return style;
   }
 
   // handleClick events by the user on each of the tiles

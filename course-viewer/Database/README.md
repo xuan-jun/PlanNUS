@@ -467,3 +467,59 @@ useEffect(() => {
     })
  }, [])
 ```
+
+---
+
+**Endpoint**: `'/module_list_assignments-instructor`, **method** = `GET`
+
+Description: Given a `semester`, `module_list`,`instructor` returns the list of assignments that the modules in `module_list` assigned for that `semester` for that `instructor`
+
+* params:
+    - `module_list` : Array list of module codes
+
+      - E.g. ['DSA3101', 'DSA3102']
+
+    - `semester` : Semester that we are considered with. It is in the format of `AYS0`
+      
+      - AY - Is the starting year for the academic year. (i.e. If it is AY22/23 it will be 22 in this case)
+      - S - Semester that we are in. If it is semester 1 it is 1 and semester 2 is 2.
+
+    - `instructor` : Instructor teaching the module
+
+* return:
+
+      - `Module Code` : Module code for the assignment
+      - `Semester` : Semester that we are concerned with
+      - `Name` : Name of the assignment
+      - `Weightage` : Weightage of the assignment
+      - `Type` : Type of assignment [Assignment, Exam, Participation, Presentation, Project, Quiz]
+      - `Group or Individual` : Whether it is a group or individual presentation. ['I', 'G']
+      - `Start Date` : Start date of the assignment
+      - `Due Date` : Due Date of the assignment
+      - `Level` : Level of the module. [level_1k, level2k, level_3k, level4k]
+      - `stress_score` : Currently a random number associated with the stress score of the assignment
+      - `Instructor` : Instructor teaching the module
+      - `Email` : Email of the instructor teaching the module
+
+* **Example Call**:
+
+```javascript
+import axios from 'axios'
+import { useEffect } from 'React'
+
+useEffect(() => {
+   const params = {
+    semester : '2220',
+    module_list : ['DSA3101', 'DSA3102'],
+    instructor : 's/o Gopal Vikneswaran'
+   }
+   axios.get('/module_list_assignments_instructor', {params})
+    .then((response) => {
+    // the relevant data is in response.data so you can have a useState() to store it
+      console.log(response.data) 
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+ }, [])
+```

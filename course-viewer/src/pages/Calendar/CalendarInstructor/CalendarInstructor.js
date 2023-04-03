@@ -47,9 +47,21 @@ const CalendarInstructor = ({token}) => {
       <div className="side-panel">
         <Filter filterTitle={filterTitle} filters={filters}
           currentFilter={currentFilter} setCurrentFilter={setCurrentFilter}/>
-        <NotificationList assignmentData={assignmentData} modulePairAssignment={assignmentData} stressScoreDaily={stressScoreDaily}/>
+        {currentFilter === 'My View' ?
+        <div className="module-list">
+          <h3>Modules you are currently teaching</h3>
+          {filters.filter((module) => {
+            return module !== "My View";
+          }).map((module) => {
+            return <div className="modules">{module}</div>
+          })}
+        </div> :
+          <NotificationList assignmentData={assignmentData} modulePairAssignment={assignmentData} stressScoreDaily={stressScoreDaily}/>
+        }
       </div>
-      <CalendarBody currentModule={currentFilter === filterDefault ? "" : currentFilter} semester = {semester} assignmentData={assignmentData}
+      <CalendarBody currentModule={currentFilter}
+      currentModules={filters} semester = {semester} assignmentData={assignmentData}
+      instructor = {instructorName}
       setAssignmentData={setAssignmentData} modulePairAssignment={modulePairAssignment} setModulePairAssignment={setModulePairAssignment} stressScoreDaily={stressScoreDaily}
       setStressScoreDaily={setStressScoreDaily}/>
     </div>
