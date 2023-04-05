@@ -6,8 +6,10 @@ import datetime
 import pyodbc
 import json
 import random
+import re
 
 app = Flask(__name__)
+
 
 # json web token configuration
 app.config['JWT_SECRET_KEY'] = "dsa3101"
@@ -113,7 +115,7 @@ def get_assignments_table():
     data = []
     for row in result:
         current_dict = dict(zip(columns, row))
-        current_dict['stress_score'] = random.randint(1, 5)
+        current_dict['stress_score'] = random.randint(3, 5)
         data.append(current_dict)
 
     # close the connection
@@ -127,24 +129,36 @@ def get_assignments_table():
 # params: module_code, semester, name, weightage, assignment_type, group_or_indv, start_date, due_date
 # adds a new assignment to the assignment table
 def add_new_assignments():
+
+    # provides mapping for level of the module as we need that for prediction
+    level_mapping = {
+        '1' : 'level_1k',
+        '2' : 'level_2k',
+        '3' : 'level_3k',
+        '4' : 'level_4k'
+    }
+
     response = request.json['params']
-    #module_code = response['module_code']
-    #semester = response['semester']
+    module_code = response['module_code']
+    semester = response['semester']
     name = response['name']
     type = response['type']
     group_or_indv = response['group_or_indv']
     weightage = response['weightage']
     start_date = response['start_date']
     due_date = response['due_date']
+    # search for the first value that is an integer and map to the module level
+    level_value = module_code[re.search(r'\d', module_code).start()]
+    level_code = level_mapping[level_value]
 
     query = f"\
         INSERT INTO Assignments\
-        ([Name], [Weightage],\
-            [Group or Individual], [Type], [Start Date],\
-                [Due Date])\
-        VALUES ('{name}',\
+        ([Module Code], [Semester], [Name], [Weightage],\
+            [Type], [Group or Individual],  [Start Date],\
+                [Due Date], [Level])\
+        VALUES ('{module_code}', '{semester}', '{name}',\
             '{weightage}', '{type}', '{group_or_indv}',\
-                '{start_date}', '{due_date}')\
+                '{start_date}', '{due_date}', '{level_code}')\
     "
 
     db = establish_sql_connection()
@@ -162,6 +176,14 @@ def add_new_assignments():
 # params: original_name, module_code, semester, name, weightage, type, group_or_indv, start_date, due_date
 # adds a new assignment to the assignment table
 def update_assignments():
+    # provides mapping for level of the module as we need that for prediction
+    level_mapping = {
+        '1' : 'level_1k',
+        '2' : 'level_2k',
+        '3' : 'level_3k',
+        '4' : 'level_4k'
+    }
+
     response = request.json['params']
     # just need something to identify the change
     original_name = response['original_name']
@@ -173,6 +195,9 @@ def update_assignments():
     group_or_indv = response['group_or_indv']
     start_date = response['start_date']
     due_date = response['due_date']
+    # search for the first value that is an integer and map to the module level
+    level_value = module_code[re.search(r'\d', module_code).start()]
+    level_code = level_mapping[level_value]
 
     query = f"\
         UPDATE Assignments\
@@ -180,7 +205,7 @@ def update_assignments():
         [Type]='{type}', [Group or Individual]='{group_or_indv}',\
         [Start Date]='{start_date}', [Due Date]='{due_date}'\
         WHERE [Name] = '{original_name}' AND [Module Code] = '{module_code}'\
-            AND [Semester]='{semester}'\
+            AND [Semester]='{semester} AND [Level] = '{level_code}'\
     "
 
     db = establish_sql_connection()
