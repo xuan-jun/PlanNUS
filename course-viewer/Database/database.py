@@ -7,6 +7,7 @@ import pyodbc
 import json
 import random
 import re
+from model import indiv_score
 
 app = Flask(__name__)
 
@@ -21,13 +22,13 @@ def establish_sql_connection():
 
     username = "sa"
     password = "Pass123!"
-    server = 'db'
-    # server = 'localhost'
+    # server = 'db'
+    server = 'localhost'
     database = 'CoursesDB'
 
-    db = pyodbc.connect('Driver={/opt/microsoft/msodbcsql17/lib64/libmsodbcsql-17.10.so.2.1}; Server='+server+'; Database='+database+'; Uid='+username+'; Pwd='+ password)
+    # db = pyodbc.connect('Driver={/opt/microsoft/msodbcsql17/lib64/libmsodbcsql-17.10.so.2.1}; Server='+server+'; Database='+database+'; Uid='+username+'; Pwd='+ password)
     # db = pyodbc.connect('Driver={/opt/microsoft/msodbcsql18/lib64/libmsodbcsql-18.2.so.1.1}; Server='+server+'; Database='+database+'; Uid='+username+'; Pwd='+ password)
-    # db = pyodbc.connect('Driver={SQL Server}; Server='+server+'; Database='+database+'; Uid='+username+'; Pwd='+ password)
+    db = pyodbc.connect('Driver={SQL Server}; Server='+server+'; Database='+database+'; Uid='+username+'; Pwd='+ password)
     print('---SUCCESSS----')
     return db
 
@@ -115,7 +116,12 @@ def get_assignments_table():
     data = []
     for row in result:
         current_dict = dict(zip(columns, row))
-        current_dict['stress_score'] = random.randint(3, 5)
+        current_dict['stress_score'] = indiv_score(
+            current_dict['Weightage'], current_dict['Type'],
+            current_dict['Group or Individual'],current_dict['Level'],
+            (datetime.datetime.strptime(current_dict['Start Date'], '%d-%b-%y') if current_dict['Start Date'] else None),
+            (datetime.datetime.strptime(current_dict['Due Date'], '%d-%b-%y') if current_dict['Due Date'] else None)
+        )
         data.append(current_dict)
 
     # close the connection
@@ -203,9 +209,9 @@ def update_assignments():
         UPDATE Assignments\
         SET [Name] = '{name}', [Weightage] = '{weightage}',\
         [Type]='{type}', [Group or Individual]='{group_or_indv}',\
-        [Start Date]='{start_date}', [Due Date]='{due_date}'\
+        [Start Date]='{start_date}', [Due Date]='{due_date}', [Level] = '{level_code}'\
         WHERE [Name] = '{original_name}' AND [Module Code] = '{module_code}'\
-            AND [Semester]='{semester} AND [Level] = '{level_code}'\
+            AND [Semester]='{semester}'\
     "
 
     db = establish_sql_connection()
@@ -213,6 +219,41 @@ def update_assignments():
 
     cursor.execute(query)
     cursor.commit()
+
+    cursor.close()
+    db.close()
+
+    return "", 201
+
+@app.route('/delete_assignments', methods=['DELETE'])
+# params: module_code, semester, name
+# deletes an assignment
+def delete_assignments():
+
+    # we only need the following 3 values to uniquely identify an assignment and delete it
+    response = request.json
+    module_code = response['module_code']
+    semester = response['semester']
+    name = response['name']
+    print(module_code, semester, name)
+
+    query = f"\
+        DELETE FROM Assignments\
+        WHERE [Name] = '{name}' AND [Module Code] = '{module_code}'\
+            AND [Semester]='{semester}'\
+    "
+
+    db = establish_sql_connection()
+    cursor = db.cursor()
+
+    # execute the query and commit it
+    try:
+        cursor.execute(query)
+    except pyodbc.DatabaseError as e:
+        raise e
+        cursor.rollback()
+    else:
+        cursor.commit()
 
     cursor.close()
     db.close()
@@ -271,7 +312,15 @@ def get_assignment_pairings():
     data = []
     for row in pairing_assignment_results:
         current_dict = dict(zip(columns, row))
-        current_dict['stress_score'] = random.randint(1, 5) * (current_dict['Count'] / module_count)
+        # compute the stress score for the assignment first
+        assignment_score = indiv_score(
+            current_dict['Weightage'], current_dict['Type'],
+            current_dict['Group or Individual'],current_dict['Level'],
+            (datetime.datetime.strptime(current_dict['Start Date'], '%d-%b-%y') if current_dict['Start Date'] else None),
+            (datetime.datetime.strptime(current_dict['Due Date'], '%d-%b-%y') if current_dict['Due Date'] else None)
+        )
+        # aggregate it over the number of students taking both modules
+        current_dict['stress_score'] = assignment_score * (current_dict['Count'] / module_count)
         data.append(current_dict)
 
     # close the connection
@@ -404,7 +453,12 @@ def get_module_list_assignments():
     data = []
     for row in result:
         current_dict = dict(zip(columns, row))
-        current_dict['stress_score'] = random.randint(1, 5)
+        current_dict['stress_score'] = indiv_score(
+            current_dict['Weightage'], current_dict['Type'],
+            current_dict['Group or Individual'],current_dict['Level'],
+            (datetime.datetime.strptime(current_dict['Start Date'], '%d-%b-%y') if current_dict['Start Date'] else None),
+            (datetime.datetime.strptime(current_dict['Due Date'], '%d-%b-%y') if current_dict['Due Date'] else None)
+        )
         data.append(current_dict)
 
     cursor.close()
@@ -449,7 +503,12 @@ def module_list_assignments_instructor():
     data = []
     for row in result:
         current_dict = dict(zip(columns, row))
-        current_dict['stress_score'] = random.randint(1, 5)
+        current_dict['stress_score'] = indiv_score(
+            current_dict['Weightage'], current_dict['Type'],
+            current_dict['Group or Individual'],current_dict['Level'],
+            (datetime.datetime.strptime(current_dict['Start Date'], '%d-%b-%y') if current_dict['Start Date'] else None),
+            (datetime.datetime.strptime(current_dict['Due Date'], '%d-%b-%y') if current_dict['Due Date'] else None)
+        )
         data.append(current_dict)
 
     cursor.close()

@@ -32,7 +32,7 @@ def normalized_score(score):
     return (score)/(3.73)*10
 
 def get_gap(due_date, start_date):
-    if not start_date:
+    if pd.isnull(start_date):
         return "Others"
     else:
         gap = (due_date - start_date).days

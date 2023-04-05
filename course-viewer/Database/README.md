@@ -114,7 +114,7 @@ Description: Given a `module_code` and `semester`, returns a json object contain
       - `Start Date` : Start date of the assignment
       - `Due Date` : Due Date of the assignment
       - `Level` : Level of the module. [level_1k, level2k, level_3k, level4k]
-      - `stress_score` : Stress score of the assignment, currently a random number but will incorporate with backend
+      - `stress_score` : Stress score of the assignment, will make a call with `indiv_score()` from backend model
 
 * **Example Call**:
 
@@ -242,6 +242,46 @@ import { useEffect } from 'React'
 
 ---
 
+**Endpoint**: `'/delete_assignments'`, **method** = `DELETE`
+
+Description: Given the Module Code, Semester and name of the assignment, we will remove it from the database
+
+* params:
+    
+    - `module_code` : Module code for the assignment
+    - `semester` : Semester that we are concerned with
+    - `name` : Name of the assignment
+
+* return:
+
+    - No return value
+
+* **Example Call**:
+
+```javascript
+import axios from 'axios'
+import { useEffect } from 'React'
+
+  useEffect(() => {
+    // note that we pass it in as body
+    const body = {
+      module_code : 'DSA3101',
+      semester : '2220',
+      name : 'Assignment 3 Docker',
+    }
+    axios.put('/delete_assignments', {body})
+      .then((response) => {
+        // note that there is no response.data here but you can check the status code
+        console.log(response.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
+
+```
+
+---
 **Endpoint**: `'/get_assignment_pairings'`, **method** = `GET`
 
 Description: Given a `module_code` and `semester`, returns a json object containing all the assignments of other modules whereby there is at least 1 student taking from the current module.
@@ -267,7 +307,7 @@ Description: Given a `module_code` and `semester`, returns a json object contain
       - `Start Date` : Start date of the assignment
       - `Due Date` : Due Date of the assignment
       - `Level` : Level of the module. [level_1k, level2k, level_3k, level4k]
-      - `stress_score` : Stress score of the assignment. Note that this is already aggregated over the number of students from this module taking that other module. (num_pairwise_students)/(total_students_taking_current_module) * (stress_score_from_this_assignment)
+      - `stress_score` : Stress score of the assignment. Note that this is already aggregated over the number of students from this module taking that other module. (num_pairwise_students)/(total_students_taking_current_module) * (stress_score_from_this_assignment). Calculation of its original stress score is given by making a call with `indiv_score()` from backend model
       - `Instructor` : Instructor that is teaching the module
       - `Email` : Email of the instructor teaching the module
 
@@ -442,7 +482,7 @@ Description: Given a `semester`, `module_list`, returns the list of assignments 
       - `Start Date` : Start date of the assignment
       - `Due Date` : Due Date of the assignment
       - `Level` : Level of the module. [level_1k, level2k, level_3k, level4k]
-      - `stress_score` : Currently a random number associated with the stress score of the assignment
+      - `stress_score` : Stress score of the assignment, will make a call with `indiv_score()` from backend model
       - `Instructor` : Instructor teaching the module
       - `Email` : Email of the instructor teaching the module
 
@@ -497,7 +537,7 @@ Description: Given a `semester`, `module_list`,`instructor` returns the list of 
       - `Start Date` : Start date of the assignment
       - `Due Date` : Due Date of the assignment
       - `Level` : Level of the module. [level_1k, level2k, level_3k, level4k]
-      - `stress_score` : Currently a random number associated with the stress score of the assignment
+      - `stress_score` : Stress score of the assignment, will make a call with `indiv_score()` from backend model
       - `Instructor` : Instructor teaching the module
       - `Email` : Email of the instructor teaching the module
 
