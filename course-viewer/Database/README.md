@@ -563,3 +563,69 @@ useEffect(() => {
     })
  }, [])
 ```
+
+---
+**Endpoint**: `'/get_window_stresses'`, **method** = `GET`
+
+Description: Given details about the new assignment and also the `module_code` and `semester` of the current module, compute a window of stresses if the assignment is placed on that day.
+
+* params:
+    
+    - `module_code` : Module Code that we are trying to get the assignment for
+    - `semester` : Semester that we are considered with. It is in the format of `AYS0`
+      
+      - AY - Is the starting year for the academic year. (i.e. If it is AY22/23 it will be 22 in this case)
+      - S - Semester that we are in. If it is semester 1 it is 1 and semester 2 is 2.
+
+    - `module_code` : Module code for the assignment
+    - `semester` : Semester that we are concerned with
+    - `name` : Name of the assignment
+    - `weightage` : Weightage of the assignment
+    - `type` : Type of assignment [Assignment, Exam, Participation, Presentation, Project, Quiz]
+    - `group_or_indv` : Whether it is a group or individual presentation. ['I', 'G']
+    - `start_date` : Start date of the assignment
+    - `due_date` : Due Date of the assignment
+
+* return:
+
+    - In the `json` return object, it will contain 2 different keys,
+      
+      - `best_dates` - Date(s) with the minimum score across the 13 day window
+      - `stress_scores` - Stress scores for the 13 day window. For instance, 
+
+      - Example: if we have `start_date` = '10-Apr-23' and `due_date` = '14-Apr-23'. We will check for all dates between ['9-Apr-23', '21-Apr-23'] since this is a 13 day window.
+        - For '9-Apr-23', its value will be **"Before start date"** and no stress score will be given because the due date will be before the start date
+        - For the rest of the days, stress scores are computed as such:
+          - We will find all the assignments for the currnet module and the module pairs on that due date. Find the relative stress scores of each of the assignments (i.e. Number of students taking both / Number of students taking the module we are concerned with * stress_score of assignment) Note that if it is the currnet module's assignment, we can just get the value of it as it is without aggregation
+          - Compute the score of the new assignment on that due_date with the other parameters
+          - Sum across all the stress scores and that it is the stress score recorded
+          - E.g. ('14-Apr-23', 27.5)
+
+* **Example Call**:
+
+```javascript
+import axios from 'axios'
+import { useEffect } from 'React'
+
+  useEffect(() => {
+    const params = {
+      module_code : 'DSA3101',
+      semester : 2220,
+      name : 'Assignment 5',
+      type : 'Project',
+      group_or_indv: 'I',
+      weightage: 20,
+      start_date: '10-Apr-23',
+      due_date: '14-Apr-23'
+    }
+    axios.get('/get_window_stresses', {params})
+      .then((response) => {
+        const data = response.data
+        // can store it in some state to use, this is the best dates
+        console.log(data['best_dates'])
+        // can store it in some state to use, this are all the stress scores
+        console.log(data['stress_scores'])
+      })
+      .catch((err) => console.log(err));
+  }, [])
+```
