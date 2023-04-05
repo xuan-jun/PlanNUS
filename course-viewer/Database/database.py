@@ -22,13 +22,13 @@ def establish_sql_connection():
 
     username = "sa"
     password = "Pass123!"
-    server = 'db'
-    # server = 'localhost'
+    # server = 'db'
+    server = 'localhost'
     database = 'CoursesDB'
 
-    db = pyodbc.connect('Driver={/opt/microsoft/msodbcsql17/lib64/libmsodbcsql-17.10.so.2.1}; Server='+server+'; Database='+database+'; Uid='+username+'; Pwd='+ password)
+    # db = pyodbc.connect('Driver={/opt/microsoft/msodbcsql17/lib64/libmsodbcsql-17.10.so.2.1}; Server='+server+'; Database='+database+'; Uid='+username+'; Pwd='+ password)
     # db = pyodbc.connect('Driver={/opt/microsoft/msodbcsql18/lib64/libmsodbcsql-18.2.so.1.1}; Server='+server+'; Database='+database+'; Uid='+username+'; Pwd='+ password)
-    # db = pyodbc.connect('Driver={SQL Server}; Server='+server+'; Database='+database+'; Uid='+username+'; Pwd='+ password)
+    db = pyodbc.connect('Driver={SQL Server}; Server='+server+'; Database='+database+'; Uid='+username+'; Pwd='+ password)
     print('---SUCCESSS----')
     return db
 
@@ -231,11 +231,9 @@ def update_assignments():
 def delete_assignments():
 
     # we only need the following 3 values to uniquely identify an assignment and delete it
-    response = request.json
-    module_code = response['module_code']
-    semester = response['semester']
-    name = response['name']
-    print(module_code, semester, name)
+    module_code = request.args.get('module_code')
+    semester = request.args.get('semester')
+    name = request.args.get('name')
 
     query = f"\
         DELETE FROM Assignments\
@@ -247,13 +245,8 @@ def delete_assignments():
     cursor = db.cursor()
 
     # execute the query and commit it
-    try:
-        cursor.execute(query)
-    except pyodbc.DatabaseError as e:
-        raise e
-        cursor.rollback()
-    else:
-        cursor.commit()
+    cursor.execute(query)
+    cursor.commit()
 
     cursor.close()
     db.close()

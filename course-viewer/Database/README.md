@@ -41,8 +41,8 @@ import { useEffect } from 'React'
 
 useEffect(() => {
    const params = {
-    email : 'vik.gopal@nus.edu.sg',
-    semester : 'password1'
+    'email' : 'vik.gopal@nus.edu.sg',
+    'semester' : 'password1'
    }
    axios.get('/token', {params})
     .then((response) => {
@@ -124,8 +124,8 @@ import { useEffect } from 'React'
 
 useEffect(() => {
    const params = {
-    module_code : 'DSA3101',
-    semester : '2220'
+    'module_code' : 'DSA3101',
+    'semester' : '2220'
    }
    axios.get('/get_assignments', {params})
     .then((response) => {
@@ -166,14 +166,14 @@ import { useEffect } from 'React'
 
   useEffect(() => {
     const params = {
-      module_code : 'DSA3101',
-      semester : '2220',
-      name : 'Assignment 2 Docker',
-      weightage : 10,
-      type : 'Assignment',
-      group_or_indv : 'Individual',
-      start_date : '23 Mar 2023',
-      due_date : '1 Apr 2023'
+      'module_code' : 'DSA3101',
+      'semester' : '2220',
+      'name' : 'Assignment 2 Docker',
+      'weightage' : 10,
+      'type' : 'Assignment',
+      'group_or_indv' : 'Individual',
+      'start_date' : '23 Mar 2023',
+      'due_date' : '1 Apr 2023'
     }
     axios.post('/add_new_assignments', {params})
       .then((response) => {
@@ -217,16 +217,16 @@ import { useEffect } from 'React'
 
   useEffect(() => {
     const params = {
-      module_code : 'DSA3101',
-      semester : '2220',
+      'module_code' : 'DSA3101',
+      'semester' : '2220',
       // note that this is important and different from adding new assignment
-      original_name : 'Assignment 2 Docker',
-      name : 'Assignment 3 Docker',
-      weightage : 20,
-      type : 'Assignment',
-      group_or_indv : 'Individual',
-      start_date : '23 Mar 2023',
-      due_date : '3 Apr 2023'
+      'original_name' : 'Assignment 2 Docker',
+      'name' : 'Assignment 3 Docker',
+      'weightage' : 20,
+      'type' : 'Assignment',
+      'group_or_indv' : 'Individual',
+      'start_date' : '23 Mar 2023',
+      'due_date' : '3 Apr 2023'
     }
     axios.put('/update_assignments', {params})
       .then((response) => {
@@ -264,12 +264,12 @@ import { useEffect } from 'React'
 
   useEffect(() => {
     // note that we pass it in as body
-    const body = {
-      module_code : 'DSA3101',
-      semester : '2220',
-      name : 'Assignment 3 Docker',
+    const params = {
+      'module_code' : 'DSA3101',
+      'semester' : '2220',
+      'name' : 'Assignment 3 Docker',
     }
-    axios.put('/delete_assignments', {body})
+    axios.delete('/delete_assignments', {params})
       .then((response) => {
         // note that there is no response.data here but you can check the status code
         console.log(response.data)
@@ -319,8 +319,8 @@ import { useEffect } from 'React'
 
 useEffect(() => {
    const params = {
-    module_code : 'DSA3101',
-    semester : '2220'
+    'module_code' : 'DSA3101',
+    'semester' : '2220'
    }
    axios.get('/get_assignment_pairings', {params})
     .then((response) => {
@@ -400,8 +400,8 @@ import { useEffect } from 'React'
 
 useEffect(() => {
    const params = {
-    instructor : 's/o Gopal Vikneswaran',
-    semester : '2220'
+    'instructor' : 's/o Gopal Vikneswaran',
+    'semester' : '2220'
    }
    axios.get('/modules_for_instructor', {params})
     .then((response) => {
@@ -441,7 +441,7 @@ import { useEffect } from 'React'
 
 useEffect(() => {
    const params = {
-    semester : '2220'
+    'semester' : '2220'
    }
    axios.get('/modules_for_semester', {params})
     .then((response) => {
@@ -494,8 +494,8 @@ import { useEffect } from 'React'
 
 useEffect(() => {
    const params = {
-    semester : '2220',
-    module_list : ['DSA3101', 'DSA3102']
+    'semester' : '2220',
+    'module_list' : ['DSA3101', 'DSA3102']
    }
    axios.get('/module_list_assignments', {params})
     .then((response) => {
@@ -549,9 +549,9 @@ import { useEffect } from 'React'
 
 useEffect(() => {
    const params = {
-    semester : '2220',
-    module_list : ['DSA3101', 'DSA3102'],
-    instructor : 's/o Gopal Vikneswaran'
+    'semester' : '2220',
+    'module_list' : ['DSA3101', 'DSA3102'],
+    'instructor' : 's/o Gopal Vikneswaran'
    }
    axios.get('/module_list_assignments_instructor', {params})
     .then((response) => {
@@ -609,14 +609,14 @@ import { useEffect } from 'React'
 
   useEffect(() => {
     const params = {
-      module_code : 'DSA3101',
-      semester : 2220,
-      name : 'Assignment 5',
-      type : 'Project',
-      group_or_indv: 'I',
-      weightage: 20,
-      start_date: '10-Apr-23',
-      due_date: '14-Apr-23'
+      'module_code' : 'DSA3101',
+      'semester' : 2220,
+      'name' : 'Assignment 5',
+      'type' : 'Project',
+      'group_or_indv': 'I',
+      'weightage': 20,
+      'start_date': '10-Apr-23',
+      'due_date': '14-Apr-23'
     }
     axios.get('/get_window_stresses', {params})
       .then((response) => {
