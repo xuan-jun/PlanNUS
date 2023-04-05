@@ -17,6 +17,7 @@ function App() {
   const [theme, setTheme] = useLocalStorage('theme', defaultDark ? 'dark' : 'light');
 
   const {token, removeToken, setToken} = useToken();
+  const [currentModule, setCurrentModule] = useState('Please Select Module');
 
   return (
     <div data-theme={theme} className='App'>
@@ -25,7 +26,7 @@ function App() {
         <Routes>
           <Route path="/" element={
           token ?
-          <CalendarInstructor token = {token}/> :
+          <CalendarInstructor token = {token} currentModule={currentModule} setCurrentModule={setCurrentModule}/> :
           <Landing />
           }/>
           <Route path="/calendar" element={
@@ -40,12 +41,12 @@ function App() {
           }/>
           <Route path='/assignments' element={
             <ProtectedRoute isAllowed = {token} redirectPath="/login">
-              <Assignments theme={theme} token={token}/>
+              <Assignments theme={theme} token={token} selectedModule={currentModule} setSelectedModule={setCurrentModule}/>
             </ProtectedRoute>
           }/>
           <Route path='/assignments/addnew' element={
             <ProtectedRoute isAllowed = {token} redirectPath="/login">
-              <AddAssignment token={token}/>
+              <AddAssignment token={token} currentModule={currentModule}/>
             </ProtectedRoute>
           }/>
         </Routes>

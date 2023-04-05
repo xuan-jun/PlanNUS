@@ -5,17 +5,13 @@ import NotificationList from './components/NotificationList/NotificationList';
 import axios from 'axios';
 import "./CalendarInstructor.css"
 
-const CalendarInstructor = ({token}) => {
+const CalendarInstructor = ({token, currentModule, setCurrentModule}) => {
   const filterTitle = "SELECT THE VIEW YOU WANT TO SEE";
 
   const instructorName = token['userName']
   const semester = 2220 // default semester for now
   // keeps track of the current list of filters
   const [filters, setFilters] = useState([]);
-
-  const filterDefault = 'Please Select View'
-  // keeps track of the currently selected filter
-  const [currentFilter, setCurrentFilter] = useState(filterDefault);
 
   // keeps track of the current assignment data
   const [assignmentData, setAssignmentData] = useState([]);
@@ -40,14 +36,14 @@ const CalendarInstructor = ({token}) => {
   }, [])
 
   // make a rerender whenever the currentFilter changes
-  useEffect(() => {}, [currentFilter])
+  useEffect(() => {}, [currentModule])
 
   return (
     <div className="calendar-page">
       <div className="side-panel">
         <Filter filterTitle={filterTitle} filters={filters}
-          currentFilter={currentFilter} setCurrentFilter={setCurrentFilter}/>
-        {currentFilter === 'My View' ?
+          currentFilter={currentModule} setCurrentFilter={setCurrentModule}/>
+        {currentModule === 'My View' ?
         <div className="module-list">
           <h3>Modules you are currently teaching</h3>
           {filters.filter((module) => {
@@ -56,10 +52,10 @@ const CalendarInstructor = ({token}) => {
             return <div className="modules">{module}</div>
           })}
         </div> :
-          <NotificationList assignmentData={assignmentData} modulePairAssignment={modulePairAssignment} stressScoreDaily={stressScoreDaily} currentModule={currentFilter}/>
+          <NotificationList assignmentData={assignmentData} modulePairAssignment={modulePairAssignment} stressScoreDaily={stressScoreDaily} currentModule={currentModule}/>
         }
       </div>
-      <CalendarBody currentModule={currentFilter}
+      <CalendarBody currentModule={currentModule}
       currentModules={filters} semester = {semester} assignmentData={assignmentData}
       instructor = {instructorName}
       setAssignmentData={setAssignmentData} modulePairAssignment={modulePairAssignment} setModulePairAssignment={setModulePairAssignment} stressScoreDaily={stressScoreDaily}
