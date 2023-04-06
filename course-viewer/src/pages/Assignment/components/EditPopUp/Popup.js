@@ -148,6 +148,22 @@ const Popup = ({theme, open, setOpen, currentRow, setCurrentRow, assignments, ed
     setOpen(false);
   };
 
+  const handleDelete = () => {
+    const params = {
+      'name': original_name,
+      'module_code': currentRow['Module Code'],
+      'semester': currentRow['Semester']
+    }
+
+    axios.delete('/delete_assignments', {params})
+    .then((response) => {
+      setCurrentRow(null);
+      setOpen(false);
+      setEdited(edited+1);
+    })
+    .catch((err) => console.log(err));
+  }
+
 return (
   <div>
     <Dialog open={open} onClose={handleClose}>
@@ -231,6 +247,9 @@ return (
       </DialogContent>
       <TileGroup dueDate={due_date} />
       <DialogActions className={theme === "light" ? classes.popupLight : classes.popupDark}>
+            <Button onClick={handleDelete} className='delete-assignment'>
+              Delete Assignment
+            </Button>
             <Button onClick={handleCancel}>Cancel</Button>
             <Button onClick={handleSubmit}>
               Save

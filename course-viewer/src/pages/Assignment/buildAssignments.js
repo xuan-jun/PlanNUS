@@ -13,14 +13,11 @@ const useStyles = makeStyles(theme => ({
   }, 
 })); 
 
-const Assignment = ({theme, token}) => {
+const Assignment = ({theme, token, selectedModule, setSelectedModule}) => {
 
   const instructorName = token['userName']
   const semester = 2220 // default semester for now
   const [modules, setModules] = useState([]);
-  const moduleDefault = 'Please Select Module'
-  const [selectedModule, setSelectedModule] = useState(moduleDefault);
-
   const classes = useStyles();
   // make the api call to get the list of modules the instructor is currently teaching
   useEffect(() => {

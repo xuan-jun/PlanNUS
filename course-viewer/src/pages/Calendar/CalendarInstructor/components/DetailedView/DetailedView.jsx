@@ -68,9 +68,11 @@ function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, moduleP
          Return to Calendar View
        </button>
        <h2 className={`detailed-view-header ${detailedStyle}`}>
-        {new Date(date).toLocaleDateString('en-GB', {day: '2-digit', month: 'long', year: 'numeric'})}
-        <br></br>
+        <div>{new Date(date).toLocaleDateString('en-GB', {day: '2-digit', month: 'long', year: 'numeric'})}</div>
+        {currentModuleData!=="My View" ?
+          <div>
         Stress Score: {stressScore ? stressScore.toFixed(2) : 0}
+        </div>:""} 
        </h2>
        <div>
          <table>

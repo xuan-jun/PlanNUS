@@ -41,8 +41,8 @@ import { useEffect } from 'React'
 
 useEffect(() => {
    const params = {
-    email : 'vik.gopal@nus.edu.sg',
-    semester : 'password1'
+    'email' : 'vik.gopal@nus.edu.sg',
+    'semester' : 'password1'
    }
    axios.get('/token', {params})
     .then((response) => {
@@ -114,7 +114,7 @@ Description: Given a `module_code` and `semester`, returns a json object contain
       - `Start Date` : Start date of the assignment
       - `Due Date` : Due Date of the assignment
       - `Level` : Level of the module. [level_1k, level2k, level_3k, level4k]
-      - `stress_score` : Stress score of the assignment, currently a random number but will incorporate with backend
+      - `stress_score` : Stress score of the assignment, will make a call with `indiv_score()` from backend model
 
 * **Example Call**:
 
@@ -124,8 +124,8 @@ import { useEffect } from 'React'
 
 useEffect(() => {
    const params = {
-    module_code : 'DSA3101',
-    semester : '2220'
+    'module_code' : 'DSA3101',
+    'semester' : '2220'
    }
    axios.get('/get_assignments', {params})
     .then((response) => {
@@ -166,14 +166,14 @@ import { useEffect } from 'React'
 
   useEffect(() => {
     const params = {
-      module_code : 'DSA3101',
-      semester : '2220',
-      name : 'Assignment 2 Docker',
-      weightage : 10,
-      type : 'Assignment',
-      group_or_indv : 'Individual',
-      start_date : '23 Mar 2023',
-      due_date : '1 Apr 2023'
+      'module_code' : 'DSA3101',
+      'semester' : '2220',
+      'name' : 'Assignment 2 Docker',
+      'weightage' : 10,
+      'type' : 'Assignment',
+      'group_or_indv' : 'Individual',
+      'start_date' : '23 Mar 2023',
+      'due_date' : '1 Apr 2023'
     }
     axios.post('/add_new_assignments', {params})
       .then((response) => {
@@ -217,16 +217,16 @@ import { useEffect } from 'React'
 
   useEffect(() => {
     const params = {
-      module_code : 'DSA3101',
-      semester : '2220',
+      'module_code' : 'DSA3101',
+      'semester' : '2220',
       // note that this is important and different from adding new assignment
-      original_name : 'Assignment 2 Docker',
-      name : 'Assignment 3 Docker',
-      weightage : 20,
-      type : 'Assignment',
-      group_or_indv : 'Individual',
-      start_date : '23 Mar 2023',
-      due_date : '3 Apr 2023'
+      'original_name' : 'Assignment 2 Docker',
+      'name' : 'Assignment 3 Docker',
+      'weightage' : 20,
+      'type' : 'Assignment',
+      'group_or_indv' : 'Individual',
+      'start_date' : '23 Mar 2023',
+      'due_date' : '3 Apr 2023'
     }
     axios.put('/update_assignments', {params})
       .then((response) => {
@@ -242,6 +242,46 @@ import { useEffect } from 'React'
 
 ---
 
+**Endpoint**: `'/delete_assignments'`, **method** = `DELETE`
+
+Description: Given the Module Code, Semester and name of the assignment, we will remove it from the database
+
+* params:
+    
+    - `module_code` : Module code for the assignment
+    - `semester` : Semester that we are concerned with
+    - `name` : Name of the assignment
+
+* return:
+
+    - No return value
+
+* **Example Call**:
+
+```javascript
+import axios from 'axios'
+import { useEffect } from 'React'
+
+  useEffect(() => {
+    // note that we pass it in as body
+    const params = {
+      'module_code' : 'DSA3101',
+      'semester' : '2220',
+      'name' : 'Assignment 3 Docker',
+    }
+    axios.delete('/delete_assignments', {params})
+      .then((response) => {
+        // note that there is no response.data here but you can check the status code
+        console.log(response.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
+
+```
+
+---
 **Endpoint**: `'/get_assignment_pairings'`, **method** = `GET`
 
 Description: Given a `module_code` and `semester`, returns a json object containing all the assignments of other modules whereby there is at least 1 student taking from the current module.
@@ -267,7 +307,7 @@ Description: Given a `module_code` and `semester`, returns a json object contain
       - `Start Date` : Start date of the assignment
       - `Due Date` : Due Date of the assignment
       - `Level` : Level of the module. [level_1k, level2k, level_3k, level4k]
-      - `stress_score` : Stress score of the assignment. Note that this is already aggregated over the number of students from this module taking that other module. (num_pairwise_students)/(total_students_taking_current_module) * (stress_score_from_this_assignment)
+      - `stress_score` : Stress score of the assignment. Note that this is already aggregated over the number of students from this module taking that other module. (num_pairwise_students)/(total_students_taking_current_module) * (stress_score_from_this_assignment). Calculation of its original stress score is given by making a call with `indiv_score()` from backend model
       - `Instructor` : Instructor that is teaching the module
       - `Email` : Email of the instructor teaching the module
 
@@ -279,8 +319,8 @@ import { useEffect } from 'React'
 
 useEffect(() => {
    const params = {
-    module_code : 'DSA3101',
-    semester : '2220'
+    'module_code' : 'DSA3101',
+    'semester' : '2220'
    }
    axios.get('/get_assignment_pairings', {params})
     .then((response) => {
@@ -360,8 +400,8 @@ import { useEffect } from 'React'
 
 useEffect(() => {
    const params = {
-    instructor : 's/o Gopal Vikneswaran',
-    semester : '2220'
+    'instructor' : 's/o Gopal Vikneswaran',
+    'semester' : '2220'
    }
    axios.get('/modules_for_instructor', {params})
     .then((response) => {
@@ -401,7 +441,7 @@ import { useEffect } from 'React'
 
 useEffect(() => {
    const params = {
-    semester : '2220'
+    'semester' : '2220'
    }
    axios.get('/modules_for_semester', {params})
     .then((response) => {
@@ -442,7 +482,7 @@ Description: Given a `semester`, `module_list`, returns the list of assignments 
       - `Start Date` : Start date of the assignment
       - `Due Date` : Due Date of the assignment
       - `Level` : Level of the module. [level_1k, level2k, level_3k, level4k]
-      - `stress_score` : Currently a random number associated with the stress score of the assignment
+      - `stress_score` : Stress score of the assignment, will make a call with `indiv_score()` from backend model
       - `Instructor` : Instructor teaching the module
       - `Email` : Email of the instructor teaching the module
 
@@ -454,8 +494,8 @@ import { useEffect } from 'React'
 
 useEffect(() => {
    const params = {
-    semester : '2220',
-    module_list : ['DSA3101', 'DSA3102']
+    'semester' : '2220',
+    'module_list' : ['DSA3101', 'DSA3102']
    }
    axios.get('/module_list_assignments', {params})
     .then((response) => {
@@ -497,7 +537,7 @@ Description: Given a `semester`, `module_list`,`instructor` returns the list of 
       - `Start Date` : Start date of the assignment
       - `Due Date` : Due Date of the assignment
       - `Level` : Level of the module. [level_1k, level2k, level_3k, level4k]
-      - `stress_score` : Currently a random number associated with the stress score of the assignment
+      - `stress_score` : Stress score of the assignment, will make a call with `indiv_score()` from backend model
       - `Instructor` : Instructor teaching the module
       - `Email` : Email of the instructor teaching the module
 
@@ -509,9 +549,9 @@ import { useEffect } from 'React'
 
 useEffect(() => {
    const params = {
-    semester : '2220',
-    module_list : ['DSA3101', 'DSA3102'],
-    instructor : 's/o Gopal Vikneswaran'
+    'semester' : '2220',
+    'module_list' : ['DSA3101', 'DSA3102'],
+    'instructor' : 's/o Gopal Vikneswaran'
    }
    axios.get('/module_list_assignments_instructor', {params})
     .then((response) => {
@@ -522,4 +562,70 @@ useEffect(() => {
       console.log(err)
     })
  }, [])
+```
+
+---
+**Endpoint**: `'/get_window_stresses'`, **method** = `GET`
+
+Description: Given details about the new assignment and also the `module_code` and `semester` of the current module, compute a window of stresses if the assignment is placed on that day.
+
+* params:
+    
+    - `module_code` : Module Code that we are trying to get the assignment for
+    - `semester` : Semester that we are considered with. It is in the format of `AYS0`
+      
+      - AY - Is the starting year for the academic year. (i.e. If it is AY22/23 it will be 22 in this case)
+      - S - Semester that we are in. If it is semester 1 it is 1 and semester 2 is 2.
+
+    - `module_code` : Module code for the assignment
+    - `semester` : Semester that we are concerned with
+    - `name` : Name of the assignment
+    - `weightage` : Weightage of the assignment
+    - `type` : Type of assignment [Assignment, Exam, Participation, Presentation, Project, Quiz]
+    - `group_or_indv` : Whether it is a group or individual presentation. ['I', 'G']
+    - `start_date` : Start date of the assignment
+    - `due_date` : Due Date of the assignment
+
+* return:
+
+    - In the `json` return object, it will contain 2 different keys,
+      
+      - `best_dates` - Date(s) with the minimum score across the 13 day window
+      - `stress_scores` - Stress scores for the 13 day window. For instance, 
+
+      - Example: if we have `start_date` = '10-Apr-23' and `due_date` = '14-Apr-23'. We will check for all dates between ['9-Apr-23', '21-Apr-23'] since this is a 13 day window.
+        - For '9-Apr-23', its value will be **"Before start date"** and no stress score will be given because the due date will be before the start date
+        - For the rest of the days, stress scores are computed as such:
+          - We will find all the assignments for the currnet module and the module pairs on that due date. Find the relative stress scores of each of the assignments (i.e. Number of students taking both / Number of students taking the module we are concerned with * stress_score of assignment) Note that if it is the currnet module's assignment, we can just get the value of it as it is without aggregation
+          - Compute the score of the new assignment on that due_date with the other parameters
+          - Sum across all the stress scores and that it is the stress score recorded
+          - E.g. ('14-Apr-23', 27.5)
+
+* **Example Call**:
+
+```javascript
+import axios from 'axios'
+import { useEffect } from 'React'
+
+  useEffect(() => {
+    const params = {
+      'module_code' : 'DSA3101',
+      'semester' : 2220,
+      'name' : 'Assignment 5',
+      'type' : 'Project',
+      'group_or_indv': 'I',
+      'weightage': 20,
+      'start_date': '10-Apr-23',
+      'due_date': '14-Apr-23'
+    }
+    axios.get('/get_window_stresses', {params})
+      .then((response) => {
+        const data = response.data
+        // can store it in some state to use, this is the best dates
+        console.log(data['best_dates'])
+        // can store it in some state to use, this are all the stress scores
+        console.log(data['stress_scores'])
+      })
+      .catch((err) => console.log(err));
+  }, [])
 ```

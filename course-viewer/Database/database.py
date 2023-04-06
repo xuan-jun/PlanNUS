@@ -6,8 +6,11 @@ import datetime
 import pyodbc
 import json
 import random
+import re
+from model import indiv_score
 
 app = Flask(__name__)
+
 
 # json web token configuration
 app.config['JWT_SECRET_KEY'] = "dsa3101"
@@ -113,7 +116,12 @@ def get_assignments_table():
     data = []
     for row in result:
         current_dict = dict(zip(columns, row))
-        current_dict['stress_score'] = random.randint(1, 5)
+        current_dict['stress_score'] = indiv_score(
+            current_dict['Weightage'], current_dict['Type'],
+            current_dict['Group or Individual'],current_dict['Level'],
+            (datetime.datetime.strptime(current_dict['Start Date'], '%d-%b-%y') if current_dict['Start Date'] else None),
+            (datetime.datetime.strptime(current_dict['Due Date'], '%d-%b-%y') if current_dict['Due Date'] else None)
+        )
         data.append(current_dict)
 
     # close the connection
@@ -127,24 +135,36 @@ def get_assignments_table():
 # params: module_code, semester, name, weightage, assignment_type, group_or_indv, start_date, due_date
 # adds a new assignment to the assignment table
 def add_new_assignments():
+
+    # provides mapping for level of the module as we need that for prediction
+    level_mapping = {
+        '1' : 'level_1k',
+        '2' : 'level_2k',
+        '3' : 'level_3k',
+        '4' : 'level_4k'
+    }
+
     response = request.json['params']
-    #module_code = response['module_code']
-    #semester = response['semester']
+    module_code = response['module_code']
+    semester = response['semester']
     name = response['name']
     type = response['type']
     group_or_indv = response['group_or_indv']
     weightage = response['weightage']
     start_date = response['start_date']
     due_date = response['due_date']
+    # search for the first value that is an integer and map to the module level
+    level_value = module_code[re.search(r'\d', module_code).start()]
+    level_code = level_mapping[level_value]
 
     query = f"\
         INSERT INTO Assignments\
-        ([Name], [Weightage],\
-            [Group or Individual], [Type], [Start Date],\
-                [Due Date])\
-        VALUES ('{name}',\
+        ([Module Code], [Semester], [Name], [Weightage],\
+            [Type], [Group or Individual],  [Start Date],\
+                [Due Date], [Level])\
+        VALUES ('{module_code}', '{semester}', '{name}',\
             '{weightage}', '{type}', '{group_or_indv}',\
-                '{start_date}', '{due_date}')\
+                '{start_date}', '{due_date}', '{level_code}')\
     "
 
     db = establish_sql_connection()
@@ -162,6 +182,14 @@ def add_new_assignments():
 # params: original_name, module_code, semester, name, weightage, type, group_or_indv, start_date, due_date
 # adds a new assignment to the assignment table
 def update_assignments():
+    # provides mapping for level of the module as we need that for prediction
+    level_mapping = {
+        '1' : 'level_1k',
+        '2' : 'level_2k',
+        '3' : 'level_3k',
+        '4' : 'level_4k'
+    }
+
     response = request.json['params']
     # just need something to identify the change
     original_name = response['original_name']
@@ -173,12 +201,15 @@ def update_assignments():
     group_or_indv = response['group_or_indv']
     start_date = response['start_date']
     due_date = response['due_date']
+    # search for the first value that is an integer and map to the module level
+    level_value = module_code[re.search(r'\d', module_code).start()]
+    level_code = level_mapping[level_value]
 
     query = f"\
         UPDATE Assignments\
         SET [Name] = '{name}', [Weightage] = '{weightage}',\
         [Type]='{type}', [Group or Individual]='{group_or_indv}',\
-        [Start Date]='{start_date}', [Due Date]='{due_date}'\
+        [Start Date]='{start_date}', [Due Date]='{due_date}', [Level] = '{level_code}'\
         WHERE [Name] = '{original_name}' AND [Module Code] = '{module_code}'\
             AND [Semester]='{semester}'\
     "
@@ -186,6 +217,34 @@ def update_assignments():
     db = establish_sql_connection()
     cursor = db.cursor()
 
+    cursor.execute(query)
+    cursor.commit()
+
+    cursor.close()
+    db.close()
+
+    return "", 201
+
+@app.route('/delete_assignments', methods=['DELETE'])
+# params: module_code, semester, name
+# deletes an assignment
+def delete_assignments():
+
+    # we only need the following 3 values to uniquely identify an assignment and delete it
+    module_code = request.args.get('module_code')
+    semester = request.args.get('semester')
+    name = request.args.get('name')
+
+    query = f"\
+        DELETE FROM Assignments\
+        WHERE [Name] = '{name}' AND [Module Code] = '{module_code}'\
+            AND [Semester]='{semester}'\
+    "
+
+    db = establish_sql_connection()
+    cursor = db.cursor()
+
+    # execute the query and commit it
     cursor.execute(query)
     cursor.commit()
 
@@ -246,7 +305,15 @@ def get_assignment_pairings():
     data = []
     for row in pairing_assignment_results:
         current_dict = dict(zip(columns, row))
-        current_dict['stress_score'] = random.randint(1, 5) * (current_dict['Count'] / module_count)
+        # compute the stress score for the assignment first
+        assignment_score = indiv_score(
+            current_dict['Weightage'], current_dict['Type'],
+            current_dict['Group or Individual'],current_dict['Level'],
+            (datetime.datetime.strptime(current_dict['Start Date'], '%d-%b-%y') if current_dict['Start Date'] else None),
+            (datetime.datetime.strptime(current_dict['Due Date'], '%d-%b-%y') if current_dict['Due Date'] else None)
+        )
+        # aggregate it over the number of students taking both modules
+        current_dict['stress_score'] = assignment_score * (current_dict['Count'] / module_count)
         data.append(current_dict)
 
     # close the connection
@@ -379,7 +446,12 @@ def get_module_list_assignments():
     data = []
     for row in result:
         current_dict = dict(zip(columns, row))
-        current_dict['stress_score'] = random.randint(1, 5)
+        current_dict['stress_score'] = indiv_score(
+            current_dict['Weightage'], current_dict['Type'],
+            current_dict['Group or Individual'],current_dict['Level'],
+            (datetime.datetime.strptime(current_dict['Start Date'], '%d-%b-%y') if current_dict['Start Date'] else None),
+            (datetime.datetime.strptime(current_dict['Due Date'], '%d-%b-%y') if current_dict['Due Date'] else None)
+        )
         data.append(current_dict)
 
     cursor.close()
@@ -424,10 +496,145 @@ def module_list_assignments_instructor():
     data = []
     for row in result:
         current_dict = dict(zip(columns, row))
-        current_dict['stress_score'] = random.randint(1, 5)
+        current_dict['stress_score'] = indiv_score(
+            current_dict['Weightage'], current_dict['Type'],
+            current_dict['Group or Individual'],current_dict['Level'],
+            (datetime.datetime.strptime(current_dict['Start Date'], '%d-%b-%y') if current_dict['Start Date'] else None),
+            (datetime.datetime.strptime(current_dict['Due Date'], '%d-%b-%y') if current_dict['Due Date'] else None)
+        )
         data.append(current_dict)
 
     cursor.close()
     db.close()
 
     return json.dumps(data, default=str)
+
+@app.route("/get_window_stresses", methods=["GET"])
+# params: module_code, semester, name, weightage, assignment_type, group_or_indv, start_date, due_date
+# given the relevant details about a module, compute the stress scores of the days -5, current_due_date, +7 days
+def get_window_stresses():
+    # module mapping is required for the module level
+    level_mapping = {
+        '1' : 'level_1k',
+        '2' : 'level_2k',
+        '3' : 'level_3k',
+        '4' : 'level_4k'
+    }
+    # get the relevant arguments for the user input
+    module_code = request.args.get('module_code')
+    semester = request.args.get('semester')
+    name = request.args.get('name')
+    type = request.args.get('type')
+    group_or_indv = request.args.get('group_or_indv')
+    weightage = int(request.args.get('weightage'))
+    start_date = request.args.get('start_date')
+    due_date = request.args.get('due_date')
+    # search for the first value that is an integer and map to the module level
+    level_value = module_code[re.search(r'\d', module_code).start()]
+    level_code = level_mapping[level_value]
+
+    # establish the database connection
+    db = establish_sql_connection()
+    cursor = db.cursor()
+
+    # extract the number of students taking the current module
+    query1 = f"\
+        SELECT [Count]\
+        FROM student_counts\
+        WHERE [Module Code] = '{module_code}' AND [Semester] ='{semester}'\
+    "
+    cursor.execute(query1)
+    module_count = cursor.fetchall()[0][0] # store in a variable here
+
+    # get all the assignments for the current module and its pairings
+    query2 = f"\
+        SELECT * \
+        FROM (SELECT * \
+            FROM Assignments \
+            WHERE Semester='{semester}') a\
+        INNER JOIN (\
+            (SELECT [Module 1], [Count]\
+            FROM module_pairs \
+            WHERE [Semester]='{semester}' AND [Module 2]='{module_code}'\
+                AND [Count] > 0 AND [Module 1] != '{module_code}')\
+            UNION\
+            (SELECT [Module 2], [Count]\
+            FROM module_pairs \
+            WHERE [Semester]='{semester}' AND [Module 1]='{module_code}'\
+                AND [Count] > 0 AND [Module 2] != '{module_code}')\
+            UNION\
+                (SELECT '{module_code}' AS [Module Code], '{module_count}' AS [COUNT])) b \
+        ON (a.[Module Code] = b.[Module 1])\
+        "
+
+    cursor.execute(query2)
+    result = cursor.fetchall()
+    # extract the column names
+    columns = [column[0] for column in cursor.description]
+    # put the result into a dataframe, note that the generation is required as each row is a row object
+    combined_df = pd.DataFrame((tuple(t) for t in result), columns = columns)
+    # compute the stress score for each of the rows, making use of the backend model
+    combined_df['stress_score'] = combined_df.apply(lambda x :
+            indiv_score(
+            x['Weightage'], x['Type'],
+            x['Group or Individual'],x['Level'],
+            (datetime.datetime.strptime(x['Start Date'], '%d-%b-%y') if x['Start Date'] else None),
+            (datetime.datetime.strptime(x['Due Date'], '%d-%b-%y') if x['Due Date'] else None))
+            * x['Count'] / module_count, axis=1) # note that we will also multiply by its relative proportion of students taking both modules
+    
+    # final data will be stored as {'date' : 'stress_score'}
+    data = {}
+    # convert the current due date to a date time object for ease of iteration
+    start_date_datetime = datetime.datetime.strptime(start_date, '%d-%b-%y')
+    # convert the current due date to a date time object for ease of iteration
+    current_date = datetime.datetime.strptime(due_date, '%d-%b-%y')
+    # delta is a helper to iterate through each of the days
+    delta = datetime.timedelta(days = 1)
+
+    # start with the -5 days first
+    current_date -= 5 * delta
+    for i in range(6): # inclusive of current date
+        current_date_formatted = current_date.strftime('%d-%b-%y')
+        # check if the current_date is before the start_date, if it is then we do not give any scores for it
+        if ((current_date-start_date_datetime).days < 0):
+            data[current_date_formatted] = "Before start date"
+        else:
+            # if the date we are considering is after the start_date, we get the current day cumulative score first
+            current_day_score = sum(combined_df[combined_df['Due Date'] == current_date.strftime('%d-%b-%y')]['stress_score'])
+
+            # compute the stress score of the assignment on this day and add it to the current count of the scores
+            current_day_score += indiv_score(weightage, type, group_or_indv, level_code, start_date_datetime, current_date)
+
+            # input the value into the data object
+            data[current_date_formatted] = current_day_score
+
+        current_date += delta # bring back by 1 day
+
+    # now for the +7 days
+    current_date = datetime.datetime.strptime(due_date, '%d-%b-%y')
+    for i in range(7):
+        current_date += delta # move to the next day
+        current_date_formatted = current_date.strftime('%d-%b-%y')
+
+        # compute the cumulative score for the day first
+        current_day_score = sum(combined_df[combined_df['Due Date'] == current_date.strftime('%d-%b-%y')]['stress_score'])
+
+        # compute the stress score of the assignment on this day and add it to the current count of the scores
+        current_day_score += indiv_score(weightage, type, group_or_indv, level_code, start_date_datetime, current_date)
+
+        # input the value into the data object
+        data[current_date_formatted] = current_day_score
+
+    cursor.close()
+    db.close()
+    considering_dates = list(filter(
+        lambda kv : not isinstance(kv[1], str), data.items()))
+    min_date = min(list(map(lambda x : x[1], considering_dates))) # finding the minimum stress day
+    best_dates = list(map(lambda kv : kv[0], filter(lambda keyval : keyval[1] == min_date, considering_dates)))
+
+    final_data = {
+        'best_dates' : best_dates,
+        'stress_scores' : data
+    }
+
+    return json.dumps(final_data, default=str)
