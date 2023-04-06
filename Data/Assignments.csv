@@ -1,7 +1,7 @@
 Module Code,Semester,Name,Weightage,Type,Group or Individual,Start Date,Due Date,Level
 DSA1101,2010,4 Quizzes,10,Quiz,I,,,level_1k
 DSA1101,2010,Midterm,40,Exam,I,,,level_1k
-DSA1101,2010,Finals,50,Exam,I,,,level_1k
+DSA1101,2010,Finals,50,Exam,I,,30-Nov-20,level_1k
 DSA2101,2020,Participation and Quizzes,5,Participation,I,,,level_2k
 DSA2101,2020,Quiz 1,5,Quiz,I,12-Jan-21,19-Jan-21,level_2k
 DSA2101,2020,Assignment 1,2.5,Assignment,I,19-Jan-21,26-Jan-21,level_2k
@@ -56,7 +56,7 @@ DSA3102,2210,Midterm,20,Exam,I,29-Sep-22,29-Sep-22,level_3k
 DSA3102,2210,Finals,60,Exam,I,21-Nov-22,21-Nov-22,level_3k
 DSA4211,2210,5 Quizzes,5,Quiz,I,,,level_4k
 DSA4211,2210,Midterm,20,Exam,I,28-Sep-22,28-Sep-22,level_4k
-DSA4211,2210,Project,25,Exam,I,,30-Oct-22,level_4k
+DSA4211,2210,Project,25,Project,I,,30-Oct-22,level_4k
 DSA4211,2210,Finals,50,Exam,I,28-Nov-22,28-Nov-22,level_4k
 DSA4212,2220,Midterm,30,Exam,I,,,level_4k
 DSA4212,2220,Assignment 1,15,Assignment,I&G,,,level_4k
