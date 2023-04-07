@@ -25,3 +25,15 @@
   align-self:flex-end;
   font-weight: bold;
 }
+
+.const-diff {
+  position: absolute;
+  left: 20px;
+  font-size: 15px;
+}
+
+.suggested-dates {
+  font-size: 15px;
+  position: absolute;
+  left: 20px;
+}
