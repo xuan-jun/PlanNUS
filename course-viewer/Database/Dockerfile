@@ -6,6 +6,7 @@ FROM python:3.10.6-slim-buster
 WORKDIR /app
 COPY requirements.txt requirements.txt
 COPY database.py database.py
+COPY model.py model.py
 
 
 # things to make ms sql work
