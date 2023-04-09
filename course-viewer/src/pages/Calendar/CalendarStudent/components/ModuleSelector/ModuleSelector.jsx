@@ -143,7 +143,8 @@ const ModuleSelector = ({currentModules, setCurrentModules, currentSemester, cur
     <div className="module-selector">
       <div className="module-search">
         <h2>Search for Modules here</h2>
-        <input className="search-bar" placeholder="Module Code Here"
+        <input className="search-bar"
+        placeholder=" "
         value={inputText} onChange={(e) => {inputHandler(e)}}/>
         <ModuleList inputText={inputText} searchClickHandler={searchClickHandler} moduleData={moduleData}/>
       </div>
