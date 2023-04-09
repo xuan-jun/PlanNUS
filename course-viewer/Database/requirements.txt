@@ -3,4 +3,3 @@ pyodbc
 email_validator
 pandas
 flask_jwt_extended
-re

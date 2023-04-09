@@ -110,6 +110,8 @@ const AssignmentTable = ({theme, selectedModule, semester}) => {
             assignments={assignments}
             edited={edited}
             setEdited={setEdited}
+            semester={semester}
+            selectedModule={selectedModule}
         />
         )}
     </div>
