@@ -14,6 +14,11 @@
     justify-content: start ;
     align-items: top;
   }
+
+  .tile.selected {
+    border-color: #000000;
+  }
+  
   
   .tile .date {
     font-size: 11px;
@@ -27,13 +32,14 @@
 }
 
 .const-diff {
-  position: absolute;
-  left: 20px;
   font-size: 15px;
 }
 
 .suggested-dates {
   font-size: 15px;
-  position: absolute;
-  left: 20px;
+}
+
+.dates-info {
+  margin-left: 20px;
+  font-size: 15px;
 }
