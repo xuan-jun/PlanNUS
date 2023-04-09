@@ -101,7 +101,7 @@ function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, moduleP
                  <td>{row['stress_score'].toFixed(2)}</td>
                  <td>
                   <Link to="/assignments">
-                   <button>Edit Assignment</button>
+                   <button className="table-btn">Edit</button>
                   </Link>
                  </td>
                </tr>
