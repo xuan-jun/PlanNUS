@@ -6,6 +6,7 @@ import dayIcon from '../../assets/dayicon.png'
 import moonIcon from '../../assets/moonicon.png'
 import logoutIcon from '../../assets/logout.png'
 import { Link, useMatch, useResolvedPath } from 'react-router-dom'
+//import { motion } from "framer-motion";
 
 const Navbar = ({theme, setTheme, token, removeToken}) => {
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Select, MenuItem, Typography } from '@mui/material';
 import { FormControl, InputLabel } from '@material-ui/core';
 import axios from 'axios';
@@ -7,12 +7,13 @@ import moment from 'moment';
 import './Tiles.css';
 
 //tiles
-const Tile = ({ dueDate, date, stressScores, setConstDiff }) => {
-  //const formatDate = (date) => moment(date).format('D-MMM-YY');
+const Tile = ({ dueDate, date, stressScores, setConstDiff, selectedDate, setSelectedDate }) => {
 
-  // Generate random stress score between 0 and 10
-  const stressScore = stressScores[date];
+  //get the stress score
+  const formatDate = (date) => moment(date).format('DD-MMM-YY');
+  const stressScore = stressScores[formatDate(date)];
 
+  //calculate the difference between current stress score and new selected due date stress score
   const diff = () => {
     if (stressScore === 'Before start date') {
       return 'Not Applicable!'
@@ -20,7 +21,8 @@ const Tile = ({ dueDate, date, stressScores, setConstDiff }) => {
       const change = stressScores[dueDate] - stressScore
       return change
       
-  }
+  };
+
 
   // Set color based on stress score
   let color;
@@ -33,13 +35,21 @@ const Tile = ({ dueDate, date, stressScores, setConstDiff }) => {
   } else if (stressScore >= 7.5) {
     color = 'rgba(202, 32, 45, 0.3)'; // stressed
   } else {
-    color = 'rgba(25, 125, 150, 0.7)'; // null
+    color = 'rgba(250, 250, 250, 0)'; // null
   } 
 
+  //change colour when tile selected
+  const isSelected = selectedDate === date;
+
   return (
-    <div className="tile" style={{ backgroundColor: color }} onClick={() => setConstDiff(diff())}>
+    <div className={`tile${isSelected ? ' selected' : ''}`} style={{ backgroundColor: color }} onClick={() => {
+      setSelectedDate(date);
+      setConstDiff(diff());
+    }}>
       <div className="date">{date}</div>
-      <div className="stress-score">{stressScore}</div>
+      <div className="stress-score">
+        {typeof stressScore === "string" ? stressScore : Math.floor(stressScore)}
+      </div>
     </div>
   );
 };
@@ -51,6 +61,8 @@ const TileGroup = ({ selectedModule, semester, name, weightage, type, group_or_i
   
   //to display increase or decrease
   const [constDiff, setConstDiff] = useState(null);
+
+  const [selectedTile, setSelectedTile] = useState(null);
 
 
 
@@ -65,6 +77,8 @@ const TileGroup = ({ selectedModule, semester, name, weightage, type, group_or_i
       'start_date': start_date,
       'due_date': due_date
     }
+    console.log(start_date)
+    console.log(due_date)
     axios.get('/get_window_stresses', {params})
     .then((response => {
       const data = response.data;
@@ -73,17 +87,6 @@ const TileGroup = ({ selectedModule, semester, name, weightage, type, group_or_i
     }))
     .catch((err) => console.log(err));
     }, [])
-
-    //testing to see if api call returns sth
-    const test = {'stress_scores':{'1-Feb-23':'Before start date', '2-Feb-23':'Before start date', '3-Feb-23':6, 
-    '4-Feb-23':5, '5-Feb-23':8, '6-Feb-23': 3, '7-Feb-23':5, '8-Feb-23':8, '9-Feb-23':9, 
-    '10-Feb-23':4, '11-Feb-23':2, '12-Feb-23':3, '13-Feb-23':5},
-    'best_dates': ['6-Feb-23', '11-Feb-23', '12-Feb-23']};
-    
-    if (stressScores.length === 0) {
-      setStressScores(test['stress_scores']);
-      setBestDates(test['best_dates']);
-    }
 
     
 
@@ -108,29 +111,35 @@ const TileGroup = ({ selectedModule, semester, name, weightage, type, group_or_i
 
   return (
     <div>
-       <div className='suggested-dates'>
-        <span><b>Suggested Due Dates: </b></span>
-        {bestDates.map((best) => (
-          <span>{best} </span>
-        ))}
-      </div>
-      <br></br>
-      <div className="const-diff">
-        {constDiff === null ? (
-          <p>Click on a tile!</p>
-        ) : (
-          constDiff > 0 ? (
-            <p><b>Increase in stress score: </b>{constDiff}</p>
-          ) : (
-            <p><b>Decrease in stress score: </b>{-constDiff}</p>
-          )
+      <div className='dates-info'>
+        <div className='suggested-dates'>
+          <p><b>Suggested Due Dates: </b></p>
+          {bestDates.map((best) => (
+            <span>{best} </span>
+          ))}
+        </div>
+        <br></br>
+        {selectedTile && (
+          <div className='const-diff'>
+            <b> Selected Suggested Date: </b>{selectedTile}
+          </div>
         )}
+        <div className="const-diff">
+          {constDiff === null ? (
+            <p>Click on a tile!</p>
+          ) : typeof constDiff === "string" ? (
+            <p><b>Choose another date!</b></p>
+          ) : constDiff > 0 ? (
+            <p><b>Increase in stress score:</b> {Math.floor(constDiff)}</p>
+          ) : (
+            <p><b>Decrease in stress score:</b> {-constDiff}</p>
+          )}
+        </div>
       </div>
-
-      <br></br>
       <div className="tile-group">
         {dates.map((date) => (
-          <Tile dueDate={due_date} date={date} stressScores={stressScores} setConstDiff={setConstDiff}/>
+          <Tile dueDate={due_date} date={date} stressScores={stressScores} setConstDiff={setConstDiff} selectedDate={selectedTile} setSelectedDate={setSelectedTile}/>
+          //<p>{stressScores[date]}</p>
         ))}
       </div>
     </div>
@@ -333,7 +342,8 @@ return (
       group_or_indv={group_or_indv}
       type={type}
       start_date={SubmitDate(start_date)}
-      due_date={SubmitDate(due_date)} />
+      due_date={SubmitDate(due_date)} 
+      setDueDate={setDueDate} />
       <DialogActions className={theme === "light" ? classes.popupLight : classes.popupDark}>
             <Button onClick={handleDelete} className='delete-assignment'>
               Delete Assignment

@@ -526,7 +526,7 @@ def get_window_stresses():
     name = request.args.get('name')
     type = request.args.get('type')
     group_or_indv = request.args.get('group_or_indv')
-    weightage = int(request.args.get('weightage'))
+    weightage = float(request.args.get('weightage'))
     start_date = request.args.get('start_date')
     due_date = request.args.get('due_date')
     # search for the first value that is an integer and map to the module level
@@ -584,8 +584,8 @@ def get_window_stresses():
     
     # final data will be stored as {'date' : 'stress_score'}
     data = {}
-    # convert the current due date to a date time object for ease of iteration
-    start_date_datetime = datetime.datetime.strptime(start_date, '%d-%b-%y')
+    # convert the current due date to a date time object for ease of iteration, make it None if there is no start date
+    start_date_datetime = None if start_date == "Invalid date" else datetime.datetime.strptime(start_date, '%d-%b-%y')
     # convert the current due date to a date time object for ease of iteration
     current_date = datetime.datetime.strptime(due_date, '%d-%b-%y')
     # delta is a helper to iterate through each of the days
@@ -596,7 +596,7 @@ def get_window_stresses():
     for i in range(6): # inclusive of current date
         current_date_formatted = current_date.strftime('%d-%b-%y')
         # check if the current_date is before the start_date, if it is then we do not give any scores for it
-        if ((current_date-start_date_datetime).days < 0):
+        if (start_date_datetime != None and (current_date-start_date_datetime).days < 0):
             data[current_date_formatted] = "Before start date"
         else:
             # if the date we are considering is after the start_date, we get the current day cumulative score first

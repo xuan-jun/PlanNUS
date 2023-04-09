@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './Landing.css'
 import logo from '../../assets/logo.png'
 import axios from 'axios';
+import { motion } from "framer-motion";
+import { plannus, plannusWrapper, fadeIn, staggerContainer } from "../../variants.ts";
 
 function Landing() {
   const [assignments, setAssignments] = useState([]);
@@ -77,24 +79,41 @@ function Landing() {
   // }, [])
 
   return <div className="landing-page">
-    <img className="plannus-logo" src = {logo} alt = "plannus logo" />
-    <div className="landing-text-wrapper">
-        <h1 className='landing-title'>Welcome to <em><p className='blue'>Plan</p>NUS</em> !</h1>
-        <p><strong>Instructors!</strong> Have you wondered whether your students are 
-          having assignments on days where you have provided assignments?</p>
-        <p><strong>Students!</strong> Have you wondered about how the assignment workloads are like
+    <body>
+    <motion.div variants={staggerContainer} initial="initial" animate="animate">
+      {/* upper */}
+      <div>
+        <motion.span variants={fadeIn()} className="bubble-left">
+        <p><strong>Instructors!</strong> <br /> Have you wondered whether your students are 
+          having <br /> assignments on days where you have provided assignments?</p> 
+        </motion.span>
+        <motion.span variants={fadeIn()} className="bubble-right">
+        <p><strong>Students!</strong>  <br /> Have you wondered about how the assignment <br /> workloads are like
         for the previous semester?</p>
-        <p>Whether you are an instructor or a student there is something here for you</p>
+        </motion.span>
+      </div>
+    </motion.div>
 
-        <div className="landing-select-type">
-            <button className="landing-button">
-                <a href = './login'>Instructor</a>
-            </button>
-            <button className="landing-button">
-                <a href = "./calendar">Student</a>
-            </button>
-        </div>
+    <motion.div variants={plannusWrapper} initial="initial" animate="animate" className="plannusWrapper">
+      <motion.img src={logo} variants={plannus} className="plannus-logo" />
+    </motion.div>
+    <motion.span variants={fadeIn()} initial="initial" animate="animate">
+        <p>Whether you are an instructor or a student, there is <strong>always</strong> something for you!</p>
+    </motion.span>
+
+    <br></br><br></br>
+
+    <div className="landing-select-type">
+      <button class="learn-more">
+        <a href = './login'>Instructor</a>
+      </button>
+      <button class="learn-more">
+        <a href = './Calendar'>Student</a>
+      </button>
+    
     </div>
+
+    </body>  
   </div>;
 }
 
