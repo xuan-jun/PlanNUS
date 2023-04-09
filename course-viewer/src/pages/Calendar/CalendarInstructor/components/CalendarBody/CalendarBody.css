@@ -7,7 +7,7 @@
 }
 
 .day {
-  height: 20%;
+  height: 25%;
   width: 50%;
   align-self: center;
   border-radius: 28px;
@@ -41,6 +41,7 @@
   height: 2rem;
   border: 1px solid black;
   text-align: center;
+  color: var(--secondary-color);
   
   display: flex;
   align-items: center;

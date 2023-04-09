@@ -1,5 +1,5 @@
 .filter{
-  width: 19rem;
+  width: 20vw;
   padding-bottom: 2rem;
 }
 
@@ -16,7 +16,7 @@
 
 .currently-selected-filter {
   font-weight: 600;
-  width: 19rem;
+  width: 20vw;
   border: 2px solid var(--lightGray-color);
   border-radius: 3px;
   display: flex;
