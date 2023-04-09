@@ -122,11 +122,11 @@ button.learn-more:active::before {
 }
 
 .bubble-left {
-  width: 29rem;
-  height: 7rem;
+  width: 32rem;
+  height: 6rem;
   display: flex;
   justify-content: left;
-  align-items: center;
+  align-items: left;
   position: relative;
   background-color: rgb(255, 138, 14);
   box-shadow: 20px 20px #b5d99c;
@@ -168,7 +168,7 @@ button.learn-more:active::before {
   padding: 20px;
   border-radius: 4px;
   margin-right: 40px;
-  margin-top: -80px;
+  margin-bottom: -80px;
   animation: float 20s, ease-in-out infinite;
 }
 
