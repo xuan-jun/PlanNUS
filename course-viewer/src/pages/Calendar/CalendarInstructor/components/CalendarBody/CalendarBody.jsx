@@ -6,7 +6,7 @@ import './CalendarBody.css'
 import DetailedView from '../DetailedView/DetailedView';
 import axios from 'axios'
 
-const CalendarBody = ({currentModule, currentModules, semester, assignmentData, setAssignmentData, modulePairAssignment, setModulePairAssignment, stressScoreDaily, setStressScoreDaily, instructor}) => {
+const CalendarBody = ({currentModule, currentModules, semester, assignmentData, setAssignmentData, modulePairAssignment, setModulePairAssignment, stressScoreDaily, setStressScoreDaily, instructor, moduleColors}) => {
   // calendar array of dates in the current view
   const [calendar, setCalendar] = useState([]);
   // currently selected date
@@ -49,7 +49,6 @@ const CalendarBody = ({currentModule, currentModules, semester, assignmentData, 
       get_assignment_pairings();
     }
     else if (currentModule === 'My View') {
-      console.log(currentModules)
       const currentMods = currentModules.filter((module) => {
         return module !== 'My View'
       });
@@ -143,8 +142,11 @@ const CalendarBody = ({currentModule, currentModules, semester, assignmentData, 
             <div className = "week">
               {week.map((day) => (
                 <CalendarTile day={day} dayStyle = {dayStyle}
-                handleClick={handleClick} assignmentData={assignmentData} stressScoreDaily={stressScoreDaily}
-                currentModule={currentModule}/>
+                handleClick={handleClick} 
+                assignmentData={assignmentData}
+                stressScoreDaily={stressScoreDaily}
+                currentModule={currentModule}
+                moduleColors = {moduleColors}/>
               ))}
             </div>
           ))}
@@ -154,7 +156,7 @@ const CalendarBody = ({currentModule, currentModules, semester, assignmentData, 
   )
 };
 
-const CalendarTile = ({ day, dayStyle, handleClick, assignmentData, stressScoreDaily, currentModule }) => {
+const CalendarTile = ({ day, dayStyle, handleClick, assignmentData, stressScoreDaily, currentModule, moduleColors }) => {
   const formattedDate = day.format("D-MMM-YY");
 
   // filter for current day data for current module
@@ -166,7 +168,16 @@ const CalendarTile = ({ day, dayStyle, handleClick, assignmentData, stressScoreD
   const currentDayTasks = currentDayData.length === 0 ? [] :
     currentDayData.map((assignment) => {
       if (currentModule === 'My View') {
-        return `${assignment['Module Code']} ${assignment['Name']}`
+        // get the background color of the module
+        const backgroundColor = moduleColors.filter((module) => {
+          // find the module code that we are trying to record
+          return module['moduleCode'] === assignment['Module Code']
+        }).map((module) => {return module['backgroundColor']})[0]
+
+        return {
+          'title' : `${assignment['Module Code']} ${assignment['Name']}`,
+          'backgroundColor' : backgroundColor
+        };
       } 
       return assignment['Name'];
     });
@@ -183,7 +194,13 @@ const CalendarTile = ({ day, dayStyle, handleClick, assignmentData, stressScoreD
         {day.format("D").toString()}
       </div>
       <div className="current-day-tasks">
-        {currentDayTasks.map((task) => (
+        {currentModule === "My View" ?
+        currentDayTasks.map((task) => (
+          <div className="task" style={{'backgroundColor' : task['backgroundColor']}}>
+            {task['title']}
+          </div>
+        )) :
+        currentDayTasks.map((task) => (
           <div className="task">
             {task}
           </div>
