@@ -6,7 +6,7 @@ import axios from 'axios';
 import "./CalendarInstructor.css"
 
 const CalendarInstructor = ({token, currentModule, setCurrentModule}) => {
-  const filterTitle = "SELECT THE VIEW YOU WANT TO SEE";
+  const filterTitle = "SELECT VIEW";
 
   const instructorName = token['userName']
   const semester = 2220 // default semester for now

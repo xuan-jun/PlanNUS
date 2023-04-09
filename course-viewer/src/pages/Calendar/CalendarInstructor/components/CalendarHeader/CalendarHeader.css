@@ -7,7 +7,7 @@
 
 .current {
   display: flex;
-  gap: 5rem;
+  gap: 2rem;
   font-size: 32px;
   font-weight: 600;
   color: var(--secondary-color);

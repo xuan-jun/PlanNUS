@@ -24,6 +24,7 @@
   text-align: center;
   font-weight: 700;
   color: var(--secondary-color);
+  height: 100px;
 
   display: flex;
   flex-direction: column;
@@ -82,7 +83,7 @@
 
 .task {
   background-color: white;
-  font-size: 13px;
+  font-size: 9px;
   width: 95%;
   color: black;
   padding: 0.25rem;

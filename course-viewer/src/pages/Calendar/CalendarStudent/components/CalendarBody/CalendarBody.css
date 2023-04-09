@@ -4,6 +4,7 @@
 
 .calendar-tile, .day-name {
   width: 9.75rem;
+  height: 100px;
 }
 
 .day {
@@ -82,7 +83,7 @@
 
 .task {
   background-color: white;
-  font-size: 13px;
+  font-size: 9px;
   width: 95%;
   color: black;
   padding: 0.25rem;
