@@ -20,7 +20,6 @@ const Tile = ({ dueDate, date, stressScores, setConstDiff, selectedDate, setSele
     }
       const change = stressScores[dueDate] - stressScore
       return change
-      
   };
 
 
@@ -111,40 +110,49 @@ const TileGroup = ({ selectedModule, semester, name, weightage, type, group_or_i
 
   return (
     <div>
-      <div className='dates-info'>
-        <div className='suggested-dates'>
-          <p><b>Suggested Due Dates: </b></p>
-          {bestDates.map((best) => (
-            <span>{best} </span>
-          ))}
-        </div>
-        <br></br>
-        {selectedTile && (
-          <div className='const-diff'>
-            <b> Selected Suggested Date: </b>{selectedTile}
+      {due_date != "Invalid date" ? (
+        <div>
+          <div className='dates-info'>
+            {selectedTile && (
+              <div className='const-diff'>
+                <b> Selected Suggested Date: </b>{selectedTile}
+              </div>
+            )}
+            <div className="const-diff">
+              {constDiff === null ? (
+                <p>Click on a tile!</p>
+              ) : typeof constDiff === "string" ? (
+                <p><b>Choose another date!</b></p>
+              ) : constDiff > 0 ? (
+                <p><b>Increase in stress score:</b> {Math.floor(constDiff)}</p>
+              ) : constDiff < 0 ? (
+                <p><b>Decrease in stress score:</b> {-constDiff}</p>
+              ) : (
+                <p>No change in stress</p>
+              )}
+            </div>
+            <br></br>
+            <div className='suggested-dates'>
+              <p><b>Suggested Due Dates: </b></p>
+              {bestDates.map((best) => (
+                <span>{best} </span>
+              ))}
+            </div>
           </div>
-        )}
-        <div className="const-diff">
-          {constDiff === null ? (
-            <p>Click on a tile!</p>
-          ) : typeof constDiff === "string" ? (
-            <p><b>Choose another date!</b></p>
-          ) : constDiff > 0 ? (
-            <p><b>Increase in stress score:</b> {Math.floor(constDiff)}</p>
-          ) : (
-            <p><b>Decrease in stress score:</b> {-constDiff}</p>
-          )}
+          <div className="tile-group">
+            {dates.map((date) => (
+              <Tile dueDate={due_date} date={date} stressScores={stressScores} setConstDiff={setConstDiff} 
+              selectedDate={selectedTile} setSelectedDate={setSelectedTile}/>
+            ))}
+          </div>
         </div>
-      </div>
-      <div className="tile-group">
-        {dates.map((date) => (
-          <Tile dueDate={due_date} date={date} stressScores={stressScores} setConstDiff={setConstDiff} selectedDate={selectedTile} setSelectedDate={setSelectedTile}/>
-          //<p>{stressScores[date]}</p>
-        ))}
-      </div>
+      ) : (
+        <p style ={{ marginLeft: 225}}><b>Pick a due date!</b></p>
+      )}
     </div>
   );
-};
+}
+  
 
 const Popup = ({theme, open, setOpen, currentRow, setCurrentRow, assignments, edited, setEdited, semester, selectedModule }) => {
   const classes = useStyles();
@@ -173,6 +181,7 @@ const Popup = ({theme, open, setOpen, currentRow, setCurrentRow, assignments, ed
 
   const [start_date, setStartDate] = useState(handleDates(currentRow['Start Date']));
   const [due_date, setDueDate] = useState(handleDates(currentRow['Due Date']));
+  const [dueDateDisplay, setDueDateDisplay] = useState(handleDates(currentRow['Due Date']));
 
   const [selectedDate, setSelectedDate] = useState('');
 
@@ -289,7 +298,7 @@ return (
               label="Due Date"
               fullWidth
               type='date'
-              value= {due_date}
+              value= {dueDateDisplay}
               variant="outlined"
               InputLabelProps={{
                 shrink: true,
@@ -342,8 +351,7 @@ return (
       group_or_indv={group_or_indv}
       type={type}
       start_date={SubmitDate(start_date)}
-      due_date={SubmitDate(due_date)} 
-      setDueDate={setDueDate} />
+      due_date={SubmitDate(due_date)} />
       <DialogActions className={theme === "light" ? classes.popupLight : classes.popupDark}>
             <Button onClick={handleDelete} className='delete-assignment'>
               Delete Assignment
