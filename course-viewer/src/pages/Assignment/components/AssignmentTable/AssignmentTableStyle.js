@@ -4,11 +4,10 @@ const font =  "'Inter', sans-serif";
 const useStyles = makeStyles(theme => ({
     tableDark: {
       maxWidth: 1200,
-      paddingTop: 45,
-      paddingBottom: 30,
-      borderBottom: "none",
-      marginTop: theme.spacing(3),
+      marginBottom: 30,
+      marginTop: theme.spacing(10),
       height: '90vh',
+      boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.5)',
       '& body': {
         backgroundColor: 'black',
       },
@@ -36,11 +35,11 @@ const useStyles = makeStyles(theme => ({
     },
     tableLight: {
       maxWidth: 1200,
-      paddingTop: 45,
-      paddingBottom: 30,
+      marginBottom: 30,
       borderBottom: "none",
-      marginTop: theme.spacing(3),
+      marginTop: theme.spacing(10),
       height: '90vh',
+      boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)',
       '&$bodyWhite': {
         backgroundColor: 'white',
       },

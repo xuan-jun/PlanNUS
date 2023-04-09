@@ -47,7 +47,7 @@
 
 .filter-menu {
   border: 1px solid var(--lightGray-color);
-  width: 19rem;
+  width: 20vw;
   position: absolute;
   z-index: 1;
   background-color: var(--primary-color);
