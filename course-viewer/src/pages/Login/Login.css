@@ -103,11 +103,11 @@
 
 .login-input:focus ~ .form__label,
 .login-input:not(:placeholder-shown).login-input:not(:focus) ~ .input-title {
-  top: -0.75rem;
-  font-size: 1rem;
+  top: -1.3rem;
+  font-size: 0.9rem;
   left: 1.5rem;
   font-weight: 500;
-  background-color: rgb(32, 34, 95);
+  color: #fff;
 }
 
 .login-input:not(:placeholder-shown).login-input:not(:focus) {
