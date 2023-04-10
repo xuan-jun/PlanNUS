@@ -35,7 +35,7 @@ export const plannusWrapper: Variants = {
   animate: {
     y: 0,
     transition: {
-      delay: 2.0,
+      delay: 1.5,
       duration: 0.8,
       type: "spring",
     },
