@@ -1,0 +1,226 @@
+.landing-page {
+  color: black;
+  background: url(../../assets/JqF9s5.jpg);
+  background-size: auto 120%;
+  background-attachment: fixed;
+  background-position-x: center;
+  background-position-y: center;
+  height: 100vh;
+}
+
+.plannus-logo {
+  width: 40rem;
+  height: 24rem;
+}
+
+.blue {
+  color: var(--blue-color);
+  display: inline;
+}
+
+.landing-desc{
+  color: var(--secondary-color)
+}
+
+.landing-text-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  background-color: rgb(32, 34, 95);
+  
+  height: 100%;
+  width: 80%;
+  padding: 2rem;
+
+  border-radius: 10rem 0 0 0;
+  border: 2px solid white;
+}
+
+.landing-text-wrapper > p {
+  font-size: 20px;
+}
+
+.landing-select-type {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5rem;
+}
+
+.landing-title {
+  color: rgb(255, 138, 14);
+  font-size: 5rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+
+button {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  outline: none;
+  border: 0;
+  vertical-align: middle;
+  text-decoration: none;
+  font-size: inherit;
+  font-family: inherit;
+  
+}
+
+button > a {
+  font-weight: bold;
+
+  text-decoration: none;
+  color: black;
+}
+
+button.learn-more {
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+  padding: 1.25em 2em;
+  background: #fff0f0;
+  border: 2px solid #b18597;
+  border-radius: 0.75em;
+  transform-style: preserve-3d;
+  transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), 150ms cubic-bezier(0, 0, 0.58, 1);
+}
+
+button.learn-more::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #c6c4f9;
+  border-radius: inherit;
+  box-shadow: 0 0 0 2px #b18597, 0 0.625em 0 0 #ffe3e2;
+  transform: translate3d(0, 0.75em, -1em);
+  transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), box-shadow 150ms cubic-bezier(0, 0, 0.58, 1);
+}
+
+button.learn-more:hover {
+  background: #ffe9e9;
+  transform: translate(0, 0.25em);
+}
+
+button.learn-more:hover::before {
+  box-shadow: 0 0 0 2px #b18597, 0 0.5em 0 0 #ffe3e2;
+  transform: translate3d(0, 0.5em, -1em);
+}
+
+button.learn-more:active {
+  background: #ffe9e9;
+  transform: translate(0em, 0.75em);
+}
+
+button.learn-more:active::before {
+  box-shadow: 0 0 0 2px #b18597, 0 0 #ffe3e2;
+  transform: translate3d(0, 0, -1em);
+}
+
+.bubble-left {
+  width: 32rem;
+  height: 6rem;
+  display: flex;
+  justify-content: left;
+  align-items: left;
+  position: relative;
+  background-color: rgb(239, 155, 66);
+  box-shadow: 20px 20px #a8cbe7;
+  padding: 20px;
+  border-radius: 4px;
+  margin-left: 40px;
+  animation: float 20s, ease-in-out infinite;
+}
+
+.bubble-left:after {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 20px solid transparent;
+	border-right-color: rgb(255, 138, 14);
+	border-left: 0;
+	border-bottom: 0;
+	margin-top: -10px;
+	margin-left: -20px;
+  animation: float2 20s ease-in-out infinite;
+}
+
+
+
+.bubble-right {
+  float: right;
+	width: 25rem;
+  height: 5rem;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  position: relative;
+  background-color: rgb(239, 155, 66);
+  box-shadow: -20px 20px #a8cbe7;
+  padding: 20px;
+  border-radius: 4px;
+  margin-right: 40px;
+  margin-bottom: -80px;
+  animation: float 20s, ease-in-out infinite;
+}
+
+.bubble-right:after {
+	content: '';
+	position: absolute;
+	right: 0;
+	top: 50%;
+	width: 0;
+	height: 0;
+	border: 20px solid transparent;
+	border-left-color: rgb(242, 172, 97);
+	border-right: 0;
+	border-top: 0;
+	margin-top: -10px;
+	margin-right: -20px;
+  animation: float 20s, ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes float2 {
+  0% {
+    line-height: 30px;
+    transform: translateY(0px);
+  }
+  55% {
+    transform: translateY(-20px);
+  }
+  60% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}

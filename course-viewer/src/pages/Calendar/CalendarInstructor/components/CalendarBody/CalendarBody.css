@@ -1,0 +1,101 @@
+.previous, .next, .calendar-tile {
+  cursor: pointer;
+}
+
+.calendar-tile, .day-name {
+  width: 10vw;
+  height: 17vh;
+}
+
+.day {
+  height: 25%;
+  width: 25%;
+  align-self: center;
+  border-radius: 50%;
+  margin-top: 0.25rem;
+  background-color: var(--primary-color);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.calendar-tile {
+  aspect-ratio: 1;
+  border: 1px solid black;
+  text-align: center;
+  font-weight: 700;
+  color: var(--secondary-color);
+
+  display: flex;
+  flex-direction: column;
+  overflow-y:scroll;
+}
+
+.calendar-tile::-webkit-scrollbar {
+  display: none;
+}
+
+.day-name {
+  color: var(--black-color);
+  font-weight: 400;
+  height: 2rem;
+  border: 1px solid black;
+  text-align: center;
+  color: var(--secondary-color);
+  background-color: var(--table-primary-background-color);
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.selected {
+  background-color: var(--lightGray-color);
+}
+
+.week, .day-names, .day-names {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.very-stressed {
+  background-color: var(--very-stressed);
+}
+
+.stressed {
+  background-color: var(--stressed);
+}
+
+.moderate {
+  background-color: var(--moderate);
+}
+
+.good {
+  background-color: var(--good);
+}
+
+.diffMonth {
+  background-color: var(--lightGray-color);
+}
+
+.current-day-tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  margin-top: 0.5rem;
+}
+
+.task {
+  background-color: var(--primary-color);
+  font-size: 12px;
+  width: 95%;
+  color: black;
+  padding: 0.25rem;
+  align-self: center;
+
+  border-radius: 28px;
+  border: 2px solid var(--lightGray-color);
+}

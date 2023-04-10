@@ -1,0 +1,64 @@
+{
+  "name": "course-viewer",
+  "version": "0.1.0",
+  "private": true,
+  "proxy": "http://web:4000",
+  "dependencies": {
+    "@date-io/date-fns": "^1.3.13",
+    "@emotion/react": "latest",
+    "@emotion/styled": "latest",
+    "@material-ui/core": "4.12.4",
+    "@material-ui/icons": "^4.11.3",
+    "@material-ui/pickers": "3.3.10",
+    "@mui/icons-material": "latest",
+    "@mui/material": "latest",
+    "@mui/x-data-grid": "latest",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.3.4",
+    "cors": "^2.8.5",
+    "date-fns": "^2.29.3",
+    "framer-motion": "^10.11.2",
+    "moment": "^2.29.4",
+    "momentjs": "^2.0.0",
+    "react": "latest",
+    "react-admin": "4.8.4",
+    "react-calendar": "^4.0.0",
+    "react-dom": "latest",
+    "react-router-dom": "^6.8.2",
+    "react-scripts": "5.0.1",
+    "use-local-storage": "^2.3.6",
+    "use-local-storage-state": "^18.2.1",
+    "web-vitals": "^2.1.4"
+  },
+  "description": "https://github.com/mui/mui-x/blob/v6.0.2/docs/data/data-grid/overview/DataGridDemo.js",
+  "devDependencies": {
+    "react-scripts": "latest",
+    "tailwindcss": "^3.3.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

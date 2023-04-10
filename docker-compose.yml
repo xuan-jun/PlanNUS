@@ -1,0 +1,17 @@
+version: "3"
+services:
+  web:
+    build: ./course-viewer/flask_app
+    container_name: flask_container
+    ports:
+      - 4000:4000
+  db:
+    build: ./Database
+    ports:
+      - 1433:1433
+    container_name: mssqldb_container
+  frontend:
+    build: ./course-viewer
+    container_name: react-frontend
+    ports:
+      - 3000:3000

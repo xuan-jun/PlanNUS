@@ -1,0 +1,22 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.current {
+  display: flex;
+  gap: 2rem;
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--secondary-color);
+}
+
+.previous > img {
+  transform: scaleX(-1);
+}
+
+img {
+  width: 2rem;
+}

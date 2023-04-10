@@ -1,0 +1,10 @@
+.calendar-page {
+  display: flex;
+}
+
+.side-panel {
+  display: flex;
+  flex-direction: column;
+  margin-top: 5rem;
+  margin-bottom: auto;
+}
