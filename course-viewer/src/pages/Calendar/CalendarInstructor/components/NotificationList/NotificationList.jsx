@@ -45,10 +45,10 @@ const NotificationList = ({assignmentData, modulePairAssignment, stressScoreDail
         <DetailedView isDetailed={isDetailed} setIsDetailed={setIsDetailed} date={notificationDate} assignmentData={assignmentData} modulePairAssignment={modulePairAssignment} stressScoreDaily={stressScoreDaily}
         currentModule={currentModule}
         />
-        <h3>NOTIFICATIONS</h3>
+        <h3 className='notification-header'>NOTIFICATIONS</h3>
         {
           notifications.length === 0 ? 
-          <h4 className='no-notifications'>No assignments require your attention!</h4> :
+          <h4 className='no-notifications'>No optimisation required!</h4> :
           <ul className='notification-list'>
             {notifications.map(( notification ) => (
               <Notification date={notification} notificationClickRemover={notificationClickRemover} handleClick={handleClick} assignmentData={assignmentData}/>

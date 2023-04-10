@@ -7,6 +7,7 @@ const useStyles = makeStyles(theme => ({
       paddingTop: 90,
       borderBottom: "none",
       marginTop: theme.spacing(3),
+      height: "90vh",
       '& thead th': {
           fontWeight: '600',
           color: "#fffefe",
@@ -31,6 +32,7 @@ const useStyles = makeStyles(theme => ({
       paddingTop: 90,
       borderBottom: "none",
       marginTop: theme.spacing(3),
+      height: "90vh",
       '& thead th': {
           fontFamily: font,
           fontWeight: '600',

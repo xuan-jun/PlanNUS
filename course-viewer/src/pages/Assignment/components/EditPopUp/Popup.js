@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Select, MenuItem, Typography } from '@mui/material';
 import { FormControl, InputLabel } from '@material-ui/core';
 import axios from 'axios';
@@ -7,39 +7,50 @@ import moment from 'moment';
 import './Tiles.css';
 
 //tiles
-const Tile = ({ dueDate, date, stressScores, setConstDiff }) => {
-  //const formatDate = (date) => moment(date).format('D-MMM-YY');
+const Tile = ({ dueDate, date, stressScores, setConstDiff, selectedDate, setSelectedDate, bestDates }) => {
+  //get the stress score
+  const formatDate = (date) => moment(date).clone().format('DD-MMM-YY');
+  const stressScore = stressScores[formatDate(date)];
 
-  // Generate random stress score between 0 and 10
-  const stressScore = stressScores[date];
-
+  //calculate the difference between current stress score and new selected due date stress score
   const diff = () => {
     if (stressScore === 'Before start date') {
       return 'Not Applicable!'
     }
-      const change = stressScores[dueDate] - stressScore
-      return change
-      
-  }
+      // return the difference between the selected score and the stress score
+      const change = ((stressScore - stressScores[formatDate(dueDate)])/stressScores[formatDate(dueDate)])
+      return Math.round(change * 10000) / 10000
+  };
 
   // Set color based on stress score
   let color;
    if (stressScore === 'Before start date') {
-    color = 'rgba(128, 128, 128, 0.2)'; // gray
-  } else if (stressScore < 5) {
-    color = 'rgba(51, 155, 83, 0.2)'; // good
-  } else if (stressScore >= 5 && stressScore < 7.5) {
-    color = 'rgba(247, 151, 0, 0.3)'; // moderate
-  } else if (stressScore >= 7.5) {
-    color = 'rgba(202, 32, 45, 0.3)'; // stressed
+    color = '#c3cbcd'; // gray
+  } else if (stressScore > 10) {
+    color = 'rgb(174, 9, 29)'; // very stressed
+  } else if (stressScore >= 7) {
+    color = 'rgb(255, 150, 80)'; // stressed
+  } else if (stressScore >= 5) {
+    color = 'rgb(251, 217, 96)'; // moderate
   } else {
-    color = 'rgba(25, 125, 150, 0.7)'; // null
+    color = 'rgb(180, 237, 181)'; // good
   } 
 
+  //change colour when tile selected
+  const isSelected = selectedDate === date;
+
   return (
-    <div className="tile" style={{ backgroundColor: color }} onClick={() => setConstDiff(diff())}>
+    <div className={`tile ${isSelected ? ' selected' : ''} ${date===dueDate ? 'current-date' : ''}`} style={{ backgroundColor: color }} onClick={() => {
+      setSelectedDate(date);
+      setConstDiff(diff());
+    }}>
       <div className="date">{date}</div>
-      <div className="stress-score">{stressScore}</div>
+      <span className='minimum-stress-tag'>{bestDates.includes(formatDate(date)) ? "Minimum Stress" : ' '}</span>
+      <div className="stress-score">
+        {typeof stressScore === "string" ?
+        stressScore :
+        `Stress Score: \n ${Math.round(stressScore * 100) / 100}`}
+      </div>
     </div>
   );
 };
@@ -52,6 +63,7 @@ const TileGroup = ({ selectedModule, semester, name, weightage, type, group_or_i
   //to display increase or decrease
   const [constDiff, setConstDiff] = useState(null);
 
+  const [selectedTile, setSelectedTile] = useState(null);
 
 
   useEffect(() => {
@@ -72,21 +84,11 @@ const TileGroup = ({ selectedModule, semester, name, weightage, type, group_or_i
       setBestDates(data['best_dates']);
     }))
     .catch((err) => console.log(err));
-    }, [])
-
-    //testing to see if api call returns sth
-    const test = {'stress_scores':{'1-Feb-23':'Before start date', '2-Feb-23':'Before start date', '3-Feb-23':6, 
-    '4-Feb-23':5, '5-Feb-23':8, '6-Feb-23': 3, '7-Feb-23':5, '8-Feb-23':8, '9-Feb-23':9, 
-    '10-Feb-23':4, '11-Feb-23':2, '12-Feb-23':3, '13-Feb-23':5},
-    'best_dates': ['6-Feb-23', '11-Feb-23', '12-Feb-23']};
-    
-    if (stressScores.length === 0) {
-      setStressScores(test['stress_scores']);
-      setBestDates(test['best_dates']);
-    }
-
-    
-
+    }, [name, weightage, type, group_or_indv, start_date, due_date])
+  
+    //get the stress score for the due date
+    const formatDate = (date) => moment(date).clone().format('DD-MMM-YY');
+    const due_date_stress = stressScores[formatDate(due_date)];
 
   //get the dates for the +5 -7 days
   const dates = [];
@@ -107,35 +109,66 @@ const TileGroup = ({ selectedModule, semester, name, weightage, type, group_or_i
 
 
   return (
-    <div>
-       <div className='suggested-dates'>
-        <span><b>Suggested Due Dates: </b></span>
-        {bestDates.map((best) => (
-          <span>{best} </span>
-        ))}
-      </div>
-      <br></br>
-      <div className="const-diff">
-        {constDiff === null ? (
-          <p>Click on a tile!</p>
-        ) : (
-          constDiff > 0 ? (
-            <p><b>Increase in stress score: </b>{constDiff}</p>
-          ) : (
-            <p><b>Decrease in stress score: </b>{-constDiff}</p>
-          )
-        )}
-      </div>
-
-      <br></br>
-      <div className="tile-group">
-        {dates.map((date) => (
-          <Tile dueDate={due_date} date={date} stressScores={stressScores} setConstDiff={setConstDiff}/>
-        ))}
-      </div>
+    <div className='tile-group-wrapper'>
+      <h2 className='tile-group-title'>Stress Scores Visualisation</h2>
+      {due_date_stress === "Before start date" ? (
+        <div>Ensure that due date is after start date!</div>
+      ): due_date !== "Invalid date" ? (
+        <div className='tile-visualisation-details'>
+          <div className='dates-info'>
+            <div className="current-date">
+              <b>Current Due Date:</b>{due_date}
+            </div>
+            {selectedTile && (
+              <div className='const-diff'>
+                <b>Selected Due Date: </b>{selectedTile}
+              </div>
+            )}
+            <div className="const-diff">
+              {constDiff === null ? (
+                <p>Click on a tile to compare the stress scores!</p>
+              ) : typeof constDiff === "string" ? (
+                <p><b>Choose another date! This is before the start date!</b></p>
+              ) : constDiff > 0 ? (
+                <div className="score-increase">
+                  <b>Increase in stress score:</b> {Math.round(constDiff*10000)/100}%
+                </div>
+              ) : constDiff < 0 ? (
+                <div className='score-decrease'><b>Decrease in stress score:</b> {-Math.round(constDiff*10000)/100}%</div>
+              ) : (
+                <div>
+                  <b>No change in stress</b>
+                </div>
+              )}
+            </div>
+          </div>
+          <div className="stress-diff-visualisation">
+              {constDiff === null || typeof constDiff === "string" ?
+                "" :
+                (
+                  <div className={`stress-bar ${constDiff > 0 ?
+                  "increase" : constDiff == 0 ? 'nochange' : 'decrease'}`}
+                  style={constDiff > 0 ? 
+                    {"--width": `${Math.min(constDiff*100, 100)}%`}:
+                  {"--width": `${constDiff === 0 ? 100 : Math.min(-constDiff*100, 100)}%`}}>{constDiff > 0 ? Math.round(constDiff*10000)/100 : -Math.round(constDiff*10000)/100}% </div>
+                )
+              }
+          </div>
+          <div className="tile-group">
+            {dates.map((date) => (
+              <Tile dueDate={due_date} date={date} stressScores={stressScores} setConstDiff={setConstDiff} 
+              selectedDate={selectedTile} setSelectedDate={setSelectedTile}
+              bestDates = {bestDates}/>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <p style ={{ marginLeft: 225}}><b>Pick a due date!</b></p>
+      )}
     </div>
   );
-};
+}
+  
 
 const Popup = ({theme, open, setOpen, currentRow, setCurrentRow, assignments, edited, setEdited, semester, selectedModule }) => {
   const classes = useStyles();
@@ -152,18 +185,19 @@ const Popup = ({theme, open, setOpen, currentRow, setCurrentRow, assignments, ed
     if (event === '') {
       return event;
     }
-    return moment(event, 'YYYY-MM-DD').format('D-MMM-YY');
+    return moment(event, 'YYYY-MM-DD').clone().format('D-MMM-YY');
   }
 
   function handleDates(event) {
     if (moment(event, 'DD-MMM-YY', true)) {
-      return moment(event, 'D-MMM-YY').format('YYYY-MM-DD');
+      return moment(event, 'D-MMM-YY').clone().format('YYYY-MM-DD');
     }
       return event;
   }
 
   const [start_date, setStartDate] = useState(handleDates(currentRow['Start Date']));
   const [due_date, setDueDate] = useState(handleDates(currentRow['Due Date']));
+  const [dueDateDisplay, setDueDateDisplay] = useState(handleDates(currentRow['Due Date']));
 
   const [selectedDate, setSelectedDate] = useState('');
 
@@ -179,8 +213,8 @@ const Popup = ({theme, open, setOpen, currentRow, setCurrentRow, assignments, ed
     }
   
     // Validate the start date and due date
-    const startDate = moment(start_date, 'YYYY-MM-DD');
-    const dueDate = moment(due_date, 'YYYY-MM-DD');
+    const startDate = moment(start_date, 'YYYY-MM-DD').clone();
+    const dueDate = moment(due_date, 'YYYY-MM-DD').clone();
     if (dueDate.isBefore(startDate)) {
       alert('Due date must be later than start date');
       return;
@@ -211,7 +245,6 @@ const Popup = ({theme, open, setOpen, currentRow, setCurrentRow, assignments, ed
 
       axios.put('/update_assignments', {params})
       .then((response) => {
-        console.log(response.data);
         setCurrentRow({...currentRow, 'Name': name, 'Start Date': start_date, 'Due Date': due_date,
         'Type': type, 'Group or Individual': group_or_indv, 'Weightage': weightage});
         setOpen(false);
@@ -245,95 +278,100 @@ const Popup = ({theme, open, setOpen, currentRow, setCurrentRow, assignments, ed
   }
 
 return (
-  <div>
-    <Dialog open={open} onClose={handleClose}>
+  <div className='dialog-container'>
+    <Dialog open={open} onClose={handleClose}
+    fullWidth
+    maxWidth="lg">
       <DialogTitle className={theme === "light" ? classes.popupLight : classes.popupDark}>Edit Assignment Details</DialogTitle>
-      <DialogContent className={theme === "light" ? classes.popupLight : classes.popupDark}>
-          <TextField
-              className={theme === "light" ? classes.textFieldLight : classes.textFieldDark}
-              autoFocus
-              margin="normal"
-              id="name"
-              label="Assignment Name"
-              fullWidth
-              value={name}
-              onChange={(event) => setName(event.target.value)}
-          />
-          <TextField
-              className={theme === "light" ? classes.textFieldLight : classes.textFieldDark}
-              margin="normal"
-              id="startdate"
-              label="Start Date"
-              type='date'
-              fullWidth
-              value= {start_date}
-              onChange={(event) => setStartDate(event.target.value)}
-              variant="outlined"
-              InputLabelProps={{
-                shrink: true,
-              }}
-          />
-          <TextField
-              className={theme === "light" ? classes.textFieldLight : classes.textFieldDark}
-              margin="normal"
-              id="duedate"
-              label="Due Date"
-              fullWidth
-              type='date'
-              value= {due_date}
-              variant="outlined"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={(event) => setDueDate(event.target.value)}
-          />
-          <TextField
-              className={theme === "light" ? classes.textFieldLight : classes.textFieldDark}
-              margin="normal"
-              id="type"
-              label="Weightage"
-              type="number"
-              fullWidth
-              value={weightage}
-              onChange={(event) => setWeightage(event.target.value)}
-              InputLabelProps={{
-                shrink: true,
-              }}
-          />
-          <div>
-            <div style={{marginBottom: "20px", marginTop: "20px"}}>
-              <FormControl className={theme === "light" ? classes.textFieldLight : classes.textFieldDark} fullWidth>
-                <Select label="Type" value={type} onChange={(event) => setType(event.target.value)} fullWidth margin="normal">
-                  <MenuItem value="Quiz">Quiz</MenuItem>
-                  <MenuItem value="Project">Project</MenuItem>
-                  <MenuItem value="Assignment">Assignment</MenuItem>
-                  <MenuItem value="Participation">Participation</MenuItem>
-                  <MenuItem value="Presentation">Presentation</MenuItem>
-                  <MenuItem value="Exam">Exam</MenuItem>
+      <div className="dialog-divider">
+        <DialogContent className={theme === "light" ? classes.popupLight : classes.popupDark}>
+            <TextField
+                className={theme === "light" ? classes.textFieldLight : classes.textFieldDark}
+                autoFocus
+                margin="normal"
+                id="name"
+                label="Assignment Name"
+                fullWidth
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+            />
+            <TextField
+                className={theme === "light" ? classes.textFieldLight : classes.textFieldDark}
+                margin="normal"
+                id="startdate"
+                label="Start Date"
+                type='date'
+                fullWidth
+                value= {start_date}
+                onChange={(event) => setStartDate(event.target.value)}
+                variant="outlined"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+            />
+            <TextField
+                className={theme === "light" ? classes.textFieldLight : classes.textFieldDark}
+                margin="normal"
+                id="duedate"
+                label="Due Date"
+                fullWidth
+                type='date'
+                value= {due_date}
+                variant="outlined"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                onChange={(event) => setDueDate(event.target.value)}
+            />
+            <TextField
+                className={theme === "light" ? classes.textFieldLight : classes.textFieldDark}
+                margin="normal"
+                id="type"
+                label="Weightage"
+                type="number"
+                fullWidth
+                value={weightage}
+                onChange={(event) => setWeightage(event.target.value)}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+            />
+            <div>
+              <div style={{marginBottom: "20px", marginTop: "20px"}}>
+                <FormControl className={theme === "light" ? classes.textFieldLight : classes.textFieldDark} fullWidth>
+                  <Select label="Type" value={type} onChange={(event) => setType(event.target.value)} fullWidth margin="normal">
+                    <MenuItem value="Quiz">Quiz</MenuItem>
+                    <MenuItem value="Project">Project</MenuItem>
+                    <MenuItem value="Assignment">Assignment</MenuItem>
+                    <MenuItem value="Participation">Participation</MenuItem>
+                    <MenuItem value="Presentation">Presentation</MenuItem>
+                    <MenuItem value="Exam">Exam</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+              <div>
+              <FormControl sx={{ m: 10 }} className={theme === "light" ? classes.textFieldLight : classes.textFieldDark} fullWidth>
+                <Select label="Group or Individual" value={group_or_indv} 
+                onChange={(event) => setGroupOrIndv(event.target.value)} fullWidth margin="normal">
+                  <MenuItem value="G">Group</MenuItem>
+                  <MenuItem value="I">Individual</MenuItem>
+                  <MenuItem value="I&G">Group and Individual</MenuItem>
                 </Select>
               </FormControl>
+              </div>
             </div>
-            <div>
-            <FormControl sx={{ m: 10 }} className={theme === "light" ? classes.textFieldLight : classes.textFieldDark} fullWidth>
-              <Select label="Group or Individual" value={group_or_indv} 
-              onChange={(event) => setGroupOrIndv(event.target.value)} fullWidth margin="normal">
-                <MenuItem value="G">Group</MenuItem>
-                <MenuItem value="I">Individual</MenuItem>
-                <MenuItem value="I&G">Group and Individual</MenuItem>
-              </Select>
-            </FormControl>
-            </div>
-          </div>
-      </DialogContent>
-      <TileGroup 
-      selectedModule={selectedModule}
-      semester={semester}
-      name={name}
-      weightage={weightage}
-      group_or_indv={group_or_indv}
-      type={type}
-      start_date={SubmitDate(start_date)}
-      due_date={SubmitDate(due_date)} />
+        </DialogContent>
+        <TileGroup 
+        selectedModule={selectedModule}
+        semester={semester}
+        name={name}
+        weightage={weightage}
+        group_or_indv={group_or_indv}
+        type={type}
+        start_date={SubmitDate(start_date)}
+        due_date={SubmitDate(due_date)} />
+      </div>
+
       <DialogActions className={theme === "light" ? classes.popupLight : classes.popupDark}>
             <Button onClick={handleDelete} className='delete-assignment'>
               Delete Assignment

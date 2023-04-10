@@ -4,13 +4,17 @@ const font =  "'Inter', sans-serif";
 const useStyles = makeStyles(theme => ({
     tableDark: {
       maxWidth: 1200,
-      paddingTop: 90,
-      borderBottom: "none",
-      marginTop: theme.spacing(3),
+      marginBottom: 30,
+      marginTop: theme.spacing(10),
+      height: '90vh',
+      boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.5)',
+      '& body': {
+        backgroundColor: 'black',
+      },
       '& thead th': {
           fontWeight: '600',
           color: "#fffefe",
-          backgroundColor: "#455a63",
+          backgroundColor: "#2f3b45",
       },
       '& tbody td': {
         color: "#fffefe",
@@ -19,23 +23,31 @@ const useStyles = makeStyles(theme => ({
         fontFamily: font,
       },
       '& tbody tr': {
-          backgroundColor: "#455a63"
+          backgroundColor: "#2f3b45"
+      },
+      '& tbody tr:nth-child(odd)': {
+        backgroundColor: "#40505e"
       },
       '& tbody tr:hover': {
-          backgroundColor: '#f4bc1c !important',
+          backgroundColor: '#484545 !important',
           cursor: 'pointer'
       },
     },
     tableLight: {
       maxWidth: 1200,
-      paddingTop: 90,
+      marginBottom: 30,
       borderBottom: "none",
-      marginTop: theme.spacing(3),
+      marginTop: theme.spacing(10),
+      height: '90vh',
+      boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)',
+      '&$bodyWhite': {
+        backgroundColor: 'white',
+      },
       '& thead th': {
           fontFamily: font,
           fontWeight: '600',
-          color: "#455a63",
-          backgroundColor: "#ffffff",
+          color: "#606060",
+          backgroundColor: "#f2f2f2",
       },
       '& tbody td': {
           color: "#455a63",
@@ -43,9 +55,12 @@ const useStyles = makeStyles(theme => ({
           fontWeight: '300',
           border: '0',
       },
-      '& tbody tr': {backgroundColor: "#ffffff"},
+      '& tbody tr': {backgroundColor: "#f2f2f251"},
+      '& tbody tr:nth-child(odd)': {
+        backgroundColor: "#f2f2f299"
+      },
       '& tbody tr:hover': {
-        backgroundColor: '#fffbf2 !important',
+        backgroundColor: '#ddd !important',
         cursor: 'pointer'
       }       
     },

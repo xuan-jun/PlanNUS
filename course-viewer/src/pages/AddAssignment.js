@@ -10,6 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import axios from 'axios';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
+import './AddAssignment.css'
 
 
 const font =  "'Inter', sans-serif";
@@ -19,6 +20,7 @@ const useStyles = makeStyles(theme => ({
       paddingTop: 90,
       borderBottom: "none",
       marginTop: theme.spacing(3),
+      height: "90vh",
       '& thead th': {
           fontWeight: '600',
           color: "#fffefe",
@@ -48,6 +50,7 @@ const useStyles = makeStyles(theme => ({
       paddingTop: 90,
       borderBottom: "none",
       marginTop: theme.spacing(3),
+      height: "90vh",
       '& thead th': {
           fontFamily: font,
           fontWeight: '600',
@@ -140,6 +143,9 @@ const useStyles = makeStyles(theme => ({
 export default function AssignmentForm(props) {
 const classes = useStyles();
 
+  // current semester manually computed
+  const semester = 2220;
+
   const indivGrp = [
     {
       value: '1',
@@ -185,8 +191,6 @@ const classes = useStyles();
         : "This field is required.";
     if ("type" in fieldValues)
       temp.type = fieldValues.type ? "" : "This field is required.";
-    if ("start_date" in fieldValues)
-      temp.start_date = fieldValues.start_date ? "" : "This field is required.";
     if ("due_date" in fieldValues)
       temp.due_date = fieldValues.due_date ? "" : "This field is required.";
     if ("group_or_indv" in fieldValues)
@@ -203,22 +207,12 @@ const classes = useStyles();
   };
 
   // functions and states for form submission
-  
-  // intial values
-  const initialFValues = {
-    name: "",
-    type: "",
-    start_date: new Date(),
-    due_date: new Date(),
-    group_or_indv: "",
-    weightage: ""
-  };
   // current values from the assignment form
   const [values, setValues] = useState({
     name: "",
     type: "",
-    start_date: new Date(),
-    due_date: new Date(),
+    start_date: "",
+    due_date: "",
     group_or_indv: "",
     weightage: ""
   })
@@ -230,7 +224,6 @@ const classes = useStyles();
 
   // function to handle the input changes
   const handleInputChange = (e) => {
-    console.log(e.target)
     const { name, value } = e.target;
     setValues({
       ...values,
@@ -239,13 +232,21 @@ const classes = useStyles();
     validate({ [name]: value });
   };
 
+  // handle date inputs from inputs and remap into the submission format
+  const handleDate = (date) => {
+    if (date === '') {
+      return 'Invalid date';
+    }
+    return moment(date, 'YYYY-MM-DD').clone().format('D-MMM-YY');
+  }
+
   // resets the form
   const resetForm = () => {
     setValues({
       name: "",
       type: "",
-      start_date: new Date(),
-      due_date: new Date(),
+      start_date: "",
+      due_date: "",
       group_or_indv: "",
       weightage: ""
     });
@@ -267,8 +268,8 @@ const classes = useStyles();
       const weightage = values['weightage']
       
       const params = {
-        'module_code' : 'DSA3101',
-        'semester' : 2220,
+        'module_code' : props.currentModule,
+        'semester' : semester,
         'name' : name,
         'type' : type,
         'group_or_indv' : group_or_indv,
@@ -283,6 +284,7 @@ const classes = useStyles();
       })
       .catch((err) => console.log(err));
 
+      resetForm();
       navigate('/assignments')
     }
 }
@@ -290,89 +292,276 @@ const classes = useStyles();
   return (
     
     <Form onSubmit={handleSubmit}>
-        
-        <br></br><br></br><br></br>
-        <h1>Add New Assignment</h1>
-        <br></br><br></br><br></br>
-      <Grid container direction="column" justifyContent="center" alignItems="center">
-        <Grid item xs={6} justifyContent="center" >
-            <TextField 
-              variant="outlined"
-              className={props.theme === "light" ? classes.textFieldLight : classes.textFieldDark}
-              autoFocus id="issueName" label="Name" fullWidth margin="normal"
-              onChange={handleInputChange}
-              name = 'name'
-            />
+      <h1 className="add-assignment-title">Add New Assignment</h1>
+      <div className="current-module-notification">
+        <span>Curently adding for:</span>
+        <span className="add-assignment-current-module">{props.currentModule}</span>
+      </div>
+      <div className="form-container">
+        <div className="assignment-details">
+          <h3>Assignment Details</h3>
+          <Grid container direction="column" justifyContent="center" alignItems="center"> 
+            <Grid item s={6} justifyContent="center" >
+                <TextField 
+                  variant="outlined"
+                  className={props.theme === "light" ? classes.textFieldLight : classes.textFieldDark}
+                  autoFocus id="issueName" label="Name" fullWidth margin="normal"
+                  onChange={handleInputChange}
+                  value={values['name']}
+                  name = 'name'
+                />
 
-            <TextField
-              className={props.theme === "light" ? classes.textFieldLight : classes.textFieldDark}
-              autoFocus id="changeTypes" label="Type" fullWidth margin="normal" textAlign="left"
-              variant="outlined"
-              select
-              onChange={handleInputChange}
-              name = 'type'
-              //defaultValue="3"
-            >
-              {changeTypes.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))} 
-            </TextField>
-            <TextField
-              className={props.theme === "light" ? classes.textFieldLight : classes.textFieldDark}
-              id="indivGrp" label="Individual or Group" fullWidth margin="normal"
-              select
-              variant="outlined"
-              onChange={handleInputChange}
-              name = 'group_or_indv'
-              //defaultValue="1"
-            >
-              {indivGrp.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-            <TextField
-              className={props.theme === "light" ? classes.textFieldLight : classes.textFieldDark}
-              id="weightage" label="Weightage" type="number" fullWidth margin="normal"
-              variant="outlined"
-              onChange={handleInputChange}
-              name = 'weightage'
-            />
-            <TextField
-              className={props.theme === "light" ? classes.textFieldLight : classes.textFieldDark}
-              id="startDate "label="Start Date" type="date" fullWidth margin="normal"
-              variant="outlined"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={handleInputChange}
-              name = 'start_date'
-            />
-            <TextField
-              className={props.theme === "light" ? classes.textFieldLight : classes.textFieldDark}
-              id="endDate" label="End Date" type="date" fullWidth margin="normal"
-              variant="outlined"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={handleInputChange}
-              name = 'due_date'
-            />
-            
+                <TextField
+                  className={props.theme === "light" ? classes.textFieldLight : classes.textFieldDark}
+                  autoFocus id="changeTypes" label="Type" fullWidth margin="normal" textAlign="left"
+                  variant="outlined"
+                  select
+                  onChange={handleInputChange}
+                  value={values['type']}
+                  name = 'type'
+                  //defaultValue="3"
+                >
+                  {changeTypes.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))} 
+                </TextField>
+                <TextField
+                  className={props.theme === "light" ? classes.textFieldLight : classes.textFieldDark}
+                  id="indivGrp" label="Individual or Group" fullWidth margin="normal"
+                  select
+                  variant="outlined"
+                  onChange={handleInputChange}
+                  name = 'group_or_indv'
+                  value={values['group_or_indv']}
+                  //defaultValue="1"
+                >
+                  {indivGrp.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
+                <TextField
+                  className={props.theme === "light" ? classes.textFieldLight : classes.textFieldDark}
+                  id="weightage" label="Weightage" type="number" fullWidth margin="normal"
+                  variant="outlined"
+                  onChange={handleInputChange}
+                  name = 'weightage'
+                  value={values['weightage']}
+                />
+                <TextField
+                  className={props.theme === "light" ? classes.textFieldLight : classes.textFieldDark}
+                  id="startDate "label="Start Date" type="date" fullWidth margin="normal"
+                  variant="outlined"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  value={values['start_date']}
+                  onChange={handleInputChange}
+                  name = 'start_date'
+                />
+                <TextField
+                  className={props.theme === "light" ? classes.textFieldLight : classes.textFieldDark}
+                  id="endDate" label="Due Date" type="date" fullWidth margin="normal"
+                  variant="outlined"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={handleInputChange}
+                  value={values['due_date']}
+                  name = 'due_date'
+                />
+            </Grid>
+          </Grid>
+        </div>
 
-          <div>
-            <Controls.Button type="submit" text="Submit" component={Link} to="/assignments" onClick={handleSubmit}/>
-            <Controls.Button text="Reset" color="default" onClick={resetForm} />
-          </div>
-          <br></br>
-          <Button component={Link} to="/assignments">
-            Return To Assignments
-          </Button>
-        </Grid>
-      </Grid>
+        <TileGroup 
+        currentModule={props.currentModule}
+        semester={semester}
+        name={values['name']}
+        weightage={values['weightage']}
+        group_or_indv={values['group_or_indv'] == 1 ? 'I' : 'G'}
+        type={values['type'] ? changeTypes.filter((type) => {
+          return type['value'] == values['type']
+        })[0]['label'] : ""}
+        start_date={handleDate(values['start_date'])}
+        due_date={handleDate(values['due_date'])} />
+      </div>
+                    
+
+      <div>
+        <Controls.Button type="submit" text="Submit" component={Link} to="/assignments" onClick={handleSubmit}/>
+        <Controls.Button text="Reset" color="default" onClick={resetForm} />
+      </div>
+      <Button component={Link} to="/assignments">
+        Return To Assignments
+      </Button>
+
     </Form>
+  );
+}
+
+//tiles
+const Tile = ({ dueDate, date, stressScores, setConstDiff, selectedDate, setSelectedDate, bestDates }) => {
+  //get the stress score
+  const formatDate = (date) => moment(date).format('DD-MMM-YY');
+  const stressScore = stressScores[formatDate(date)];
+
+  //calculate the difference between current stress score and new selected due date stress score
+  const diff = () => {
+    if (stressScore === 'Before start date') {
+      return 'Not Applicable!'
+    }
+      // return the difference between the selected score and the stress score
+      const change = ((stressScore - stressScores[formatDate(dueDate)])/stressScores[formatDate(dueDate)])
+      return Math.round(change * 10000) / 10000
+  };
+
+
+  // Set color based on stress score
+  let color;
+   if (stressScore === 'Before start date') {
+    color = '#c3cbcd'; // gray
+  } else if (stressScore > 10) {
+    color = 'rgb(174, 9, 29)'; // very stressed
+  } else if (stressScore >= 7) {
+    color = 'rgb(255, 150, 80)'; // stressed
+  } else if (stressScore >= 5) {
+    color = 'rgb(251, 217, 96)'; // moderate
+  } else {
+    color = 'rgb(180, 237, 181)'; // good
+  } 
+
+  //change colour when tile selected
+  const isSelected = selectedDate === date;
+
+  return (
+    <div className={`tile ${isSelected ? ' selected' : ''} ${date===dueDate ? 'current-date' : ''}`} style={{ backgroundColor: color }} onClick={() => {
+      setSelectedDate(date);
+      setConstDiff(diff());
+    }}>
+      <div className="date">{date}</div>
+      <span className='minimum-stress-tag'>{bestDates.includes(formatDate(date)) ? "Minimum Stress" : ' '}</span>
+      <div className="stress-score">
+        {typeof stressScore === "string" ?
+        stressScore :
+        `Stress Score: \n ${Math.round(stressScore * 100) / 100}`}
+      </div>
+    </div>
+  );
+};
+
+const TileGroup = ({ currentModule, semester, name, weightage, type, group_or_indv, start_date, due_date}) => {
+
+  const [stressScores, setStressScores] = useState([]);
+  const [bestDates, setBestDates] = useState([]);
+  
+  //to display increase or decrease
+  const [constDiff, setConstDiff] = useState(null);
+
+  const [selectedTile, setSelectedTile] = useState(null);
+
+
+  useEffect(() => {
+    const params = {
+      'module_code': currentModule,
+      'semester': semester,
+      'name': name,
+      'weightage': weightage,
+      'type': type,
+      'group_or_indv': group_or_indv,
+      'start_date': start_date,
+      'due_date': due_date
+    }
+    axios.get('/get_window_stresses', {params})
+    .then((response => {
+      const data = response.data;
+      setStressScores(data['stress_scores']);
+      setBestDates(data['best_dates']);
+    }))
+    .catch((err) => console.log(err));
+    }, [name, weightage, type, group_or_indv, start_date, due_date])
+
+    //get the stress score for the due date
+    const formatDate = (date) => moment(date).clone().format('DD-MMM-YY');
+    const due_date_stress = stressScores[formatDate(due_date)];
+
+  //get the dates for the +5 -7 days
+  const dates = [];
+
+  // Add 5 days before due date
+  for (let i = 5; i > 0; i--) {
+    dates.push(moment(due_date).subtract(i, 'days').format('D-MMM-YY'));
+  }
+
+  // Add due date
+  dates.push(moment(due_date).format('D-MMM-YY'));
+
+  // Add 7 days after due date
+  for (let i = 1; i <= 7; i++) {
+    dates.push(moment(due_date).add(i, 'days').format('D-MMM-YY'));
+  }
+
+  return (
+    <div className='add-assign-tile-group-wrapper'>
+      <h2 className='tile-group-title'>Stress Scores Visualisation</h2>
+      {due_date_stress === "Before start date" ? (
+        <div>Ensure that due date is after start date!</div>
+      ): (due_date !== "Invalid date" & name !== "" & weightage !=="" & type !== "" & group_or_indv !== "") ? (
+        <div className="tile-visualisation-details">
+          <div className='dates-info'>
+            <div className="current-date">
+              <b>Current Due Date:</b>{due_date}
+            </div>
+            {selectedTile && (
+              <div className='const-diff'>
+                <b>Selected Due Date: </b>{selectedTile}
+              </div>
+            )}
+            <div className="const-diff">
+              {constDiff === null ? (
+                <p>Click on a tile to compare the stress scores!</p>
+              ) : typeof constDiff === "string" ? (
+                <p><b>Choose another date! This is before the start date!</b></p>
+              ) : constDiff > 0 ? (
+                <div className="score-increase">
+                  <b>Increase in stress score:</b> {Math.round(constDiff*10000)/100}%
+
+                </div>
+              ) : constDiff < 0 ? (
+                <div className="score-decrease">
+                  <b>Decrease in stress score:</b> {-Math.round(constDiff*10000)/100}%
+                </div>
+              ) : (
+                <b>No change in stress</b>
+              )}
+            </div>
+          </div>
+          <div className="stress-diff-visualisation">
+            {constDiff === null || typeof constDiff === "string" ?
+              "" :
+              (
+                <div className={`stress-bar ${constDiff > 0 ?
+                "increase" : constDiff == 0 ? 'nochange' : 'decrease'}`}
+                style={constDiff > 0 ? 
+                  {"--width": `${Math.min(constDiff*100, 100)}%`}:
+                {"--width": `${constDiff === 0 ? 100 : Math.min(-constDiff*100, 100)}%`}}>{constDiff > 0 ? Math.round(constDiff*10000)/100 : -Math.round(constDiff*10000)/100}% </div>
+              )
+            }
+          </div>
+          <div className="tile-group">
+            {dates.map((date) => (
+              <Tile dueDate={due_date} date={date} stressScores={stressScores} setConstDiff={setConstDiff} 
+              selectedDate={selectedTile} setSelectedDate={setSelectedTile}
+              bestDates = {bestDates}/>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <p><b>Fill in the assignment details!</b></p>
+      )}
+    </div>
   );
 }

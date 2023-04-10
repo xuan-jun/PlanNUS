@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
+import stressScoreColor from '../../../../../stressScoreColor';
 import './DetailedView.css';
 
 function DetailedView({ isDetailed, setIsDetailed, date, assignmentData }) {
@@ -17,25 +18,11 @@ function DetailedView({ isDetailed, setIsDetailed, date, assignmentData }) {
    return row["Due Date"] === formattedDate
  })
 
- // computes the colour for the background when we have 
- let rowStyle = (stressScore) => {
-   let style = "";
-   // assuming higher the worse it is
-   if (stressScore >= 7.5) {
-     style = style.concat("stressed")
-   } else if (stressScore >= 5 && stressScore <= 7.5) {
-     style = style.concat("moderate")
-   } else {
-     style = style.concat("good")
-   }
-   return style;
- }
-
  const stressScore = filteredRowData.length > 0
     ? filteredRowData.reduce((sum, row) => sum + row['stress_score'], 0)
     : null;
 
- const detailedStyle = rowStyle(stressScore);
+ const detailedStyle = stressScoreColor(stressScore);
  return (
    <div className={`detailed-view ${isDetailed ? 'active' : 'inactive'}`}>
      <div className="detailed-view-content">

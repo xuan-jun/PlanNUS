@@ -24,15 +24,9 @@ const Navbar = ({theme, setTheme, token, removeToken}) => {
             <img className="logo" src={logo} alt='site-logo'/>
           </Link>
       </div>
-      <div onClick={switchTheme} className='light-mode-toggle'>
-        <div className={`slider ${theme === 'light' ? '-left' : '-right'}`}>
-          <img className={`slider-icon ${theme === 'light' ? '-left' : '-right'}`}
-           src = {theme === "light" ? dayIcon : moonIcon}/>
-        </div>
-      </div>
       {token ? <ul>
-        <CustomLink to='/'>Calendar</CustomLink>
-        <CustomLink to='/assignments'>Assignments</CustomLink>
+      <CustomLink to='/'>Calendar</CustomLink>
+      <CustomLink to='/assignments'>Assignments</CustomLink>
         <div className="user-icon-profile">
           <Link to='/' className="profile-picture-link">
             <img className="profile-picture" src={vikPicture} alt='user-profile'/>
@@ -41,6 +35,14 @@ const Navbar = ({theme, setTheme, token, removeToken}) => {
             <h3 className="user-name">
               Hello {instructorName} !
             </h3>
+            <hr />
+            <h4 className='nav-title'>Night Mode</h4>
+            <div onClick={switchTheme} className='light-mode-toggle'>
+              <div className={`slider ${theme === 'light' ? '-left' : '-right'}`}>
+              <img className={`slider-icon ${theme === 'light' ? '-left' : '-right'}`}
+             src = {theme === "light" ? dayIcon : moonIcon}/>
+            </div>
+            </div>
             <hr />
             <div className="signout" onClick={()=>{removeToken()}}>
               <div className="logout-div">
@@ -51,7 +53,12 @@ const Navbar = ({theme, setTheme, token, removeToken}) => {
           </div>
         </div>
       </ul> : <ul>
-        <CustomLink to='/calendar'>Calendar</CustomLink>
+              <div onClick={switchTheme} className='light-mode-toggle'>
+              <div className={`slider ${theme === 'light' ? '-left' : '-right'}`}>
+              <img className={`slider-icon ${theme === 'light' ? '-left' : '-right'}`}
+             src = {theme === "light" ? dayIcon : moonIcon}/>
+            </div>
+            </div>
         </ul>}
     </nav>
   )

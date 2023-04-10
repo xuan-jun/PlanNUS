@@ -19,7 +19,7 @@ const colorsForSelection = [
 
 
 const CalendarInstructor = ({token, currentModule, setCurrentModule}) => {
-  const filterTitle = "SELECT THE VIEW YOU WANT TO SEE";
+  const filterTitle = "SELECT VIEW";
 
   const instructorName = token['userName']
   const semester = 2220 // default semester for now
@@ -127,7 +127,6 @@ const Module = ({moduleCode, backgroundColor, moduleOpened, setModuleOpened, col
   const style = {
     backgroundColor : backgroundColor
   }
-  console.log(moduleCode)
 
   return (
     <div className="module-added-instructor">

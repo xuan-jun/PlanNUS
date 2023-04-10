@@ -25,20 +25,39 @@
 }
 
 .detailed-view-content-I {
-  position: relative;
-  padding: 40px;
-  width: 80%;
-  height: 80vh;
+  padding: 30px;
+  padding-bottom: 5vh;
+  width: 95%;
+  height: 82%;
   background-color: var(--primary-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  overflow-y: scroll;
+  position: absolute;
 }
 
+
 .detailed-view-content-I > .close-btn {
-  position: absolute;
-  bottom: 16px;
-  right: 16px;
   cursor: pointer;
   background-color: var(--table-secondary-background-color);
-  color: var(--table-font-color)
+  color: var(--table-font-color);
+  padding: 0.5rem 1rem;
+  border-top: 100px;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  bottom: -20px;
+}
+
+.detailed-view-content-I > .close-btn:hover {
+  background-color: var(--table-secondary-background-hover-color);
+  color: var(--table-font-hover-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .detailed-view-content-I > .detailed-view-header {
@@ -52,6 +71,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .link{
@@ -73,8 +93,10 @@
 table {
   font-family: Arial, sans-serif;
   border-collapse: collapse;
-  width: 100%;
+  width: 100px;
   margin: 0 auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  position: relative;
 
   justify-content: center;
   align-items: center;
@@ -118,4 +140,14 @@ tr:nth-child(even) {
 tr:hover {
   background-color: var(--table-hover-background-color);
   color:  var(--table-font-color);
+}
+
+.table-btn{
+  cursor: pointer;
+  background-color: var(--table-secondary-background-color);
+  color: var(--table-font-color);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease-in-out;
 }

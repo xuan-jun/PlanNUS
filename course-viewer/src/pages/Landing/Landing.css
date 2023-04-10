@@ -18,6 +18,10 @@
   display: inline;
 }
 
+.landing-desc{
+  color: var(--secondary-color)
+}
+
 .landing-text-wrapper {
   display: flex;
   flex-direction: column;

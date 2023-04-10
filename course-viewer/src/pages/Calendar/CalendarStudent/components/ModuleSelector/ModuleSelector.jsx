@@ -142,13 +142,6 @@ const ModuleSelector = ({currentModules, setCurrentModules, currentSemester, cur
   return (
     <div className="module-selector">
       <div className="module-search">
-        <h2>Search for Modules here</h2>
-        <input className="search-bar"
-        placeholder=" "
-        value={inputText} onChange={(e) => {inputHandler(e)}}/>
-        <ModuleList inputText={inputText} searchClickHandler={searchClickHandler} moduleData={moduleData}/>
-      </div>
-      <h2>Modules Added</h2>
       <div className="modules-selected">
         {currentModules.map((module) => (
           <Module moduleCode={module['moduleCode']} backgroundColor={module['backgroundColor']} 
@@ -158,7 +151,11 @@ const ModuleSelector = ({currentModules, setCurrentModules, currentSemester, cur
           colorPickerClickHandler={colorPickerClickHandler}/>
         ))}
       </div>
-
+        <h2 className='module-title'>Search for Modules here</h2>
+        <input className="search-bar" placeholder="Module Code Here"
+        value={inputText} onChange={(e) => {inputHandler(e)}}/>
+        <ModuleList inputText={inputText} searchClickHandler={searchClickHandler} moduleData={moduleData}/>
+      </div>
     </div>
   )
 };

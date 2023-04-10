@@ -99,7 +99,7 @@ function Landing() {
       <motion.img src={logo} variants={plannus} className="plannus-logo" />
     </motion.div>
     <motion.span variants={fadeIn()} initial="initial" animate="animate">
-        <p>Whether you are an instructor or a student, there is <strong>always</strong> something for you!</p>
+        <p className='landing-desc'>Whether you are an instructor or a student, there is <strong>always</strong> something for you!</p>
     </motion.span>
 
     <br></br><br></br>
