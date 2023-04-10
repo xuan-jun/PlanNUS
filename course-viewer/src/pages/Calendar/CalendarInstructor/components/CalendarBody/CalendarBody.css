@@ -41,7 +41,7 @@
   height: 2rem;
   border: 1px solid black;
   text-align: center;
-  color: var(--secondary-color);
+  color: var(--table-primary-background-color);
   
   display: flex;
   align-items: center;

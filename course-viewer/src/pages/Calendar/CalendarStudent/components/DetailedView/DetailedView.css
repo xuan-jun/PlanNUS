@@ -4,6 +4,7 @@
   width: 100%;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 
   display: flex;
   justify-content: center;
@@ -56,10 +57,11 @@
 }
 
 .detailed-view-content > .detailed-view-header {
-  height: 15%;
+  height: 12%;
   width: 100%;
   border-radius: 28px;
   margin-bottom: 25px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 
   display: flex;
   justify-content: center;
@@ -87,6 +89,7 @@ table {
   border-collapse: collapse;
   width: 100%;
   margin: 0 auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 
   justify-content: center;
   align-items: center;

@@ -42,6 +42,7 @@
   border: 1px solid black;
   text-align: center;
   color: var(--secondary-color);
+  background-color: var(--table-primary-background-color);
   
   display: flex;
   align-items: center;

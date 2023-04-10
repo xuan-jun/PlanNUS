@@ -30,6 +30,7 @@
   width: 95%;
   height: 82%;
   background-color: var(--primary-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .detailed-view-content-I > .close-btn {
@@ -67,6 +68,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .link{
@@ -90,6 +92,7 @@ table {
   border-collapse: collapse;
   width: 100px;
   margin: 0 auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 
   justify-content: center;
   align-items: center;

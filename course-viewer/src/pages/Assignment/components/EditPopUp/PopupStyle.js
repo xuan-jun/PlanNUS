@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: "#455a63",
       color: "#fffefe",
       Input: "#fffefe !important",
-      borderColor: "#fffefe !important"
+      borderColor: "#fffefe !important",
     },
   //text field in popup style
   textFieldLight: {
