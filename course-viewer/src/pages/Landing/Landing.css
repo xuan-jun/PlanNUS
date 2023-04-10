@@ -1,6 +1,11 @@
 .landing-page {
   color: black;
-  height: 90vh;
+  background: url(../../assets/JqF9s5.jpg);
+  background-size: auto 120%;
+  background-attachment: fixed;
+  background-position-x: center;
+  background-position-y: center;
+  height: 100vh;
 }
 
 .plannus-logo {
@@ -133,12 +138,11 @@ button.learn-more:active::before {
   justify-content: left;
   align-items: left;
   position: relative;
-  background-color: rgb(255, 138, 14);
-  box-shadow: 20px 20px #b5d99c;
+  background-color: rgb(239, 155, 66);
+  box-shadow: 20px 20px #a8cbe7;
   padding: 20px;
   border-radius: 4px;
   margin-left: 40px;
-  margin-top: 0px;
   animation: float 20s, ease-in-out infinite;
 }
 
@@ -168,8 +172,8 @@ button.learn-more:active::before {
   justify-content: right;
   align-items: center;
   position: relative;
-  background-color: rgb(255, 138, 14);
-  box-shadow: -20px 20px #b5d99c;
+  background-color: rgb(239, 155, 66);
+  box-shadow: -20px 20px #a8cbe7;
   padding: 20px;
   border-radius: 4px;
   margin-right: 40px;
@@ -185,7 +189,7 @@ button.learn-more:active::before {
 	width: 0;
 	height: 0;
 	border: 20px solid transparent;
-	border-left-color: rgb(255, 138, 14);
+	border-left-color: rgb(242, 172, 97);
 	border-right: 0;
 	border-top: 0;
 	margin-top: -10px;

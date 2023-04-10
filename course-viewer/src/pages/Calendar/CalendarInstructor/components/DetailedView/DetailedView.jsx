@@ -49,7 +49,6 @@ function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, moduleP
  const detailedStyle = stressScoreColor(stressScore);
  return (
    <div className={`detailed-view ${isDetailed ? 'active' : 'inactive'}`}>
-     {console.log(currentModuleData)}
      <div className="detailed-view-content-I">
        <h2 className={`detailed-view-header ${detailedStyle}`}>
         <div>{new Date(date).toLocaleDateString('en-GB', {day: '2-digit', month: 'long', year: 'numeric'})}</div>

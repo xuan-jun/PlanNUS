@@ -78,11 +78,12 @@ function Landing() {
   //     })
   // }, [])
 
-  return <div className="landing-page">
-    <body>
+  return <div>
+    <body className='landing-page'>
     <motion.div variants={staggerContainer} initial="initial" animate="animate">
       {/* upper */}
       <div>
+        <br></br><br></br>
         <motion.span variants={fadeIn()} className="bubble-left">
         <p><strong>Instructors!</strong> <br /> Have you wondered whether your students are 
           having <br /> assignments on days where you have provided assignments?</p> 
