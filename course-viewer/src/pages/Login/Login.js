@@ -5,6 +5,9 @@ import eyeOpen from '../../assets/eye-open.png';
 import eyeClose from '../../assets/eye-close.png';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
+import { motion } from "framer-motion";
+import { plannus, plannusWrapper, fadeIn, staggerContainer } from "../../variants.ts";
+
 
 const Login = ({setToken}) => {
     
@@ -42,14 +45,18 @@ const Login = ({setToken}) => {
     useEffect(() => {}, [email, password]);
 
     return <div className="login-page">
-        <img className="plannus-logo" src = {logo} alt = "plannus logo" />
+        
+        <motion.div variants={plannusWrapper} initial="initial" animate="animate" className="plannusWrapper">
+            <motion.img src={logo} variants={plannus} className="plannus-logo" />
+        </motion.div>
         <div className="login-submission-form">
             <h1 className="login-title">Login</h1>
-            <h1>Please enter your login details</h1>
+            <h2>Please enter your login details</h2>
             {failedPreviously ? 
             <div className="failed-attempt">
                 <div>&times;</div>
-                <p>Incorrect email and password combination</p>
+                <p>Incorrect email and password combination!</p>
+                <div>&times;</div>
                 </div> : ""}
             <form className="login-form">
                 <label className="input-label">
@@ -67,7 +74,9 @@ const Login = ({setToken}) => {
                 </label>
                 <a href="https://myaces.nus.edu.sg/passwordreset/index.html;jsessionid=wDWXE7I_prAoYosbaE0t0FExIUyq8BOMZT-ssVaW.nieis002">Forgot your password?</a>
                 <div className="submit-button" onClick={logInUser}>
-                    <button className="login-button" href='./calendar'>Login</button>
+                    <button class="learn-more">
+                        <a href='./calendar'>Login</a>
+                    </button>
                 </div>
             </form>
         </div>
