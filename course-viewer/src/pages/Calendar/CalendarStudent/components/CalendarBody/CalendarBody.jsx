@@ -3,6 +3,7 @@ import moment from 'moment';
 import buildCalendar from '../../../buildCalendar';
 import CalendarHeader from '../CalendarHeader/CalendarHeader';
 import './CalendarBody.css'
+import stressScoreColor from '../../../../../stressScoreColor';
 import DetailedView from '../DetailedView/DetailedView';
 import axios from 'axios'
 
@@ -32,21 +33,12 @@ const CalendarBody = ({currentModuleListAssignments, currentSemester}) => {
   }, [value])
 
 
-  // computes the colour for the background when we have 
-  let dayStyle = (day, stressScore) => {
-    let style = "";
-    // assuming higher the worse it is
+  // computes the colour for the background when we have different months
+  let diffMonth = (day) => {
     if (!value.isSame(day, "month")) {
-      style = style.concat("diffMonth")
+        return 'diffMonth'
     }
-    else if (stressScore >= 7.5) {
-      style = style.concat("stressed")
-    } else if (stressScore >= 5 && stressScore <= 7.5) {
-      style = style.concat("moderate")
-    } else {
-      style = style.concat("good")
-    }
-    return style;
+    return '';
   }
 
   // handleClick events by the user on each of the tiles
@@ -73,7 +65,8 @@ const CalendarBody = ({currentModuleListAssignments, currentSemester}) => {
           {calendar.map((week) => (
             <div className = "week">
               {week.map((day) => (
-                <CalendarTile day={day} dayStyle = {dayStyle}
+                <CalendarTile day={day}
+                diffMonth = {diffMonth}
                 handleClick={handleClick} currentModuleListAssignments={currentModuleListAssignments}/>
               ))}
             </div>
@@ -84,7 +77,7 @@ const CalendarBody = ({currentModuleListAssignments, currentSemester}) => {
   )
 };
 
-const CalendarTile = ({ day, dayStyle, handleClick, currentModuleListAssignments }) => {
+const CalendarTile = ({ day, diffMonth, handleClick, currentModuleListAssignments }) => {
   const formattedDate = day.format("D-MMM-YY");
   const currentDayData = currentModuleListAssignments.filter((day) => {
     return day['Due Date'] === formattedDate;
@@ -98,12 +91,15 @@ const CalendarTile = ({ day, dayStyle, handleClick, currentModuleListAssignments
     return assignment['stress_score'];
   }).reduce((a, b) => {return a+b}, 0)
 
-  const tileStyle = dayStyle(day, stressScore);
+  // check if it a different month
+  const diffMonthColor = diffMonth(day);
+  // check the color of the tile
+  const tileStyle = (diffMonthColor === "diffMonth") ? diffMonthColor : stressScoreColor(stressScore);
 
   return (
     <div className={`calendar-tile ${tileStyle}`}
       onClick={() => handleClick(day)}>
-      <div className={`day ${tileStyle}`}>
+      <div className="day">
         {day.format("D").toString()}
       </div>
       <div className="current-day-tasks">

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import './DetailedView.css';
+import stressScoreColor from '../../../../../stressScoreColor';
 import { Link } from 'react-router-dom';
 
 function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, modulePairAssignment, stressScoreDaily, currentModule}) {
@@ -43,23 +44,9 @@ function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, moduleP
   return row["Module Code"] !== currentModuleData
  })
 
- // computes the colour for the background when we have 
- let rowStyle = (stressScore) => {
-   let style = "";
-   // assuming higher the worse it is
-   if (stressScore >= 7.5) {
-     style = style.concat("stressed")
-   } else if (stressScore >= 5 && stressScore <= 7.5) {
-     style = style.concat("moderate")
-   } else {
-     style = style.concat("good")
-   }
-   return style;
- }
-
  const stressScore = stressScoreData[formattedDate]
 
- const detailedStyle = rowStyle(stressScore);
+ const detailedStyle = stressScoreColor(stressScore);
  return (
    <div className={`detailed-view ${isDetailed ? 'active' : 'inactive'}`}>
      {console.log(currentModuleData)}

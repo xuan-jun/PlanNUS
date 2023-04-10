@@ -3,6 +3,7 @@ import moment from 'moment';
 import buildCalendar from '../../../buildCalendar';
 import CalendarHeader from '../CalendarHeader/CalendarHeader';
 import './CalendarBody.css'
+import stressScoreColor from '../../../../../stressScoreColor';
 import DetailedView from '../DetailedView/DetailedView';
 import axios from 'axios'
 
@@ -93,29 +94,12 @@ const CalendarBody = ({currentModule, currentModules, semester, assignmentData, 
     }
   }, [assignmentData, modulePairAssignment])
 
-  // computes the colour for the background when we have 
-  let dayStyle = (day, stressScore) => {
-    if (currentModule !== 'My View'){
-      let style = "";
-      // assuming higher the worse it is
-      if (!value.isSame(day, "month")) {
-        style = style.concat("diffMonth")
-      }
-      else if (stressScore >= 7.5) {
-        style = style.concat("stressed")
-      } else if (stressScore >= 5 && stressScore <= 7.5) {
-        style = style.concat("moderate")
-      } else {
-        style = style.concat("good")
-      }
-      return style;
-    }
-    else {
-      if (!value.isSame(day, "month")) {
+  // computes the colour for the background when we have different months
+  let diffMonth = (day) => {
+    if (!value.isSame(day, "month")) {
         return 'diffMonth'
-      }
-      return '';
     }
+    return '';
   }
 
   // handleClick events by the user on each of the tiles
@@ -142,7 +126,8 @@ const CalendarBody = ({currentModule, currentModules, semester, assignmentData, 
           {calendar.map((week) => (
             <div className = "week">
               {week.map((day) => (
-                <CalendarTile day={day} dayStyle = {dayStyle}
+                <CalendarTile day={day}
+                diffMonth = {diffMonth}
                 handleClick={handleClick} assignmentData={assignmentData} stressScoreDaily={stressScoreDaily}
                 currentModule={currentModule}/>
               ))}
@@ -154,7 +139,7 @@ const CalendarBody = ({currentModule, currentModules, semester, assignmentData, 
   )
 };
 
-const CalendarTile = ({ day, dayStyle, handleClick, assignmentData, stressScoreDaily, currentModule }) => {
+const CalendarTile = ({ day, diffMonth, handleClick, assignmentData, stressScoreDaily, currentModule }) => {
   const formattedDate = day.format("D-MMM-YY");
 
   // filter for current day data for current module
@@ -174,12 +159,15 @@ const CalendarTile = ({ day, dayStyle, handleClick, assignmentData, stressScoreD
   // get the stressScore from the original computed value
   const stressScore = stressScoreDaily[formattedDate];
 
-  const tileStyle = dayStyle(day, stressScore);
+  // check if it a different month
+  const diffMonthColor = diffMonth(day);
+  // check the color of the tile
+  const tileStyle = (diffMonthColor === "diffMonth") ? diffMonthColor : (currentModule === "My View") ? "" : stressScoreColor(stressScore);
 
   return (
     <div className={`calendar-tile ${tileStyle}`}
       onClick={() => handleClick(day)}>
-      <div className={`day ${tileStyle}`}>
+      <div className="day">
         {day.format("D").toString()}
       </div>
       <div className="current-day-tasks">

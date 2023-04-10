@@ -20,14 +20,16 @@
   --table-hover-background-color: #ddd;
 
 
-  --stressed: rgba(202, 32, 45, 0.3);
-  --moderate: rgba(247, 151, 0, 0.3);
-  --good: rgba(51, 155, 83, 0.2);
+  --very-stressed: rgb(174, 9, 29);
+  --stressed: rgb(255, 150, 80);
+  --moderate: rgb(251, 217, 96);
+  --good: rgb(180, 237, 181);
 }
 
 [data-theme='dark'] {
   --primary-color: #455a63;
   --secondary-color: #fffefe;
+  --black-color: #ffff;
 
   --table-font-color: rgb(243, 243, 243);
   --table-primary-background-color: #2f3b45;
@@ -35,9 +37,10 @@
   --table-hover-background-color: #484545;
   --link-color: lightblue;
 
-  --stressed: rgba(202, 32, 45, 0.7);
-  --moderate: rgba(247, 151, 0, 0.7);
-  --good: rgba(51, 155, 83, 0.8);
+  --very-stressed: rgb(174, 9, 29);
+  --stressed: rgb(255, 150, 80);
+  --moderate: rgb(251, 217, 96);
+  --good: rgb(180, 237, 181);
 }
 
 * {
