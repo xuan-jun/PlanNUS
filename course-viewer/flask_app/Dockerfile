@@ -5,7 +5,7 @@ FROM python:3.10.6-slim-buster
 
 WORKDIR /app
 COPY requirements.txt requirements.txt
-COPY database.py database.py
+COPY flask_api.py flask_api.py
 COPY model.py model.py
 
 
@@ -35,6 +35,6 @@ RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
 
 ## Set the environment variable for the flask application here:
-ENV FLASK_APP database
+ENV FLASK_APP flask_api
 
 ENTRYPOINT [ "python", "-u", "-m", "flask", "run", "--host=0.0.0.0", "--port=4000"]

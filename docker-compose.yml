@@ -1,12 +1,12 @@
 version: "3"
 services:
   web:
-    build: ./course-viewer/Database
+    build: ./course-viewer/flask_app
     container_name: flask_container
     ports:
       - 4000:4000
   db:
-    image: "ddalgiie/courses-db"
+    build: ./Database
     ports:
       - 1433:1433
     container_name: mssqldb_container

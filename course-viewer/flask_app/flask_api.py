@@ -151,7 +151,7 @@ def add_new_assignments():
     type = response['type']
     group_or_indv = response['group_or_indv']
     weightage = response['weightage']
-    start_date = response['start_date']
+    start_date = "" if response['start_date'] == "Invalid date" else response['start_date']
     due_date = response['due_date']
     # search for the first value that is an integer and map to the module level
     level_value = module_code[re.search(r'\d', module_code).start()]
@@ -200,7 +200,7 @@ def update_assignments():
     weightage = response['weightage']
     type = response['type']
     group_or_indv = response['group_or_indv']
-    start_date = "" if response['start_date'] == "Invalid date" else response['start']
+    start_date = "" if response['start_date'] == "Invalid date" else response['start_date']
     due_date = response['due_date']
     # search for the first value that is an integer and map to the module level
     level_value = module_code[re.search(r'\d', module_code).start()]

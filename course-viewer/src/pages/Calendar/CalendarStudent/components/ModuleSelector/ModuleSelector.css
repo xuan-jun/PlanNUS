@@ -68,6 +68,10 @@
 
 }
 
+.module-search {
+  height: 20rem;
+}
+
 .module {
   display: flex;
   justify-content: space-between;
@@ -138,7 +142,7 @@
 .search-filter-modules {
   width: 20vw;
   border: none;
-  height: 50vh;
+  height: 10rem;
   overflow-y: scroll;
   background-color: var(--primary-color);
   color: var(--secondary-color)
