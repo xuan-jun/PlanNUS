@@ -38,7 +38,6 @@ function DetailedView({ isDetailed, setIsDetailed, date, assignmentData }) {
  const detailedStyle = rowStyle(stressScore);
  return (
    <div className={`detailed-view ${isDetailed ? 'active' : 'inactive'}`}>
-     {console.log(stressScore)}
      <div className="detailed-view-content">
        <button className="close-btn" onClick={() => setIsDetailed(!isDetailed)}>
          Return to Calendar View

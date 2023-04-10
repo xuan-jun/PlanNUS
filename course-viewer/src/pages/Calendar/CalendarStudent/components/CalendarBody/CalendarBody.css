@@ -81,7 +81,6 @@
 }
 
 .task {
-  background-color: white;
   font-size: 13px;
   width: 95%;
   color: black;
@@ -89,5 +88,5 @@
   align-self: center;
 
   border-radius: 28px;
-  border: 2px solid var(--lightGray-color);
+  border: 2px solid var(--secondary-color);
 }

@@ -6,7 +6,7 @@ import './CalendarBody.css'
 import DetailedView from '../DetailedView/DetailedView';
 import axios from 'axios'
 
-const CalendarBody = ({currentModuleListAssignments, currentSemester}) => {
+const CalendarBody = ({currentModuleListAssignments, currentSemester, currentModules}) => {
   // calendar array of dates in the current view
   const [calendar, setCalendar] = useState([]);
   // currently selected date
@@ -74,7 +74,7 @@ const CalendarBody = ({currentModuleListAssignments, currentSemester}) => {
             <div className = "week">
               {week.map((day) => (
                 <CalendarTile day={day} dayStyle = {dayStyle}
-                handleClick={handleClick} currentModuleListAssignments={currentModuleListAssignments}/>
+                handleClick={handleClick} currentModuleListAssignments={currentModuleListAssignments} currentModules={currentModules}/>
               ))}
             </div>
           ))}
@@ -84,15 +84,26 @@ const CalendarBody = ({currentModuleListAssignments, currentSemester}) => {
   )
 };
 
-const CalendarTile = ({ day, dayStyle, handleClick, currentModuleListAssignments }) => {
+const CalendarTile = ({ day, dayStyle, handleClick, currentModuleListAssignments, currentModules }) => {
   const formattedDate = day.format("D-MMM-YY");
   const currentDayData = currentModuleListAssignments.filter((day) => {
     return day['Due Date'] === formattedDate;
   })
   const currentDayTasks = currentDayData.length === 0 ? [] :
     currentDayData.map((assignment) => {
-      return `${assignment['Module Code']} ${assignment['Name']}`;
+      // get the background color of the module
+      const backgroundColor = currentModules.filter((module) => {
+        // find the module code that we are trying to record
+        return module['moduleCode'] === assignment['Module Code']
+      }).map((module) => {return module['backgroundColor']})[0]
+
+      return {
+        'title' : `${assignment['Module Code']} ${assignment['Name']}`,
+        'backgroundColor' : backgroundColor
+      };
     });
+
+  // compute the stress score for the day
   const stressScore = currentDayData.length === 0 ? [] :
   currentDayData.map((assignment) => {
     return assignment['stress_score'];
@@ -108,8 +119,8 @@ const CalendarTile = ({ day, dayStyle, handleClick, currentModuleListAssignments
       </div>
       <div className="current-day-tasks">
         {currentDayTasks.map((task) => (
-          <div className="task">
-            {task}
+          <div className="task" style={{'backgroundColor' : task['backgroundColor']}}>
+            {task['title']}
           </div>
         ))}
       </div>
