@@ -1,0 +1,43 @@
+.add-assignment-title {
+  margin-top: 1rem;
+}
+
+.assignment-details {
+  width: 80%;
+  border-right: 2px solid var(--lightGray-color);
+}
+
+.form-container {
+  display: flex;
+}
+
+.current-module-notification {
+  margin: 1rem 0;
+  font-size: 20px;
+}
+
+.add-assignment-current-module {
+  margin-left: 0.5rem;
+  font-weight: 600;
+  padding: 0.5rem;
+  
+  border: 2px solid black;
+  border-radius: 12px;
+}
+
+.add-assign-tile-group-wrapper {
+  width: 70%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.tile-visualisation-details {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+}
