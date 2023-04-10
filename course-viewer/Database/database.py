@@ -6,6 +6,7 @@ import datetime
 import pyodbc
 import json
 import random
+import numpy as np
 import re
 from model import indiv_score
 
@@ -38,7 +39,6 @@ def create_token():
     # getting the POST request values
     email = request.json.get('email', None)
     password = request.json.get('password', None)
-    print(email, password)
 
     query = f"\
         SELECT [Instructor]\
@@ -190,6 +190,7 @@ def update_assignments():
         '4' : 'level_4k'
     }
 
+
     response = request.json['params']
     # just need something to identify the change
     original_name = response['original_name']
@@ -199,7 +200,7 @@ def update_assignments():
     weightage = response['weightage']
     type = response['type']
     group_or_indv = response['group_or_indv']
-    start_date = response['start_date']
+    start_date = "" if response['start_date'] == "Invalid date" else response['start']
     due_date = response['due_date']
     # search for the first value that is an integer and map to the module level
     level_value = module_code[re.search(r'\d', module_code).start()]
@@ -383,7 +384,6 @@ def get_modules_for_instructor():
 def get_modules_for_semester():
     # get the relevant parameters
     semester = request.args.get('semester')
-    print(semester)
 
     # establish the database connection
     db = establish_sql_connection()
@@ -599,8 +599,16 @@ def get_window_stresses():
         if (start_date_datetime != None and (current_date-start_date_datetime).days < 0):
             data[current_date_formatted] = "Before start date"
         else:
+            current_task_score = 0
+            # check if it is the original task 
+            current_day_task = combined_df[np.logical_and(np.logical_and(combined_df['Module Code'] == module_code, combined_df['Name'] == name), combined_df['Due Date'] == current_date.strftime('X%d-%b-%y').replace('X0', 'X').replace('X', ''))]
+            # if there is the task, we add the score
+            if (len(current_day_task) == 1):
+                current_task_score += sum(current_day_task['stress_score'])
+
+
             # if the date we are considering is after the start_date, we get the current day cumulative score first
-            current_day_score = sum(combined_df[combined_df['Due Date'] == current_date.strftime('%d-%b-%y')]['stress_score'])
+            current_day_score = sum(combined_df[combined_df['Due Date'] == current_date.strftime('X%d-%b-%y').replace('X0', 'X').replace('X', '')]['stress_score']) - current_task_score
 
             # compute the stress score of the assignment on this day and add it to the current count of the scores
             current_day_score += indiv_score(weightage, type, group_or_indv, level_code, start_date_datetime, current_date)
@@ -616,8 +624,15 @@ def get_window_stresses():
         current_date += delta # move to the next day
         current_date_formatted = current_date.strftime('%d-%b-%y')
 
+        current_task_score = 0
+        # check if it is the original task 
+        current_day_task = combined_df[np.logical_and(np.logical_and(combined_df['Module Code'] == module_code, combined_df['Name'] == name), combined_df['Due Date'] == current_date.strftime('X%d-%b-%y').replace('X0', 'X').replace('X', ''))]
+        # if there is the task, we add the score
+        if (len(current_day_task) == 1):
+            current_task_score += sum(current_day_task['stress_score'])
+
         # compute the cumulative score for the day first
-        current_day_score = sum(combined_df[combined_df['Due Date'] == current_date.strftime('%d-%b-%y')]['stress_score'])
+        current_day_score = sum(combined_df[combined_df['Due Date'] == current_date.strftime('X%d-%b-%y').replace('X0', 'X').replace('X', '')]['stress_score']) - current_task_score
 
         # compute the stress score of the assignment on this day and add it to the current count of the scores
         current_day_score += indiv_score(weightage, type, group_or_indv, level_code, start_date_datetime, current_date)
