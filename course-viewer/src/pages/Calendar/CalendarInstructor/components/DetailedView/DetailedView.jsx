@@ -64,9 +64,6 @@ function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, moduleP
    <div className={`detailed-view ${isDetailed ? 'active' : 'inactive'}`}>
      {console.log(currentModuleData)}
      <div className="detailed-view-content-I">
-       <button className="close-btn" onClick={() => setIsDetailed(!isDetailed)}>
-         Return to Calendar View
-       </button>
        <h2 className={`detailed-view-header ${detailedStyle}`}>
         <div>{new Date(date).toLocaleDateString('en-GB', {day: '2-digit', month: 'long', year: 'numeric'})}</div>
         {currentModuleData!=="My View" ?
@@ -150,6 +147,9 @@ function DetailedView({ isDetailed, setIsDetailed, date, assignmentData, moduleP
          ""
         }
        </div>
+       <button className="close-btn" onClick={() => setIsDetailed(!isDetailed)}>
+         Return to Calendar View
+       </button>
      </div>
    </div>
  );
