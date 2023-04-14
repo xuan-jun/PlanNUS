@@ -42,6 +42,7 @@ The stress scores, $s$ are banded into the following levels:
 
 ## Folder Structure
 
+```
 .
 ├── Canvas API
 ├── Data/ (Data to create the database)
@@ -117,7 +118,7 @@ The stress scores, $s$ are banded into the following levels:
 ├── LICENSE
 ├── README.md
 └── docker-compose.yml
-
+```
 
 ---
 ## Start up
