@@ -40,6 +40,86 @@ The stress scores, $s$ are banded into the following levels:
 
 ---
 
+## Folder Structure
+
+.
+├── Canvas API
+├── Data/ (Data to create the database)
+│   ├── Assignments.csv
+│   ├── instructors.csv
+│   ├── login.csv
+│   ├── module_pairs.csv
+│   └── student_counts.csv
+├── Database/ (Files for creation of mssql servers)
+│   ├── Dockerfile
+│   └── fill-database.sql
+├── Model
+├── course-viewer/ (Main frontend folder)
+│   ├── public
+│   ├── src/
+│   │   ├── assets
+│   │   ├── components/ (General components that can be used across the website)
+│   │   │   ├── Navbar/ (Navigation bar component)
+│   │   │   └── useToken/ (Token component to store the login token)
+│   │   ├── pages/
+│   │   │   ├── Assignment/ (Main Assignment Folder)
+│   │   │   │   ├── components/
+│   │   │   │   │   ├── AssignmentTable
+│   │   │   │   │   ├── controls
+│   │   │   │   │   ├── EditPopup
+│   │   │   │   │   ├── modulefilter
+│   │   │   │   │   ├── moduleMenu
+│   │   │   │   │   ├── Popup.js
+│   │   │   │   │   └── useForm.js
+│   │   │   │   ├── buildAssignment.js
+│   │   │   │   ├── generalAssignmentsStyle.js
+│   │   │   │   └── generalAssignmentStyle.js        
+│   │   │   ├── Calendar/ (Main Calendar Folder)
+│   │   │   │   ├── CalendarInstructor/
+│   │   │   │   │   ├── components/
+│   │   │   │   │   │   ├── CalendarBody
+│   │   │   │   │   │   ├── CalendarHeader
+│   │   │   │   │   │   ├── DetailedView
+│   │   │   │   │   │   └── NotificationList
+│   │   │   │   │   ├── CalendarInstructor.css
+│   │   │   │   │   └── CalendarInstructor.js
+│   │   │   │   ├── CalendarStudent/
+│   │   │   │   │   ├── components/
+│   │   │   │   │   │   ├── CalendarBody
+│   │   │   │   │   │   ├── CalendarHeader
+│   │   │   │   │   │   ├── DetailedView
+│   │   │   │   │   │   └── ModuleSelector
+│   │   │   │   │   ├── CalendarStudent.css
+│   │   │   │   │   └── CalendarStudent.js
+│   │   │   │   ├── components/
+│   │   │   │   │   └── Filter/
+│   │   │   │   └── buildCalendar.js        
+│   │   │   ├── Landing/ (Landing Page folder)
+│   │   │   ├── Login/ (Login Page folder)
+│   │   │   ├── AddAssignment.css
+│   │   │   ├── AddAssignment.js
+│   │   │   └── Assignments.js
+│   │   ├── App.css
+│   │   ├── App.js
+│   │   ├── index.css
+│   │   ├── index.js
+│   │   ├── stressScoreColor.js
+│   │   └── variant.ts
+│   ├── Dockerfile
+│   ├── package.json
+│   └── package-lock.json
+├── flask_app/ (Contains flask app)
+│   ├── Dockerfile
+│   ├── flask_api.py (flask app module)
+│   ├── model.py (backend model)
+│   ├── README.md
+│   └── requirements.txt
+├── LICENSE
+├── README.md
+└── docker-compose.yml
+
+
+---
 ## Start up
 
 To get started, 
