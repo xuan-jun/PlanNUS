@@ -1,61 +1,101 @@
 Instructor,Email,Password
-Aditya Shankar,,password1
-Alexandre Hoang Thiery,a.h.thiery@nus.edu.sg,password1
-Anne Hargreaves Carol,carol.hargreaves@nus.edu.sg,password1
-Anqi Zhao,staza@nus.edu.sg,password1
-Baoluo Sun,stasb@nus.edu.sg,password1
-Bindal Ishaan,,password1
-Chee Whye Chin,,password1
-Chek Hin Choi,,password1
-Cheng Li,li.cheng@nus.edu.sg,password1
-Ching Hway Lim,lim.chinghway@nus.edu.sg,password1
-David John Nott,nott_david_john@nus.edu.sg,password1
-Denis Tkachenko,,password1
-Fang Hao Sen Andrew,,password1
-Fah Fatt Gan,,password1
-Fei Wang,,password1
-Fu Yuan Kevin Lam,,password1
-Gabriel Marcan,,password1
-Hock Peng Chan,hock-peng@nus.edu.sg,password1
-Hui Teng Chia,htchia@nus.edu.sg,password1
-Hui Yin Geraldine Wong,gwong@nus.edu.sg,password1
-Javaid Uzair,,password1
-Jialiang Li,,password1
-Jiang Qian,jialiang@nus.edu.sg,password1
-Jin-Ting Zhang,stazjt2020@nus.edu.sg,password1
-Jingyuan Zhao,zhaojy@nus.edu.sg,password1
-Jonathan Marcus Goeke,goeke@nus.edu.sg,password1
-Joseph Kalmon Blitzstein,,password1
-Karl Erik Birgersson,,password1
-Kwok Pui Choi,choikp@nus.edu.sg,password1
-Piyush Raj,,password1
-Rongfeng Sun,,password1
-Seng Zhen Wei,,password1
-Shasidharan Kumar,,password1
-Shu Qi Teo,,password1
-Susanto Wandi,,password1
-Sharma Vishal,v.sharma@nus.edu.sg,password1
-Siew Li Linda Tan,lindatan@nus.edu.sg,password1
-Somabha Mukherjee,somabha@nus.edu.sg,password1
-Soon Huat David Chew,,password1
-Subhroshekhar Ghosh,,password1
-Tao Yu,,password1
-Thi Kim Cuc Pham,phan.kimcuc@nus.edu.sg,password1
-Tin Chiu Chua,stactc@nus.edu.sg,password1
-Tiong Wee Lim,tiong_wee_lim@nus.edu.sg,password1
-Von Bing Yap,vonbing@nus.edu.sg,password1
-Wang Zhou,,password1
-Wanjie Wang,wanjie.wang@nus.edu.sg,password1
-Wei Liem Loh,weiliem.loh@nus.edu.sg,password1
-Wei Ling Stella Tan,,password1
-Xin Xiang Lim,,password1
-Yean Ling Wong,wyl@nus.edu.sg,password1
-Yingcun Xia,staxyc@nus.edu.sg,password1
-Yiqun Liu,,password1
-Yiu Man Chan,chan.yiu.man@nus.edu.sg,password1
-Yung Cheung Anthony Kuk,Anthony_Kuk@nus.edu.sg,password1
-Yuting Huang,yhuang@nus.edu.sg,password1
-Zehua Chen,stachenz@nus.edu.sg,password1
-Zhenhua Lin,linz@nus.edu.sg,password1
-Zhigang Yao,zhigang.yao@nus.edu.sg,password1
-s/o Gopal Vikneswaran,vik.gopal@nus.edu.sg,password1
+Florrie Spencer,f.spencer@nus.edu.sg,password1
+Aston Rogers,a.rogers@nus.edu.sg,password1
+Savana Douglas,s.douglas@nus.edu.sg,password1
+Emily Hawkins,e.hawkins@nus.edu.sg,password1
+Kevin Reed,k.reed@nus.edu.sg,password1
+Julia Riley,j.riley@nus.edu.sg,password1
+Amelia Payne,a.payne@nus.edu.sg,password1
+Eleanor Riley,e.riley@nus.edu.sg,password1
+Byron Rogers,b.rogers@nus.edu.sg,password1
+Alford Johnston,a.johnston@nus.edu.sg,password1
+Rebecca Ryan,r.ryan@nus.edu.sg,password1
+Julian Martin,j.martin@nus.edu.sg,password1
+Emily Ross,e.ross@nus.edu.sg,password1
+Arnold Grant,a.grant@nus.edu.sg,password1
+Rebecca Carter,r.carter@nus.edu.sg,password1
+Eric Parker,e.parker@nus.edu.sg,password1
+Ellia Wright,e.wright@nus.edu.sg,password1
+Mary Ryan,m.ryan@nus.edu.sg,password1
+Gianna Allen,g.allen@nus.edu.sg,password1
+Ellia Perkins,e.perkins@nus.edu.sg,password1
+Vivian Payne,v.payne@nus.edu.sg,password1
+Fiona Ryan,f.ryan@nus.edu.sg,password1
+Nicholas Warren,n.warren@nus.edu.sg,password1
+Brianna Taylor,b.taylor@nus.edu.sg,password1
+Miller Hall,m.hall@nus.edu.sg,password1
+Frederick Baker,f.baker@nus.edu.sg,password1
+Penelope Thomas,p.thomas@nus.edu.sg,password1
+Briony Roberts,b.roberts@nus.edu.sg,password1
+Aston Williams,a.williams@nus.edu.sg,password1
+Heather Bailey,h.bailey@nus.edu.sg,password1
+Alan Brooks,a.brooks@nus.edu.sg,password1
+Tara Crawford,t.crawford@nus.edu.sg,password1
+Briony Wells,b.wells@nus.edu.sg,password1
+Penelope Hawkins,p.hawkins@nus.edu.sg,password1
+Melissa Dixon,m.dixon@nus.edu.sg,password1
+Alina Craig,a.craig@nus.edu.sg,password1
+Robert Dixon,r.dixon@nus.edu.sg,password1
+Adam Richardson,a.richardson@nus.edu.sg,password1
+Kimberly Wright,k.wright@nus.edu.sg,password1
+David Gibson,d.gibson@nus.edu.sg,password1
+Ted Andrews,t.andrews@nus.edu.sg,password1
+Tess Mitchell,t.mitchell@nus.edu.sg,password1
+Michael Chapman,m.chapman@nus.edu.sg,password1
+Edith Clark,e.clark@nus.edu.sg,password1
+Max Henderson,m.henderson@nus.edu.sg,password1
+Frederick Russell,f.russell@nus.edu.sg,password1
+Amelia Watson,a.watson@nus.edu.sg,password1
+Connie Turner,c.turner@nus.edu.sg,password1
+Daniel Perry,d.perry@nus.edu.sg,password1
+Carina Campbell,c.campbell@nus.edu.sg,password1
+Rubie Morris,r.morris@nus.edu.sg,password1
+Briony Phillips,b.phillips@nus.edu.sg,password1
+Audrey Parker,a.parker@nus.edu.sg,password1
+Gianna Payne,g.payne@nus.edu.sg,password1
+Eddy Higgins,e.higgins@nus.edu.sg,password1
+Owen Fowler,o.fowler@nus.edu.sg,password1
+Aldus Casey,a.casey@nus.edu.sg,password1
+Brianna Robinson,b.robinson@nus.edu.sg,password1
+Bruce Richards,b.richards@nus.edu.sg,password1
+Eric Elliott,e.elliott@nus.edu.sg,password1
+George Davis,g.davis@nus.edu.sg,password1
+Edgar Elliott,e.elliott@nus.edu.sg,password1
+Amber Edwards,a.edwards@nus.edu.sg,password1
+Camila Elliott,c.elliott@nus.edu.sg,password1
+Ryan Lloyd,r.lloyd@nus.edu.sg,password1
+Emily Nelson,e.nelson@nus.edu.sg,password1
+Max Morgan,m.morgan@nus.edu.sg,password1
+Kirsten Jones,k.jones@nus.edu.sg,password1
+Ashton Rogers,a.rogers@nus.edu.sg,password1
+Penelope Hunt,p.hunt@nus.edu.sg,password1
+Frederick West,f.west@nus.edu.sg,password1
+Carlos Clark,c.clark@nus.edu.sg,password1
+Daisy Ellis,d.ellis@nus.edu.sg,password1
+Lana Spencer,l.spencer@nus.edu.sg,password1
+Mary Brown,m.brown@nus.edu.sg,password1
+Olivia Myers,o.myers@nus.edu.sg,password1
+Brad Kelley,b.kelley@nus.edu.sg,password1
+Spike Watson,s.watson@nus.edu.sg,password1
+Nicholas Owens,n.owens@nus.edu.sg,password1
+Ryan Payne,r.payne@nus.edu.sg,password1
+Paul Tucker,p.tucker@nus.edu.sg,password1
+Garry Owens,g.owens@nus.edu.sg,password1
+Caroline Nelson,c.nelson@nus.edu.sg,password1
+Alina Richardson,a.richardson@nus.edu.sg,password1
+Aston Grant,a.grant@nus.edu.sg,password1
+Aida Payne,a.payne@nus.edu.sg,password1
+Alen Ryan,a.ryan@nus.edu.sg,password1
+Cadie Thomas,c.thomas@nus.edu.sg,password1
+Eric Baker,e.baker@nus.edu.sg,password1
+Savana Casey,s.casey@nus.edu.sg,password1
+Paige Spencer,p.spencer@nus.edu.sg,password1
+Albert Hawkins,a.hawkins@nus.edu.sg,password1
+Nicole Adams,n.adams@nus.edu.sg,password1
+Jasmine Gibson,j.gibson@nus.edu.sg,password1
+Adele Hill,a.hill@nus.edu.sg,password1
+Owen Mason,o.mason@nus.edu.sg,password1
+Cherry Holmes,c.holmes@nus.edu.sg,password1
+Abigail Harris,a.harris@nus.edu.sg,password1
+Luke Douglas,l.douglas@nus.edu.sg,password1
+Isabella Jones,i.jones@nus.edu.sg,password1
